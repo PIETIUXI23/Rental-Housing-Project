@@ -1,7 +1,7 @@
 .admin-container {
   display: flex;
   border: 1px solid black;
-  width: 1512.8px;
+  width: 100%;
   height: auto;
   margin: 0 auto;
 }
