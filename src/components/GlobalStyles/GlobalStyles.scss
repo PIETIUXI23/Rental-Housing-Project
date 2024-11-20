@@ -11,6 +11,7 @@
     margin: 0px;
 }
 html {
+    font-size: 62.5%;
 }
 
 body {
@@ -29,4 +30,5 @@ input,
 
 a {
     color: var(--text-color);
+    text-decoration: none;
 }

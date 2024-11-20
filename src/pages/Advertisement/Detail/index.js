@@ -1,0 +1,133 @@
+import axios from 'axios';
+import mapboxgl from 'mapbox-gl';
+
+import 'mapbox-gl/dist/mapbox-gl.css';
+
+import React, { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+import styles from './Detail.module.scss';
+import classNames from 'classnames/bind';
+import RoomGallery from '~/components/RoomGallery';
+import images from '~/assets/images';
+import Button from '~/components/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPhone, faShareNodes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
+
+// import './styles.css';
+
+const cx = classNames.bind(styles);
+const data = {
+    id: 1,
+    description:
+        ' - Giá ngày. + 1PN: 1.3tr/ngày. + 2PN: 1.8tr/ngày. + 3PN: 2.3tr/ngày. - Giá tháng. + Căn hộ 1PN: Giá 13tr/th (65m²). + Căn hộ 2PN: Giá từ 16tr/th (76m², 99m², 106m²). + Căn hộ 3PN: Giá 17tr - 20 tr/th (129m², 138m², 162m²). + Căn hộ 4PN: Giá 25tr - 30 tr/th (162m²). + Căn hộ penthouse: Giá 60 tr/th - 99 tr/th (300 - 1000m²). Nhà được trang bị nội thất đầy đủ, cao cấp, tiện nghi. Hoặc nhà trống, nội thất cơ bản (theo yêu cầu khách hàng).Với đầy đủ ...',
+    status: 0,
+    address: 'Đại Đồng, Thạch Thất, Hà Nội',
+    area: 20,
+    cost: 5000000,
+    title: 'Cho thuê kho chứa hàng 50m, 100m, 200m, 500m, tại Tp. Hồ Chí Minh, miễn phí quản lý, Bảo vệ 24h',
+    max_occupants: 3,
+    latitude: 20,
+    longtitude: 20,
+    create_at: '11-09-2024',
+    type: 1,
+    images: [
+        { id: 1, image_path: 'https://file4.batdongsan.com.vn/crop/562x284/2023/04/17/20230417230205-1b13_wm.jpg' },
+        { id: 2, image_path: 'https://file4.batdongsan.com.vn/crop/283x141/2023/04/17/20230417230207-a221_wm.jpg' },
+        { id: 3, image_path: 'https://file4.batdongsan.com.vn/crop/140x140/2023/04/17/20230417230202-3438_wm.jpg' },
+        { id: 4, image_path: 'https://file4.batdongsan.com.vn/crop/140x140/2023/04/17/20230417230210-69b7_wm.jpg' },
+        { id: 5, image_path: 'https://file4.batdongsan.com.vn/crop/562x284/2023/04/17/20230417230205-1b13_wm.jpg' },
+        { id: 6, image_path: 'https://file4.batdongsan.com.vn/crop/140x140/2023/04/17/20230417230202-3438_wm.jpg' },
+        { id: 7, image_path: 'https://file4.batdongsan.com.vn/crop/140x140/2023/04/17/20230417230210-69b7_wm.jpg' },
+        { id: 8, image_path: 'https://file4.batdongsan.com.vn/crop/562x284/2023/04/17/20230417230205-1b13_wm.jpg' },
+    ],
+
+    full_name: 'Khuất Đinh Quang',
+    email: 'kdquang123@gmail.com',
+    phone_number: '0011223344',
+};
+
+function Detail() {
+    // const { id } = useParams();
+    // const [data, setData] = useState({});
+
+    // useEffect(() => {
+    //     // axios.get()
+    // }, []);
+
+    const mapRef = useRef();
+    const mapContainerRef = useRef();
+
+    useEffect(() => {
+        mapboxgl.accessToken =
+            'pk.eyJ1Ijoia2RxdWFuZzEyMyIsImEiOiJjbHY2MnViMHEwOWl6MnFvMmhvOHMwbWhhIn0.HHdqtWL7HHJOds1Bb9HUpQ';
+        mapRef.current = new mapboxgl.Map({
+            container: mapContainerRef.current,
+            center: [-74.0242, 40.6941],
+            zoom: 10.12,
+        });
+
+        return () => {
+            mapRef.current.remove();
+        };
+    }, []);
+    return (
+        <>
+            <div className={cx('content-wrapper')}>
+                <div className={cx('main-content')}>
+                    <RoomGallery data={data.images} />
+                    <div className={cx('title')}>{data.title}</div>
+                    <div className={cx('address')}>{data.address}</div>
+                    <div className={cx('short-info')}>
+                        <div className={cx('cost')}>
+                            <div>Mức giá</div>
+                            <div>{data.cost / 1000000} triệu/tháng</div>
+                        </div>
+                        <div className={cx('area')}>
+                            <div>Diện tích</div>
+                            <div>{data.area} m²</div>
+                        </div>
+                        <div className={cx('actions')}>
+                            <button>{<FontAwesomeIcon icon={faShareNodes} />}</button>
+                            <button>{<FontAwesomeIcon icon={faTriangleExclamation} />}</button>
+                            <button>{<FontAwesomeIcon icon={faHeart} />}</button>
+                        </div>
+                    </div>
+                    <div className={cx('description')}>
+                        <div>Thông tin mô tả</div>
+                        <div>{data.description}</div>
+                    </div>
+                    <div className={cx('map-box')}>
+                        <div>Xem trên bản đồ</div>
+                        <div className={cx('map-container')} ref={mapContainerRef} />
+                    </div>
+                </div>
+                <div className={cx('sidebar-box')}>
+                    <div className={cx('sidebar')}>
+                        <div className={cx('header')}>
+                            <img src={images.default_avatar_icon} />
+                            <div>{data.full_name}</div>
+                        </div>
+                        <div className={cx('body')}>
+                            <Button
+                                className={cx('phone-number', 'contact-info')}
+                                leftIcon={<FontAwesomeIcon icon={faPhone} />}
+                            >
+                                {data.phone_number}
+                            </Button>
+                            <Button outline className={cx('contact-info')} leftIcon={<img src={images.zalo_logo} />}>
+                                Chat qua zalo
+                            </Button>
+                            <Button outline className={cx('contact-info')}>
+                                Gửi email
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+}
+
+export default Detail;

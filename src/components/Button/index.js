@@ -4,7 +4,7 @@ import styles from './Button.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Button({ to, href, children, className, leftIcon, rightIcon, onClick, ...passProps }) {
+function Button({ to, href, children, className, leftIcon, rightIcon, onClick, outline, ...passProps }) {
     let Comp = 'button';
 
     const props = {
@@ -12,7 +12,7 @@ function Button({ to, href, children, className, leftIcon, rightIcon, onClick, .
         ...passProps,
     };
 
-    const classes = cx('wrapper', { [className]: className });
+    const classes = cx('wrapper', { outline, [className]: className });
     if (to) {
         props.to = to;
         Comp = Link;
