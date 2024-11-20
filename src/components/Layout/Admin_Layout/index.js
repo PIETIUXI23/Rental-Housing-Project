@@ -1,23 +1,40 @@
-import React from "react";
-import styles from "./Admin.module.scss"; // File CSS để định nghĩa các lớp
+import React, { useState } from "react";
+import styles from "./Admin.module.scss";
 import classNames from "classnames/bind";
-
-const cx=classNames.bind(styles);
+import Sidebar from "../../Admin_Sidebar/Admin_Sidebar";
+import AdminNavMenu from "../../Admin_navmenu/AdminNavMenu";
+const cx = classNames.bind(styles);
 
 function AdminLayout() {
+    const [isReportOpen, setIsReportOpen] = useState(false);
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
+    const toggleReport = () => {
+        setIsReportOpen(!isReportOpen);
+    };
+
+    const toggleSidebar = () => {
+        setIsSidebarCollapsed(!isSidebarCollapsed);
+        console.log("Sidebar isCollapsed:", !isSidebarCollapsed); // Log trạng thái mới
+    };
+
+
     return (
         <div className={cx("admin-container")}>
-            <div className={cx("left_col")}>
-                div.left_col 230 x 1136.050
-            </div>
+            {/* Sidebar */}
+            <Sidebar
+                toggleReport={toggleReport}
+                isReportOpen={isReportOpen}
+                isCollapsed={isSidebarCollapsed} // Trạng thái thu nhỏ
+            />
 
+            {/* Content */}
             <div className={cx("right_col")}>
                 <div className={cx("nav_menu")}>
-                    div.nav_menu 1282.8 x 55.4
+                    <AdminNavMenu onToggleMenu={toggleSidebar} />
                 </div>
-
-                <div className={cx("x_panel")}>
-                    div.x_panel
+                <div className={cx("content_panel")}>
+                    {/* Nội dung khác */}
                 </div>
             </div>
         </div>
