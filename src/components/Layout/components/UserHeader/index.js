@@ -17,7 +17,7 @@ import RegisterForm from '../Modal/RegisterForm';
 
 const cx = classNames.bind(styles);
 
-function UserHeader() {
+function UserHeader({ onClick }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [storedList, setStoredList] = useState([]);
     const [isLoginFormVisble, setIsLoginFormVisble] = useState(false);
@@ -49,6 +49,15 @@ function UserHeader() {
         setIsRegisterFormVisble(false);
     };
 
+    const redirectToRegister = () => {
+        setIsLoginFormVisble(false);
+        setIsRegisterFormVisble(true);
+    };
+    const redirectToLogin = () => {
+        setIsRegisterFormVisble(false);
+        setIsLoginFormVisble(true);
+    };
+
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -73,7 +82,7 @@ function UserHeader() {
                                             ) : (
                                                 <>
                                                     {storedList.map((storedItem) => {
-                                                        return <StoredItem data={storedItem} />;
+                                                        return <StoredItem data={storedItem} onClick={onClick} />;
                                                     })}
                                                     <Link className={cx('all-stored-btn')} to="/stored">
                                                         Xem tất cả <FontAwesomeIcon icon={faArrowRight} />
@@ -98,8 +107,8 @@ function UserHeader() {
                     </Button>
                 </div>
             </div>
-            <LoginForm visible={isLoginFormVisble} onClick={closeLoginForm} />
-            <RegisterForm visible={isRegisterFormVisble} onClick={closeRegisterForm} />
+            <LoginForm visible={isLoginFormVisble} onClick={closeLoginForm} onRedirect={redirectToRegister} />
+            <RegisterForm visible={isRegisterFormVisble} onClick={closeRegisterForm} onRedirect={redirectToLogin} />
         </header>
     );
 }

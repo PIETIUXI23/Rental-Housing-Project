@@ -1,6 +1,6 @@
 import React from 'react';
-import "src/Extension/bootstrap/dist/css/less/mixins/vendor-prefixes.less";
-
+// import "~/Content/Custom.min.css";
+import styles from './Modal.module.scss';
 
 const WaitingModal = () => {
     return (

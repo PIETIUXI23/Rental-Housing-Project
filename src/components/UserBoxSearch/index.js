@@ -102,58 +102,6 @@ function UserBoxSearch() {
                     <button className={cx('btn-search')}>Tìm kiếm</button>
                 </div>
             </div>
-            <div className={cx('select-search-box')}>
-                <Tippy
-                    zIndex={1000}
-                    offset={[0, 0]}
-                    interactive={true}
-                    // visible={true}
-                    //onClickOutside={handleCloseDropdown}
-                    render={(attrs) => {
-                        return (
-                            <div className={cx('stored-list')} tabIndex="-1" {...attrs}>
-                                <Wrapper className={cx('stored-popper')}>
-                                    <div className={cx('popper-header')}>Tin đăng đã lưu</div>
-                                    <div className={cx('popper-body')}></div>
-                                </Wrapper>
-                            </div>
-                        );
-                    }}
-                >
-                    <Button
-                        className={cx('cost-selection')}
-                        outline
-                        rightIcon={<FontAwesomeIcon icon={faChevronDown} />}
-                    >
-                        Mức giá
-                    </Button>
-                </Tippy>
-                <Tippy
-                    zIndex={1000}
-                    offset={[0, 0]}
-                    interactive={true}
-                    visible={false}
-                    // onClickOutside={handleCloseDropdown}
-                    render={(attrs) => {
-                        return (
-                            <div className={cx('stored-list')} tabIndex="-1" {...attrs}>
-                                <Wrapper className={cx('stored-popper')}>
-                                    <div className={cx('popper-header')}>Tin đăng đã lưu</div>
-                                    <div className={cx('popper-body')}></div>
-                                </Wrapper>
-                            </div>
-                        );
-                    }}
-                >
-                    <Button
-                        className={cx('area-selection')}
-                        outline
-                        rightIcon={<FontAwesomeIcon icon={faChevronDown} />}
-                    >
-                        Diện tích
-                    </Button>
-                </Tippy>
-            </div>
         </div>
     );
 }
