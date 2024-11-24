@@ -5,7 +5,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 
 const cx = classNames.bind(styles);
-function StoredItem({ data }) {
+function StoredItem({ data, onClick }) {
     const [isVisible, setIsVisible] = useState(true);
     const handleDelete = () => {
         setIsVisible(false);
@@ -14,6 +14,7 @@ function StoredItem({ data }) {
             return item.id !== data.id;
         });
         localStorage.setItem('favoritedItems', JSON.stringify(newFavoritedItems));
+        onClick();
     };
     return (
         isVisible && (
