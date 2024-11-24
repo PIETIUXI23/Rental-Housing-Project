@@ -193,7 +193,7 @@
 
   PieceLabel.prototype.checkTextBound = function (left, right, top, bottom) {
     var labelBounds = this.labelBounds;
-    for (var i = 0;i < labelBounds.length;++i) {
+    for (var i = 0; i < labelBounds.length; ++i) {
       var bound = labelBounds[i];
       var potins = [
         [left, top],
@@ -201,7 +201,7 @@
         [right, top],
         [right, bottom]
       ];
-      for (var j = 0;j < potins.length;++j) {
+      for (var j = 0; j < potins.length; ++j) {
         var x = potins[j][0];
         var y = potins[j][1];
         if (x >= bound.left && x <= bound.right && y >= bound.top && y <= bound.bottom) {
@@ -214,7 +214,7 @@
         [bound.right, bound.top],
         [bound.right, bound.bottom]
       ];
-      for (var j = 0;j < potins.length;++j) {
+      for (var j = 0; j < potins.length; ++j) {
         var x = potins[j][0];
         var y = potins[j][1];
         if (x >= left && x <= right && y >= top && y <= bottom) {
@@ -299,7 +299,7 @@
   };
 
   Chart.pluginService.register({
-    beforeInit: function(chartInstance) {
+    beforeInit: function (chartInstance) {
       chartInstance.pieceLabel = new PieceLabel();
     },
     beforeDatasetsUpdate: function (chartInstance) {
