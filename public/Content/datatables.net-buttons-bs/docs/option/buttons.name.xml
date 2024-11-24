@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Buttons">
+	<name>buttons.name</name>
+	<summary>Set a name for the instance for the group selector</summary>
+	<since>1.0.0</since>
+	<alias>-feature buttons.name</alias>
+
+	<example title="Setting the name in the DataTables `b-init buttons` option"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		topStart: 'buttons'
+	},
+	buttons: {
+		name: 'primary',
+		buttons: [
+			// ...
+		]
+	}
+});
+]]></example>
+</dt-option>

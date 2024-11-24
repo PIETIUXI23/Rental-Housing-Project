@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="scroller" order="6" table-class="stripe row-border order-column nowrap">
+
+<css lib="datatables fixedcolumns scroller">
+/* For this example, force x-scrolling by making the table width smaller */
+div.dt-container {
+	width: 60%;
+	margin: 0 auto;
+}
+</css>
+<js lib="jquery datatables fixedcolumns scroller">
+<![CDATA[
+
+$('#example').DataTable({
+	ajax: '../data/2500.txt',
+	fixedColumns: true,
+	scrollCollapse: true,
+	scroller: true,
+	scrollY: 200
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	ajax: '../data/2500.txt',
+	fixedColumns: true,
+	scrollCollapse: true,
+	scroller: true,
+	scrollY: 200
+});
+
+]]>
+</js-vanilla>
+
+<title lib="Scroller">FixedColumns integration</title>
+
+<info><![CDATA[
+
+This example shows Scroller operating with [FixedColumns](//datatables.net/extensions/fixedcolumns). FixedColumns has the ability to "freeze" columns and the left and right of a scrolling table in place. Initialisation is exactly the same as normal and all of the standard options are available for both FixedColumns and Scroller. They will automatically detect if they are being used together.
+
+This example sets the table's container element artificially narrow to force horizontal scrolling as well as the vertical used for DataTables.
+
+]]></info>
+
+</dt-example>

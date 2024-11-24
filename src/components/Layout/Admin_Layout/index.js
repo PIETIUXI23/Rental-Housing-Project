@@ -1,44 +1,38 @@
-import React, { useState } from "react";
-import styles from "./Admin.module.scss";
-import classNames from "classnames/bind";
-import Sidebar from "../../Admin_Sidebar/Admin_Sidebar";
-import AdminNavMenu from "../../Admin_navmenu/AdminNavMenu";
-const cx = classNames.bind(styles);
+import React from 'react';
+import Sidebar from '../../Sidebar/Sidebar.js';
+import TopNav from '../../TopNav/TopNav.js';
+import WaitingModal from '../../Modal/WaitingModal.js';
+import NoteModal from '../../Modal/NoteModal.js';
+import CalculatorModal from '../../Modal/CalculatorModal.js';
 
-function AdminLayout() {
-    const [isReportOpen, setIsReportOpen] = useState(false);
-    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-
-    const toggleReport = () => {
-        setIsReportOpen(!isReportOpen);
-    };
-
-    const toggleSidebar = () => {
-        setIsSidebarCollapsed(!isSidebarCollapsed);
-        console.log("Sidebar isCollapsed:", !isSidebarCollapsed); // Log trạng thái mới
-    };
-
-
+const AdminLayout = ({ children }) => {
     return (
-        <div className={cx("admin-container")}>
-            {/* Sidebar */}
-            <Sidebar
-                toggleReport={toggleReport}
-                isReportOpen={isReportOpen}
-                isCollapsed={isSidebarCollapsed} // Trạng thái thu nhỏ
-            />
+        <body className="nav-md">
+            <div className="container body">
+                <div className="main_container">
+                    {/* Sidebar */}
+                    <div className="col-md-3 left_col">
+                        <Sidebar />
+                    </div>
 
-            {/* Content */}
-            <div className={cx("right_col")}>
-                <div className={cx("nav_menu")}>
-                    <AdminNavMenu onToggleMenu={toggleSidebar} />
-                </div>
-                <div className={cx("content_panel")}>
-                    {/* Nội dung khác */}
+                    {/* Top Navigation */}
+                    <div className="top_nav">
+                        <TopNav />
+                    </div>
+
+                    {/* Main Content */}
+                    <div className="right_col" role="main" style={{ minHeight: '361px' }}>
+                        {children}
+                    </div>
                 </div>
             </div>
-        </div>
+
+            {/* Modals */}
+            <WaitingModal />
+            <NoteModal />
+            <CalculatorModal />
+        </body>
     );
-}
+};
 
 export default AdminLayout;
