@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "~/Content/Custom.min.css";
+// import "~/Content/Custom.min.css";
 import styles from './Modal.module.scss';
 
 const NoteModal = () => {

@@ -14,6 +14,9 @@ import Button from '~/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faShareNodes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import Tippy from '@tippyjs/react/headless';
+import Wrapper from '~/components/Popper/Wrapper';
+import { Helmet } from 'react-helmet';
 
 // import './styles.css';
 
@@ -45,7 +48,7 @@ const data = {
 
     full_name: 'Khuất Đinh Quang',
     email: 'kdquang123@gmail.com',
-    phone_number: '0011223344',
+    phone_number: '0911598764',
 };
 
 function Detail() {
@@ -55,6 +58,63 @@ function Detail() {
     // useEffect(() => {
     //     // axios.get()
     // }, []);
+
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const roomUrl = `http://localhost:3000/advertisement/${data.id}`;
+    const title = data.title;
+    const handleToggleDropdown = () => {
+        setIsDropdownOpen((prev) => !prev);
+    };
+
+    const handleCloseDropdown = () => {
+        setIsDropdownOpen(false);
+    };
+
+    const shareOnFacebook = () => {
+        const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(roomUrl)}`;
+        window.open(facebookShareUrl, '_blank');
+    };
+
+    const shareOnZalo = () => {
+        const zaloShareUrl = `https://zalo.me/share?url=${encodeURIComponent(roomUrl)}&text=${encodeURIComponent(
+            title,
+        )}`;
+        window.open(zaloShareUrl, '_blank');
+    };
+    const [btnState, setBtnState] = useState(false);
+
+    useEffect(() => {
+        const favoritedItems = JSON.parse(localStorage.getItem('favoritedItems')) || [];
+        const isFavorited = !!favoritedItems.find((item) => item.id === data.id);
+        setBtnState(isFavorited);
+    }, [data.id]);
+
+    const handleLikeItem = (e) => {
+        e.preventDefault();
+        const favoriteItem = {
+            id: data.id,
+            title: data.title,
+            image: data.images[1].image_path,
+        };
+        let favoritedItems = JSON.parse(localStorage.getItem('favoritedItems'));
+
+        if (!favoritedItems) {
+            localStorage.setItem('favoritedItems', JSON.stringify([favoriteItem]));
+        } else {
+            let favoritedItem = favoritedItems.find((item) => {
+                return item.id === favoriteItem.id;
+            });
+            if (!favoritedItem) {
+                localStorage.setItem('favoritedItems', JSON.stringify([...favoritedItems, favoriteItem]));
+            } else {
+                let newFavoritedItems = favoritedItems.filter((item) => {
+                    return item.id !== favoriteItem.id;
+                });
+                localStorage.setItem('favoritedItems', JSON.stringify(newFavoritedItems));
+            }
+        }
+        setBtnState(!btnState);
+    };
 
     const mapRef = useRef();
     const mapContainerRef = useRef();
@@ -74,6 +134,14 @@ function Detail() {
     }, []);
     return (
         <>
+            <Helmet>
+                <title>{data.title}</title>
+                <meta name="description" content={data.description} />
+                <meta property="og:title" content={`Chi tiết phòng trọ`} />
+                <meta property="og:description" content={data.description} />
+                <meta property="og:image" content={data.images[1].image_path} />
+                <meta property="og:url" content={`http://localhost:3000/advertisement/${data.id}`} />
+            </Helmet>
             <div className={cx('content-wrapper')}>
                 <div className={cx('main-content')}>
                     <RoomGallery data={data.images} />
@@ -89,9 +157,33 @@ function Detail() {
                             <div>{data.area} m²</div>
                         </div>
                         <div className={cx('actions')}>
-                            <button>{<FontAwesomeIcon icon={faShareNodes} />}</button>
+                            <Tippy
+                                zIndex={1000}
+                                offset={[0, 0]}
+                                interactive={true}
+                                visible={isDropdownOpen === true}
+                                onClickOutside={handleCloseDropdown}
+                                render={(attrs) => {
+                                    return (
+                                        <div className={cx('share-list')} tabIndex="-1" {...attrs}>
+                                            <Wrapper className={cx('share-popper')}>
+                                                <div className={cx('popper-body')}>
+                                                    <Button onClick={shareOnFacebook}>Facebook</Button>
+                                                    <Button onClick={shareOnZalo}>Zalo</Button>
+                                                </div>
+                                            </Wrapper>
+                                        </div>
+                                    );
+                                }}
+                            >
+                                <button onClick={handleToggleDropdown}>
+                                    {<FontAwesomeIcon icon={faShareNodes} />}
+                                </button>
+                            </Tippy>
                             <button>{<FontAwesomeIcon icon={faTriangleExclamation} />}</button>
-                            <button>{<FontAwesomeIcon icon={faHeart} />}</button>
+                            <button onClick={handleLikeItem} className={cx('favorite-btn', { active: btnState })}>
+                                {<FontAwesomeIcon icon={faHeart} />}
+                            </button>
                         </div>
                     </div>
                     <div className={cx('description')}>
@@ -101,6 +193,16 @@ function Detail() {
                     <div className={cx('map-box')}>
                         <div>Xem trên bản đồ</div>
                         <div className={cx('map-container')} ref={mapContainerRef} />
+                    </div>
+                    <div className={cx('short-info', 'config')}>
+                        <div className={cx('cost')}>
+                            <div>Ngày đăng</div>
+                            <div>{data.create_at}</div>
+                        </div>
+                        <div className={cx('area')}>
+                            <div>Loại tin</div>
+                            <div>{data.type === 1 ? 'Vip 1' : 'Vip 2'}</div>
+                        </div>
                     </div>
                 </div>
                 <div className={cx('sidebar-box')}>
@@ -116,10 +218,21 @@ function Detail() {
                             >
                                 {data.phone_number}
                             </Button>
-                            <Button outline className={cx('contact-info')} leftIcon={<img src={images.zalo_logo} />}>
+                            <Button
+                                href={`https://zalo.me/${data.phone_number}`}
+                                target="_blank"
+                                outline
+                                className={cx('contact-info')}
+                                leftIcon={<img src={images.zalo_logo} />}
+                            >
                                 Chat qua zalo
                             </Button>
-                            <Button outline className={cx('contact-info')}>
+                            <Button
+                                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${data.email}`}
+                                target="_blank"
+                                outline
+                                className={cx('contact-info')}
+                            >
                                 Gửi email
                             </Button>
                         </div>
