@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import "src/Extension/bootstrap/dist/css/less/mixins/vendor-prefixes.less";
 
 const CalculatorModal = () => {
     const [input, setInput] = useState('0');

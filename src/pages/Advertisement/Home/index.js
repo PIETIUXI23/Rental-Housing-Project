@@ -2,6 +2,8 @@ import Card from '~/components/Card/Card';
 import styles from './Home.module.scss';
 import classNames from 'classnames/bind';
 import UserBoxSearch from '~/components/UserBoxSearch';
+import ReactPaginate from 'react-paginate';
+import './pagination.css';
 
 const cx = classNames.bind(styles);
 
@@ -113,14 +115,33 @@ const adData = [
     },
 ];
 function Home() {
+    const handlePageClick = (event) => {
+        console.log(event.selected);
+    };
     return (
         <>
             <UserBoxSearch />
             <div className={cx('content-wrapper')}>
                 <div className={cx('main-content')}>
-                    {adData.map((data) => {
-                        return <Card data={data} />;
-                    })}
+                    <div>
+                        {adData.map((data) => {
+                            return <Card data={data} />;
+                        })}
+                    </div>
+                    <ReactPaginate
+                        breakLabel="..."
+                        nextLabel="next >"
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={5}
+                        pageCount={10}
+                        previousLabel="< previous"
+                        renderOnZeroPageCount={null}
+                        containerClassName="pagination"
+                        pageLinkClassName="page-num"
+                        previousLinkClassName="page-num"
+                        nextLinkClassName="page-num"
+                        activeClassName="active"
+                    />
                 </div>
                 <div className={cx('sidebar-box')}>
                     <div className={cx('sidebar')}>

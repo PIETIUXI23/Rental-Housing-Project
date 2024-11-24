@@ -1,5 +1,6 @@
 import React from "react";
 import { MENU_ITEMS, FOOTER_ITEMS } from "../../data/menuItems";
+import '../../Content/Custom.min.css'; // Custom CSS của dự án
 
 
 function Sidebar() {

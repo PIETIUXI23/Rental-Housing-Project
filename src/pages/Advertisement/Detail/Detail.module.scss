@@ -58,6 +58,14 @@
             flex: 1;
             display: flex;
             justify-content: right;
+            .share-list {
+                .share-popper {
+                    .popper-body {
+                        display: flex;
+                        flex-direction: column;
+                    }
+                }
+            }
             button {
                 background-color: transparent;
                 color: #2c2c2c;
@@ -75,7 +83,21 @@
                     border: solid 1px #fafafa;
                 }
             }
+
+            .active {
+                background-color: red;
+                color: white;
+                &:hover {
+                    background-color: red;
+                    color: white;
+                    border: solid 1px red;
+                }
+            }
         }
+    }
+
+    .config {
+        border-bottom: 1px solid #f2f2f2;
     }
 
     .description {
