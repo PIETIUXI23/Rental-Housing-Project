@@ -1,6 +1,4 @@
 import React from 'react';
- HEAD
-// import "~/Content/Custom.min.css";
 // import '~/Content/Custom.min.css';
 import styles from './Modal.module.scss';
 
