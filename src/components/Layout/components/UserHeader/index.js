@@ -102,8 +102,8 @@ function UserHeader({ onClick }) {
                     <Button onClick={toggleLoginForm}>Đăng nhập</Button>
                     <span className={cx('btn_line')}></span>
                     <Button onClick={toggleRegisterForm}>Đăng ký</Button>
-                    <Button className={cx('last_btn')} outline>
-                        Đăng tin
+                    <Button to={'/admin'} className={cx('last_btn')} outline>
+                        Quản lý
                     </Button>
                 </div>
             </div>
