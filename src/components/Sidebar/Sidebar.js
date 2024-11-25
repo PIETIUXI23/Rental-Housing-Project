@@ -1,15 +1,18 @@
-import React from "react";
-import { MENU_ITEMS, FOOTER_ITEMS } from "../../data/menuItems";
-
+import React from 'react';
+import { MENU_ITEMS, FOOTER_ITEMS } from '../../data/menuItems';
 
 function Sidebar() {
     return (
         <div className={`left_col scroll-view`}>
-            <div className={`navbar nav_title`} style={{ border: "0" }}>
-                <a href="../" className="site_title">QUẢN LÝ NHÀ TRỌ</a>
+            <div className={`navbar nav_title`} style={{ border: '0' }}>
+                <a href="../" className="site_title">
+                    QUẢN LÝ NHÀ TRỌ
+                </a>
             </div>
 
-            <div className="clearfix" style={{ textAlign: "center" }}>SIMPLE HOUSE</div>
+            <div className="clearfix" style={{ textAlign: 'center', color: '#73879c' }}>
+                SIMPLE HOUSE
+            </div>
 
             <div className="profile clearfix">
                 <div className="profile_pic"></div>
@@ -30,7 +33,7 @@ function Sidebar() {
                                     <i className={`fa ${item.icon}`}></i> {item.label}
                                 </a>
                                 {item.subMenu && (
-                                    <ul className="nav child_menu" style={{ display: "none" }}>
+                                    <ul className="nav child_menu" style={{ display: 'none' }}>
                                         {item.subMenu.map((child) => (
                                             <li key={child.id}>
                                                 <a href={child.path}>

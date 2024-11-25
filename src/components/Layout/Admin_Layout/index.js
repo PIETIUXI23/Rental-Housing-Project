@@ -6,8 +6,9 @@ import NoteModal from '../../Modal/NoteModal';
 import CalculatorModal from '../../Modal/CalculatorModal';
 
 // Import các stylesheet
-import '../../../Content/Custom.min.css'; // Custom CSS của dự án
 import 'src/Extension/bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSS
+import '../../../Content/Custom.min.css'; // Custom CSS của dự án
+
 //import 'src/datatables.net-bs/css/dataTables.bootstrap.min.css'; // DataTables Bootstrap CSS
 import 'src/Extension/font-awesome/css/font-awesome.min.css'; // Font Awesome
 import 'src/Extension/nprogress/nprogress.css'; // NProgress
