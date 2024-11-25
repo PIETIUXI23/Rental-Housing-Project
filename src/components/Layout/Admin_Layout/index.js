@@ -13,7 +13,7 @@ import '../../../Content/Custom.min.css'; // Custom CSS của dự án
 import 'src/Extension/font-awesome/css/font-awesome.min.css'; // Font Awesome
 import 'src/Extension/nprogress/nprogress.css'; // NProgress
 //import 'src/Extension/iCheck/skins/flat/green.css'; // iCheck CSS
-//import 'src/Extension/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css'; // ProgressBar
+import 'src/Extension/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css'; // ProgressBar
 //import 'src/Extension/datatables.net/css/jquery.dataTables.min.css'; // DataTables CSS
 //import 'src/Extension/datatables.net-buttons-bs/css/buttons.bootstrap.min.css'; // DataTables Buttons
 //import 'src/Extension/datatables.net-select/css/select.dataTables.css'; // DataTables Select
@@ -21,8 +21,8 @@ import 'src/Extension/nprogress/nprogress.css'; // NProgress
 //import 'src/Extension/datatables.net-responsive-bs/css/responsive.bootstrap.min.css'; // Responsive DataTables
 //import 'src/Extension/datatables.net-scroller-bs/css/scroller.bootstrap.min.css'; // Scroller
 //import 'src/Extension/chart/style.css'; // Chart Styling
-//import 'src/Extension/bootstrap-daterangepicker/daterangepicker.css'; // DateRangePicker
-//import 'src/Extension/toastr-master/toastr.min.css'; // Toastr
+import 'src/Extension/bootstrap-daterangepicker/daterangepicker.css'; // DateRangePicker
+import 'src/Extension/toastr-master/toastr.min.css'; // Toastr
 
 const AdminLayout = ({ children }) => {
     // Dùng `useEffect` để tải các thư viện JavaScript cần thiết
@@ -38,10 +38,10 @@ const AdminLayout = ({ children }) => {
                 //    'src/Extension/jquery-number-master/jquery.number.min.js',
                 //    'src/Extension/validator/validator.js',
                 //    'src/Scripts/global/globalFunction.js',
-                //    'src/Scripts/global/globalParameter.js',
-                //    'src/Scripts/global/mainExcute.js',
-                //    'src/Scripts/global/layout.js',
-                //    'src/Scripts/custom.min.js',
+                //   'src/Scripts/global/globalParameter.js',
+                //   'src/Scripts/global/mainExcute.js',
+                //  'src/Scripts/global/layout.js',
+                // 'src/Scripts/custom.min.js',
                 //    'src/Extension/datatables.net/js/jquery.dataTables.min.js',
                 //    'src/Extension/jszip/dist/jszip.min.js',
                 //    'src/Extension/pdfmake/build/pdfmake.min.js',
