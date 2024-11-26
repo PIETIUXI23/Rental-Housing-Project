@@ -9,7 +9,7 @@ export const MENU_ITEMS = [
         id: 'room',
         icon: 'fa-bed',
         label: 'Phòng',
-        path: '/room',
+        path: '/admin/room',
     },
     {
         id: 'service',
