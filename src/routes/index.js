@@ -1,6 +1,7 @@
 //Layouts
 import { Ad_Layout } from '~/components/Layout';
 import { Admin_Layout } from '~/components/Layout';
+import { Room_Layout } from '~/components/Layout';
 import Admin from '~/pages/Admin';
 import Detail from '~/pages/Advertisement/Detail';
 import Home from '~/pages/Advertisement/Home';
@@ -14,6 +15,7 @@ import Person from '~/pages/Admin/Report/Person';
 import Rent from '~/pages/Admin/Report/Rent';
 
 
+import Room from '~/pages/Room';
 
 //public la khong can dang nhap
 const publicRoutes = [
@@ -28,6 +30,7 @@ const publicRoutes = [
     { path: '/admin/report/ReportCustomerContractExpired', component: Expired, layout: Admin_Layout },
     { path: '/admin/report/ReportCustomerDeposit', component: Deposit, layout: Admin_Layout },
     { path: '/admin/report/ReportRoomPerson', component: Person, layout: Admin_Layout },
+    { path: '/room', component: Room, layout: Room_Layout },
 ];
 //private phai dang nhap neu khong no dan sang ben dang nhap
 const privateRoutes = [

@@ -21,7 +21,7 @@ import { Helmet } from 'react-helmet';
 // import './styles.css';
 
 const cx = classNames.bind(styles);
-const data = {
+const dataFake = {
     id: 1,
     description:
         ' - Giá ngày. + 1PN: 1.3tr/ngày. + 2PN: 1.8tr/ngày. + 3PN: 2.3tr/ngày. - Giá tháng. + Căn hộ 1PN: Giá 13tr/th (65m²). + Căn hộ 2PN: Giá từ 16tr/th (76m², 99m², 106m²). + Căn hộ 3PN: Giá 17tr - 20 tr/th (129m², 138m², 162m²). + Căn hộ 4PN: Giá 25tr - 30 tr/th (162m²). + Căn hộ penthouse: Giá 60 tr/th - 99 tr/th (300 - 1000m²). Nhà được trang bị nội thất đầy đủ, cao cấp, tiện nghi. Hoặc nhà trống, nội thất cơ bản (theo yêu cầu khách hàng).Với đầy đủ ...',
@@ -52,15 +52,19 @@ const data = {
 };
 
 function Detail() {
-    // const { id } = useParams();
-    // const [data, setData] = useState({});
+    const { id } = useParams();
+    const [data, setData] = useState(dataFake);
 
-    // useEffect(() => {
-    //     // axios.get()
-    // }, []);
+    const roomUrl = `${process.env.REACT_APP_API_ADVERTISEMENT}/${id}`;
+
+    useEffect(() => {
+        axios.get(roomUrl).then((response) => {
+            setData(response.data);
+        });
+    }, []);
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const roomUrl = `http://localhost:3000/advertisement/${data.id}`;
+
     const title = data.title;
     const handleToggleDropdown = () => {
         setIsDropdownOpen((prev) => !prev);
@@ -139,7 +143,7 @@ function Detail() {
                 <meta name="description" content={data.description} />
                 <meta property="og:title" content={`Chi tiết phòng trọ`} />
                 <meta property="og:description" content={data.description} />
-                <meta property="og:image" content={data.images[1].image_path} />
+                {/* <meta property="og:image" content={data.images[1].image_path} /> */}
                 <meta property="og:url" content={`http://localhost:3000/advertisement/${data.id}`} />
             </Helmet>
             <div className={cx('content-wrapper')}>

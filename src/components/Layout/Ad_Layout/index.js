@@ -23,8 +23,6 @@ function AdLayout({ children }) {
                     {children}
                 </div>
             </div>
-
-            <footer className={cx('footer')}>footer 1512 x 745.4</footer>
         </div>
     );
 }
