@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="2">
+
+<css lib="datatables buttons"/>
+<js lib="jquery datatables buttons jszip pdfmake vfsfonts buttons-html5">
+<![CDATA[
+
+$('#example').DataTable({
+	layout: {
+		topStart: {
+			buttons: [
+				{ extend: 'copyHtml5', footer: false },
+				{ extend: 'excelHtml5', footer: false },
+				{ extend: 'csvHtml5', footer: false },
+				{ extend: 'pdfHtml5', footer: false }
+			]
+		}
+	}
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		topStart: {
+			buttons: [
+				{ extend: 'copyHtml5', footer: false },
+				{ extend: 'excelHtml5', footer: false },
+				{ extend: 'csvHtml5', footer: false },
+				{ extend: 'pdfHtml5', footer: false }
+			]
+		}
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="Buttons">Exclude footer in export</title>
+
+<info><![CDATA[
+
+As of Buttons 3, by default the data export buttons will include the table footer (if present) in the output (prior to Buttons 3, the default was for the footer not to be included).
+
+This behaviour can be altered using the `footer` option that is present for each of the export buttons, as shown in this example.
+
+]]></info>
+
+</dt-example>
+

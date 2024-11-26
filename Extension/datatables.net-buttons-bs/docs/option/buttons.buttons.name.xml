@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Buttons">
+	<name>buttons.buttons.name</name>
+	<summary>Set a name for each selection</summary>
+	<since>1.0.0</since>
+	<alias>-feature buttons.buttons.name</alias>
+
+	<example title="Set a button's name"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		topStart: 'buttons'
+	},
+	buttons: [{ extend: 'copy', name: 'copy' }]
+});
+]]></example>
+</dt-option>

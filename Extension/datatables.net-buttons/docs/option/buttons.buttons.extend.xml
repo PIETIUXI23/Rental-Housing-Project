@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Buttons">
+	<name>buttons.buttons.extend</name>
+	<summary>Define which button type the button should be based on</summary>
+	<since>1.0.0</since>
+	<alias>-feature buttons.buttons.extend</alias>
+
+	<example title="Two buttons, one with customisations"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		topStart: 'buttons'
+	},
+	buttons: ['copy', { extend: 'excel', text: 'Save as Excel' }]
+});
+]]></example>
+</dt-option>

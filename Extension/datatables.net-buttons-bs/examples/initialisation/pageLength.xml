@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="14">
+
+<css lib="datatables buttons"/>
+<js lib="jquery datatables buttons">
+<![CDATA[
+
+$('#example').DataTable({
+	layout: {
+		topStart: {
+			buttons: ['pageLength']
+		}
+	}
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		topStart: {
+			buttons: ['pageLength']
+		}
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="Buttons">Page length (button)</title>
+
+<info><![CDATA[
+
+Buttons are often inserted into the document where DataTables default page length `-tag select` width would go (top left), to provide controls or table information at each of the four corners of the table. However, you may wish to keep still allow the end user to change the page length, while also providing buttons.
+
+The `b-button pageLength` button acts in exactly the same way as the default length list, but is available as a standard button that uses a collection to display the options. This example shows the `b-button pageLength` button being used.
+
+]]></info>
+
+</dt-example>
+

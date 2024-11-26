@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Buttons">
+	<name>buttons.buttons.init</name>
+	<summary>Initialisation function that can be used to add events specific to this button</summary>
+	<since>1.0.0</since>
+	<alias>-feature buttons.buttons.init</alias>
+
+	<example title="Enable / disable based on there being selected rows (from the _Select_ extension)"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		topStart: 'buttons'
+	},
+	buttons: [
+		{
+			text: 'Enabled only with selected item',
+			init: function (dt, node, config) {
+				var that = this;
+
+				dt.on('select.dt.DT deselect.dt.DT', function () {
+					that.enable(dt.rows({ selected: true }).any());
+				});
+
+				this.disable();
+			}
+		}
+	]
+});
+]]></example>
+</dt-option>

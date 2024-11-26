@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Buttons">
+	<name>buttons.buttons.titleAttr</name>
+	<summary>Button `title` attribute text</summary>
+	<since>1.1.0</since>
+	<alias>-feature buttons.buttons.titleAttr</alias>
+
+	<example title="Copy button with a Font Awesome icon and title text"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		topStart: 'buttons'
+	},
+	buttons: [
+		{
+			extend: 'copyHtml5',
+			text: '<i class="fa fa-files-o"></i>',
+			titleAttr: 'Copy'
+		}
+	]
+});
+]]></example>
+</dt-option>
