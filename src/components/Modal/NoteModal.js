@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-HEAD
-// import "~/Content/Custom.min.css";
-import styles from './Modal.module.scss';
 
 const NoteModal = () => {
     const [note, setNote] = useState('');
