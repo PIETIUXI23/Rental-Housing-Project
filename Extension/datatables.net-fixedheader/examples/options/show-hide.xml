@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="9">
+
+<css lib="datatables fixedheader" />
+<js lib="jquery datatables fixedheader">
+<![CDATA[
+
+var table = $('#example').DataTable({
+	fixedHeader: true
+});
+
+var visible = true;
+var tableContainer = $(table.table().container());
+
+$('#toggle').on('click', function () {
+	tableContainer.css('display', visible ? 'none' : 'block');
+	table.fixedHeader.adjust();
+
+	visible = !visible;
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+
+let table = new DataTable('#example', {
+	fixedHeader: true
+});
+
+let visible = true;
+let tableContainer = table.table().container();
+
+document.querySelector('#toggle').addEventListener('click', function () {
+	tableContainer.style.display = visible ? 'none' : 'block';
+	table.fixedHeader.adjust();
+
+	visible = !visible;
+});
+
+]]>
+</js-vanilla>
+
+<title lib="FixedHeader">Show / hide FixedHeader</title>
+
+<info><![CDATA[
+
+This example shows how to handle the case when the host DataTable is visible or not. FixedHeader needs to "be informed" if the table is visible or not (or if its position has changed on the page) so it can recalculate its cached values that are used to quickly look up what state the fixed header should be in at any given point.
+
+This is achieved through the `-api fixedHeader.adjust()` API method.
+
+This example shows a simple toggle button that changes the visibility of the DataTable. The `-api fixedHeader.adjust()` method is called whenever the table's visibility is changed, as it would be in a tab show event handler.
+
+]]></info>
+
+<demo-html>
+	<button id="toggle">Toggle table visibility</button>
+</demo-html>
+
+</dt-example>

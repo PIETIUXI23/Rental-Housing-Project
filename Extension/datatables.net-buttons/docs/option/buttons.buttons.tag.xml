@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Buttons">
+	<name>buttons.buttons.tag</name>
+	<summary>Set the tag for the button</summary>
+	<since>1.5.2</since>
+	<alias>-feature buttons.buttons.tag</alias>
+
+	<example title="Use an `a` tag for a button"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		topStart: 'buttons'
+	},
+	buttons: [
+		{
+			extend: 'copy',
+			tag: 'a'
+		}
+	]
+});
+]]></example>
+</dt-option>

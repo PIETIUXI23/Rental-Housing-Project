@@ -132,8 +132,8 @@ function Home() {
                         breakLabel="..."
                         nextLabel="next >"
                         onPageChange={handlePageClick}
-                        pageRangeDisplayed={5}
-                        pageCount={10}
+                        pageRangeDisplayed={2}
+                        pageCount={100}
                         previousLabel="< previous"
                         renderOnZeroPageCount={null}
                         containerClassName="pagination"

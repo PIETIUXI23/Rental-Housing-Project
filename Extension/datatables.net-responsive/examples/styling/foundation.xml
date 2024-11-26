@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-wide" table-class="display nowrap" order="3" framework="foundation">
+
+<css lib="datatables responsive"/>
+<js lib="jquery datatables responsive">
+<![CDATA[
+
+$('#example').DataTable({
+	responsive: true
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	responsive: true
+});
+
+]]>
+</js-vanilla>
+
+<title lib="Responsive">Foundation styling</title>
+
+<info><![CDATA[
+
+This example shows DataTables and the Responsive extension being used with the [Foundation](http://foundation.zurb.com) framework providing the styling. The [DataTables / Foundation integration](//datatables.net/manual/styling/foundation) provides seamless integration for DataTables to be used in a Foundation page.
+
+]]></info>
+
+</dt-example>
+

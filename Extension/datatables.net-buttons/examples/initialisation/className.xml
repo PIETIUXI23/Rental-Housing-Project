@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="7">
+
+<css lib="datatables buttons">
+button.red,
+a.red {
+	color: red !important;
+}
+
+button.orange,
+a.orange {
+	color: orange !important;
+}
+
+button.green,
+a.green {
+	color: green !important;
+}
+</css>
+<js lib="jquery datatables buttons">
+<![CDATA[
+
+$('#example').DataTable({
+	layout: {
+		topStart: {
+			buttons: [
+				{
+					text: 'Red',
+					className: 'red'
+				},
+				{
+					text: 'Orange',
+					className: 'orange'
+				},
+				{
+					text: 'Green',
+					className: 'green'
+				}
+			]
+		}
+	}
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		topStart: {
+			buttons: [
+				{
+					text: 'Red',
+					className: 'red'
+				},
+				{
+					text: 'Orange',
+					className: 'orange'
+				},
+				{
+					text: 'Green',
+					className: 'green'
+				}
+			]
+		}
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="Buttons">Class names</title>
+
+<info><![CDATA[
+
+This example [also shows button definition objects](custom.html) being used to describe buttons. In this case we use the `b-init buttons.buttons.className` option to specify a custom class name for the button. A little bit of CSS is used to style the buttons - the class names and CSS can of course be adjusted to suit whatever styling requirements you have.
+
+]]></info>
+
+</dt-example>
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="Buttons">
+	<name>buttons</name>
+	<summary>Buttons configuration object</summary>
+	<since>1.0.0</since>
+	<alias>-feature buttons</alias>
+
+	<example title="Creation of Buttons using defaults and insertion by `dt-init dom`"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		topStart: 'buttons'
+	},
+	buttons: true
+});
+]]></example>
+
+	<example title="Creation of Buttons with array configuration of buttons and insertion by `dt-init dom`"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		topStart: 'buttons'
+	},
+	buttons: ['copy', 'csv', 'excel']
+});
+]]></example>
+
+	<example title="Creation of Buttons with object configuration and insertion by `dt-init dom`"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		topStart: 'buttons'
+	},
+	buttons: {
+		name: 'primary',
+		buttons: ['copy', 'csv', 'excel']
+	}
+});
+]]></example>
+</dt-option>
