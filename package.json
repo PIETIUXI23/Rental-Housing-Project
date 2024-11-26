@@ -37,9 +37,12 @@
     },
     "devDependencies": {
         "babel-plugin-module-resolver": "^5.0.2",
+        "css-loader": "^7.1.2",
         "customize-cra": "^1.0.0",
         "react-app-rewired": "^2.2.1",
-        "sass": "^1.80.3"
+        "sass": "^1.81.0",
+        "sass-loader": "^16.0.3",
+        "style-loader": "^4.0.0"
     },
     "scripts": {
         "start": "react-app-rewired start",
