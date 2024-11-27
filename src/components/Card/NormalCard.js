@@ -10,6 +10,11 @@ import { useEffect, useState } from 'react';
 const cx = classNames.bind(styles);
 function NormalCard({ data }) {
     const [btnState, setBtnState] = useState(false);
+    const defaultImages = [
+        { id: 'default1', image_path: images.no_photo_available },
+        { id: 'default2', image_path: images.no_photo_available },
+        { id: 'default3', image_path: images.no_photo_available },
+    ];
 
     useEffect(() => {
         const favoritedItems = JSON.parse(localStorage.getItem('favoritedItems')) || [];
@@ -49,7 +54,7 @@ function NormalCard({ data }) {
         <>
             <div className={cx('normal-card-layout')}>
                 <div className={cx('image-box')}>
-                    {data.images.slice(0, 3).map((img, index) => {
+                    {[...data.images, ...defaultImages].slice(0, 3).map((img, index) => {
                         return (
                             <div key={img.id} className={cx(`item${index}`)}>
                                 <img src={img.image_path} />

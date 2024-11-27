@@ -14,6 +14,10 @@ import Person from '~/pages/Admin/Report/Person';
 import Rent from '~/pages/Admin/Report/Rent';
 
 
+import Room from '~/pages/Admin/Room';
+import Post from '~/pages/Admin/Post';
+import Service from '~/pages/Admin/Service';
+import EmailHistory from '~/pages/Admin/EmailHistory';
 
 //public la khong can dang nhap
 const publicRoutes = [
@@ -28,6 +32,10 @@ const publicRoutes = [
     { path: '/admin/report/ReportCustomerContractExpired', component: Expired, layout: Admin_Layout },
     { path: '/admin/report/ReportCustomerDeposit', component: Deposit, layout: Admin_Layout },
     { path: '/admin/report/ReportRoomPerson', component: Person, layout: Admin_Layout },
+    { path: '/admin/room', component: Room, layout: Admin_Layout },
+    { path: '/admin/post', component: Post, layout: Admin_Layout },
+    { path: '/admin/service', component: Service, layout: Admin_Layout },
+    { path: '/admin/email', component: EmailHistory, layout: Admin_Layout },
 ];
 //private phai dang nhap neu khong no dan sang ben dang nhap
 const privateRoutes = [
