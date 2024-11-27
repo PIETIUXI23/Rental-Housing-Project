@@ -15,7 +15,7 @@ export const MENU_ITEMS = [
         id: 'service',
         icon: 'fa-concierge-bell',
         label: 'Dịch vụ',
-        path: '/service',
+        path: '/admin/service',
     },
     {
         id: 'electric',
