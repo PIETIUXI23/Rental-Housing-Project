@@ -104,6 +104,12 @@ export const MENU_ITEMS = [
         ],
     },
     {
+        id: 'email',
+        icon: 'fa-history',
+        label: ' Lịch sử gửi email',
+        path: '/admin/email',
+    },
+    {
         id: 'post',
         icon: 'fa-rectangle-ad',
         label: 'Đăng bài',

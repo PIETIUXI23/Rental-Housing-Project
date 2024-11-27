@@ -22,6 +22,7 @@
         "font-awesome": "^4.7.0",
         "jquery": "^3.7.1",
         "jquey": "^0.0.1-security",
+        "lucide-react": "^0.462.0",
         "mapbox-gl": "^3.8.0",
         "normalize.css": "^8.0.1",
         "quill": "^2.0.2",
