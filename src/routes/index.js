@@ -6,6 +6,7 @@ import Detail from '~/pages/Advertisement/Detail';
 import Home from '~/pages/Advertisement/Home';
 import Room from '~/pages/Admin/Room';
 import Post from '~/pages/Admin/Post';
+import Service from '~/pages/Admin/Service';
 
 //public la khong can dang nhap
 const publicRoutes = [
@@ -14,6 +15,7 @@ const publicRoutes = [
     { path: '/advertisement/:id', component: Detail, layout: Ad_Layout },
     { path: '/admin/room', component: Room, layout: Admin_Layout },
     { path: '/admin/post', component: Post, layout: Admin_Layout },
+    { path: '/admin/service', component: Service, layout: Admin_Layout },
 ];
 //private phai dang nhap neu khong no dan sang ben dang nhap
 const privateRoutes = [];
