@@ -107,7 +107,7 @@ export const MENU_ITEMS = [
         id: 'post',
         icon: 'fa-rectangle-ad',
         label: 'Đăng bài',
-        path: '/post',
+        path: '/admin/post',
     },
     {
         id: 'setting',

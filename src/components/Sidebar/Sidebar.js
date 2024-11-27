@@ -1,5 +1,6 @@
 import React from 'react';
 import { MENU_ITEMS, FOOTER_ITEMS } from '../../data/menuItems';
+import { Link } from 'react-router-dom';
 
 function Sidebar() {
     return (
@@ -29,16 +30,16 @@ function Sidebar() {
                     <ul className="nav side-menu" id="menu_slider">
                         {MENU_ITEMS.map((item) => (
                             <li key={item.id}>
-                                <a href={item.path}>
+                                <Link to={item.path}>
                                     <i className={`fa ${item.icon}`}></i> {item.label}
-                                </a>
+                                </Link>
                                 {item.subMenu && (
                                     <ul className="nav child_menu" style={{ display: 'none' }}>
                                         {item.subMenu.map((child) => (
                                             <li key={child.id}>
-                                                <a href={child.path}>
+                                                <Link to={child.path}>
                                                     <i className={`fa ${child.icon}`}></i> {child.label}
-                                                </a>
+                                                </Link>
                                             </li>
                                         ))}
                                     </ul>

@@ -118,20 +118,69 @@ const cx = classNames.bind(styles);
 // ];
 function Home() {
     const [dataPage, setDataPage] = useState({ data: { pageTotal: 0, pageNum: 0, adData: [] } });
+
+    const [minArea, setMinArea] = useState('');
+    const [maxArea, setMaxArea] = useState('');
+    const [minCost, setMinCost] = useState('');
+    const [maxCost, setMaxCost] = useState('');
+    const [address, setAddress] = useState('');
+    const [page, setPage] = useState(0);
+    const [url, setUrl] = useState(process.env.REACT_APP_API_ADVERTISEMENT);
     const handlePageClick = (event) => {
         console.log(event.selected);
+        if (url == process.env.REACT_APP_API_ADVERTISEMENT) {
+            setUrl(`${url}?page=${event.selected}`);
+        } else {
+            setUrl(`${url}&page=${event.selected}`);
+        }
+    };
+
+    const handleDataFromChild = (data) => {
+        console.log(data);
+
+        setAddress(data);
+    };
+
+    // const filterByAddress = () => {
+    //     if (address != '') {
+    //         if (url == process.env.REACT_APP_API_ADVERTISEMENT) {
+    //             setUrl(`${url}?address=${address}`);
+    //         } else {
+    //             setUrl(`${url}&address=${address}`);
+    //         }
+    //     }
+    // };
+
+    // const filterByArea = () => {
+    //     if (url == process.env.REACT_APP_API_ADVERTISEMENT) {
+    //         setUrl(`${url}?areaMin=${minArea}&areaMax=${maxArea}`);
+    //     } else {
+    //         setUrl(`${url}&areaMin=${minArea}&areaMax=${maxArea}`);
+    //     }
+    // };
+    // const filterByCost = () => {
+    //     if (url == process.env.REACT_APP_API_ADVERTISEMENT) {
+    //         setUrl(`${url}?priceMin=${minCost}&priceMax=${maxCost}`);
+    //     } else {
+    //         setUrl(`${url}&priceMin=${minCost}&priceMax=${maxCost}`);
+    //     }
+    // };
+
+    const filter = () => {
+        setUrl(
+            `${process.env.REACT_APP_API_ADVERTISEMENT}?address=${address}&areaMin=${minArea}&areaMax=${maxArea}&priceMin=${minCost}&priceMax=${maxCost}&page=${page}`,
+        );
     };
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_ADVERTISEMENT}`).then((response) => {
+        axios.get(`${url}`).then((response) => {
             console.log(response);
-
             setDataPage(response);
         });
-    }, []);
+    }, [url]);
     return (
         <>
-            <UserBoxSearch />
+            <UserBoxSearch sendDataToParent={handleDataFromChild} onFilter={filter} />
             <div className={cx('content-wrapper')}>
                 <div className={cx('main-content')}>
                     <div>
@@ -157,11 +206,63 @@ function Home() {
                 <div className={cx('sidebar-box')}>
                     <div className={cx('sidebar')}>
                         <div className={cx('header')}>Lọc theo khoảng giá</div>
-                        <div className={cx('body')}></div>
+                        <div className={cx('body')}>
+                            <div className={cx('input-group')}>
+                                <label>Giá thấp nhất</label>
+                                <input
+                                    type="number"
+                                    placeholder="Từ"
+                                    value={minCost}
+                                    onChange={(e) => {
+                                        setMinCost(e.target.value);
+                                    }}
+                                />
+                            </div>
+                            <div className={cx('input-group')}>
+                                <label>Giá cao nhất</label>
+                                <input
+                                    type="number"
+                                    placeholder="Đến"
+                                    value={maxCost}
+                                    onChange={(e) => {
+                                        setMaxCost(e.target.value);
+                                    }}
+                                />
+                            </div>
+                            <div className={cx('input-group')}>
+                                <button onClick={filter}>Áp dụng</button>
+                            </div>
+                        </div>
                     </div>
                     <div className={cx('sidebar')}>
                         <div className={cx('header')}>Lọc theo diện tích</div>
-                        <div className={cx('body')}></div>
+                        <div className={cx('body')}>
+                            <div className={cx('input-group')}>
+                                <label>Diện tích nhỏ nhất</label>
+                                <input
+                                    type="number"
+                                    placeholder="Từ"
+                                    value={minArea}
+                                    onChange={(e) => {
+                                        setMinArea(e.target.value);
+                                    }}
+                                />
+                            </div>
+                            <div className={cx('input-group')}>
+                                <label>Diện tích lớn nhất</label>
+                                <input
+                                    type="number"
+                                    placeholder="Đến"
+                                    value={maxArea}
+                                    onChange={(e) => {
+                                        setMaxArea(e.target.value);
+                                    }}
+                                />
+                            </div>
+                            <div className={cx('input-group')}>
+                                <button onClick={filter}>Áp dụng</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

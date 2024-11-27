@@ -11,28 +11,36 @@ import Wrapper from '../Popper/Wrapper';
 
 const cx = classNames.bind(styles);
 
-function UserBoxSearch() {
+function UserBoxSearch({ sendDataToParent, onFilter }) {
     const [cityData, setCityData] = useState([]);
     const [districtData, setDistrictData] = useState([]);
     const [communeData, setCommuneData] = useState([]);
-
+    const [address, setAddress] = useState('');
     const [selectedCity, setSelectedCity] = useState({ id: '', name: '' });
     const [selectedDistrict, setSelectedDistrict] = useState({ id: '', name: '' });
     const [selectedCommune, setSelectedCommune] = useState({ id: '', name: '' });
 
+    // sendDataToParent(address);
+
     const handleCityChange = (e) => {
         let selectedId = e.target.value;
         let selectedName = cityData.find((city) => (city.id === selectedId ? city.name : ''));
+        sendDataToParent(`${selectedName.name}`);
+        setAddress(`${selectedName.name}`);
         setSelectedCity({ id: selectedId, name: selectedName });
     };
     const handleDistrictChange = (e) => {
         let selectedId = e.target.value;
         let selectedName = districtData.find((district) => (district.id === selectedId ? district.name : ''));
+        sendDataToParent(`${selectedName.name}, ${address}`);
+        setAddress(`${selectedName.name}, ${address}`);
         setSelectedDistrict({ id: selectedId, name: selectedName });
     };
     const handleCommuneChange = (e) => {
         let selectedId = e.target.value;
         let selectedName = communeData.find((commune) => (commune.id === selectedId ? commune.name : ''));
+        sendDataToParent(`${selectedName.name}, ${address}`);
+        setAddress(`${selectedName.name}, ${address}`);
         setSelectedCommune({ id: selectedId, name: selectedName });
     };
 
@@ -99,7 +107,9 @@ function UserBoxSearch() {
                     </Button>
                 </div>
                 <div className={cx('btn-box')}>
-                    <button className={cx('btn-search')}>Tìm kiếm</button>
+                    <button className={cx('btn-search')} onClick={onFilter}>
+                        Tìm kiếm
+                    </button>
                 </div>
             </div>
         </div>
