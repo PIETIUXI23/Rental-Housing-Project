@@ -4,7 +4,8 @@ import styles from './RegisterForm.module.scss';
 import classNames from 'classnames/bind';
 import { faEnvelope, faEye, faEyeSlash, faUser } from '@fortawesome/free-regular-svg-icons';
 import { faClose, faLock, faPhone } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -12,18 +13,67 @@ function RegisterForm({ visible, onClick, onRedirect }) {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
+    const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [serviceSelected, setServiceSelected] = useState(null);
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [isContinueRegister, setIsContinueRegister] = useState(false);
+
+    const [validateLog, setValidateLog] = useState('');
+
+    const [servicePackages, setServicePackages] = useState([]);
+
     const handleRegister = (e) => {
         e.preventDefault();
         console.log(userName + ' ' + password);
     };
 
-    const handleContinue = () => {
-        setIsContinueRegister(true);
+    const handleContinue = (e) => {
+        e.preventDefault();
+        if (userName && password && rePassword && fullName && email && phoneNumber) {
+            if (password !== rePassword) {
+                setValidateLog('Mật khẩu và xác nhận mật khẩu không khớp');
+                return;
+            }
+            setIsContinueRegister(true);
+        } else {
+            setValidateLog('Vui lòng điền đầy đủ thông tin');
+        }
     };
+
+    const handleSelect = (service) => {
+        console.log(service);
+        setServiceSelected(service);
+    };
+
+    const handlePay = (e) => {
+        e.preventDefault();
+        // setLoading(true);
+
+        axios
+            .post('http://localhost:8080/payment/create_payment', {
+                username: userName,
+                password: password,
+                fullName: fullName,
+                email: email,
+                phoneNumber: phoneNumber,
+                price: serviceSelected.price,
+                idService: serviceSelected.id,
+            })
+            .then((response) => {
+                console.log(response.data.url);
+                window.location.href = response.data.url;
+            });
+    };
+
+    useEffect(() => {
+        console.log(process.env.REACT_APP_API_SERVICE_PACKAGE);
+
+        axios.get(`${process.env.REACT_APP_API_SERVICE_PACKAGE}`).then((response) => {
+            setServicePackages(response.data);
+        });
+    }, []);
     return isContinueRegister ? (
         <Modal visible={visible} onClick={onClick}>
             <div
@@ -32,7 +82,40 @@ function RegisterForm({ visible, onClick, onRedirect }) {
                     e.stopPropagation();
                 }}
             >
-                <div>Mời bạn chọn gói</div>
+                <form>
+                    <div>
+                        <button onClick={onClick}>
+                            <FontAwesomeIcon icon={faClose} />
+                        </button>
+                    </div>
+                    <div>Mời bạn chọn gói dịch vụ</div>
+                    <div className={cx('container')}>
+                        {servicePackages.map((service, index) => {
+                            return (
+                                <div key={index} className={cx('card')}>
+                                    <input type="radio" id={`card${index}`} name="service" value={service.id} />
+                                    <label
+                                        for={`card${index}`}
+                                        onClick={() => {
+                                            handleSelect(service);
+                                        }}
+                                    >
+                                        <div className={cx('name')}>{service.name}</div>
+                                        <div className={cx('price')}>{service.price} đ/tháng</div>
+                                        <div className={cx('description')}>{service.description}</div>
+                                    </label>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <div className={cx('error-log')}>{validateLog}</div>
+                    <div className={cx('input-group')}>
+                        <button onClick={handlePay}>Thanh toán</button>
+                    </div>
+                </form>
+                <div className={cx('redirect')}>
+                    Đã có tài khoản? <span onClick={onRedirect}>Đăng nhập tại đây</span>
+                </div>
             </div>
         </Modal>
     ) : (
@@ -130,6 +213,19 @@ function RegisterForm({ visible, onClick, onRedirect }) {
                     </div>
                     <div className={cx('input-group')}>
                         <div className={cx('icon')}>
+                            <FontAwesomeIcon icon={faPhone} />
+                        </div>
+                        <input
+                            className={cx('full-name')}
+                            placeholder="Họ tên"
+                            onChange={(e) => {
+                                setFullName(e.target.value);
+                            }}
+                            value={fullName}
+                        />
+                    </div>
+                    <div className={cx('input-group')}>
+                        <div className={cx('icon')}>
                             <FontAwesomeIcon icon={faEnvelope} />
                         </div>
                         <input
@@ -154,6 +250,7 @@ function RegisterForm({ visible, onClick, onRedirect }) {
                             value={phoneNumber}
                         />
                     </div>
+                    <div className={cx('error-log')}>{validateLog}</div>
                     <div className={cx('input-group')}>
                         <button onClick={handleContinue}>Tiếp tục</button>
                     </div>

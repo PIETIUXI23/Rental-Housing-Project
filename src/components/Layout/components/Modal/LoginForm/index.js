@@ -7,6 +7,7 @@ import { faEye, faEyeSlash, faUser } from '@fortawesome/free-regular-svg-icons';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { text } from '@fortawesome/fontawesome-svg-core';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -15,9 +16,22 @@ function LoginForm({ visible, onClick, onRedirect }) {
     const [password, setPassword] = useState('');
     const [isShowPassword, setIsShowPassword] = useState(false);
 
+    const [validateLog, setValidateLog] = useState('');
+
     const handelLogin = (e) => {
         e.preventDefault();
-        console.log(userName + ' ' + password);
+        axios
+            .post('http://localhost:8080/api/login', {
+                username: userName,
+                password: password,
+            })
+            .then((response) => {
+                if (response.status == 200) {
+                    window.location.href = 'http://localhost:3000/admin';
+                } else {
+                    setValidateLog('Sai tên đăng nhập hoặc mật khẩu!');
+                }
+            });
     };
 
     return (
@@ -81,6 +95,7 @@ function LoginForm({ visible, onClick, onRedirect }) {
                             />
                         </div>
                     </div>
+                    <div className={cx('error-log')}>{validateLog}</div>
                     <div className={cx('input-group')}>
                         <button onClick={handelLogin}>Đăng nhập</button>
                     </div>
