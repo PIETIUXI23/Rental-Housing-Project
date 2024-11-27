@@ -15,7 +15,6 @@
 
 .remain {
     width: 100%;
-    height: 6758.89px;
     position: relative;
     margin-top: var(--user-header-height);
     padding-top: 8px;
@@ -23,8 +22,7 @@
 
 /* Thẻ div bao trọn cả form, main-content và sidebar */
 .main-container {
-    width: 1050px;
-    height: 6734.89px; /* Đảm bảo kích thước đúng */
+    width: 950px; /* Đảm bảo kích thước đúng */
     margin: 0px auto;
 }
 

@@ -4,10 +4,10 @@
     justify-content: center;
     align-items: center;
     gap: 5px;
-    margin-top: 80px;
+    margin-top: 70px;
 }
 .pagination .page-num {
-    padding: 8px 15px;
+    padding: 6px 13px;
     cursor: pointer;
     border-radius: 3px;
 }
