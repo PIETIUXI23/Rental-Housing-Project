@@ -1,0 +1,106 @@
+// @import '~datatables.net-bs/css/dataTables.bootstrap.min.css';
+// @import 'datatables.net-buttons-bs/css/buttons.bootstrap.min.css';
+// @import 'datatables.net-select/css/select.dataTables.css';
+// @import '~datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css';
+// @import '~datatables.net-responsive-bs/css/responsive.bootstrap.min.css';
+// @import '~datatables.net-scroller-bs/css/scroller.bootstrap.min.css';
+// @import 'chart.js/dist/Chart.min.css';
+
+// Media queries for responsiveness
+@media (min-width: 360px) and (max-width: 768px) {
+    #formRoomStatus .row {
+        width: 150px !important;
+        height: 150px !important;
+        left: 0% !important;
+        top: 9% !important;
+    }
+
+    #formRoomStatus #chartjs-legend li {
+        float: right !important;
+    }
+
+    #formRoomStatus #chartjs-legend li span {
+        padding: 6px 10px !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    #formRoomStatus .row {
+        width: 300px !important;
+        height: 300px !important;
+        left: 0% !important;
+        top: 8% !important;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1366px) {
+    #formRoomStatus .row {
+        width: 300px !important;
+        height: 300px !important;
+        left: 0% !important;
+        top: 7% !important;
+    }
+}
+
+@media (min-width: 1366px) and (max-width: 1919px) {
+    #formRoomStatus .row {
+        width: 160px !important;
+        height: 160px !important;
+        left: 45% !important;
+    }
+}
+
+form {
+    height: calc(50vh - 30px - 122px);
+}
+
+#formRoomStatus .row {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    left: 40%;
+    top: 0%;
+}
+
+// Style for modal
+.modal-content {
+    padding: 20px;
+}
+
+.modal-header {
+    background-color: orangered;
+    color: white;
+}
+
+.modal-body p {
+    font-size: 16px;
+    color: #333;
+}
+
+.modal-footer {
+    text-align: right;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table thead th {
+    background-color: #f5f5f5;
+    text-align: left;
+    padding: 10px;
+}
+
+table tbody td {
+    padding: 10px;
+    text-align: center;
+}
+
+element {
+    width: 240px;
+}
+body {
+    color: #73879c;
+    background-color: #2a3f54;
+}

@@ -12,7 +12,8 @@ import "src/Extension/nprogress/nprogress.css";
 import "src/Extension/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css";
 import "src/Extension/bootstrap-daterangepicker/daterangepicker.css";
 import "src/Extension/toastr-master/toastr.min.css";
-import "../../../Content/Custom.min.css";
+import "src/Content/Custom.scss";
+import 'jquery-ui/ui/widgets/tooltip';
 
 const AdminLayout = ({ children }) => {
     return (
