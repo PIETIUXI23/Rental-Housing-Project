@@ -40,14 +40,16 @@ function Home() {
             type: 'pie',
             data: {
                 labels: ['Occupied', 'Vacant', 'Under Maintenance'],
-                datasets: [{
-                    label: 'Room Status',
-                    data: [50, 30, 20],
-                    backgroundColor: ['#FF5733', '#33FF57', '#3357FF'],
-                    borderColor: ['#FF5733', '#33FF57', '#3357FF'],
-                    borderWidth: 1
-                }]
-            }
+                datasets: [
+                    {
+                        label: 'Room Status',
+                        data: [50, 30, 20],
+                        backgroundColor: ['#FF5733', '#33FF57', '#3357FF'],
+                        borderColor: ['#FF5733', '#33FF57', '#3357FF'],
+                        borderWidth: 1,
+                    },
+                ],
+            },
         });
 
         // Create new sales chart
@@ -55,13 +57,15 @@ function Home() {
             type: 'line',
             data: {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-                datasets: [{
-                    label: 'Sales (VNĐ)',
-                    data: [10000, 20000, 15000, 18000, 22000, 25000],
-                    borderColor: '#FF5733',
-                    fill: false
-                }]
-            }
+                datasets: [
+                    {
+                        label: 'Sales (VNĐ)',
+                        data: [10000, 20000, 15000, 18000, 22000, 25000],
+                        borderColor: '#FF5733',
+                        fill: false,
+                    },
+                ],
+            },
         });
 
         // Create new contract expiration chart
@@ -69,14 +73,16 @@ function Home() {
             type: 'bar',
             data: {
                 labels: ['Room A', 'Room B', 'Room C', 'Room D'],
-                datasets: [{
-                    label: 'Contracts Expiring Soon',
-                    data: [5, 2, 4, 3],
-                    backgroundColor: '#FF6347',
-                    borderColor: '#FF6347',
-                    borderWidth: 1
-                }]
-            }
+                datasets: [
+                    {
+                        label: 'Contracts Expiring Soon',
+                        data: [5, 2, 4, 3],
+                        backgroundColor: '#FF6347',
+                        borderColor: '#FF6347',
+                        borderWidth: 1,
+                    },
+                ],
+            },
         });
 
         // Cleanup function to destroy charts when the component unmounts
@@ -96,22 +102,34 @@ function Home() {
     return (
         <div>
             {/* Room Status & Sales Charts */}
-            <div className="row" style={{ height: 'calc(50vh - 30px)', marginTop: '50px', }}>
+            <div className="row" style={{ height: 'calc(50vh - 30px)', marginTop: '50px' }}>
                 <input type="hidden" id="HasExpire" value="0" />
                 <div className="clearfix"></div>
                 <div className="col-md-6 col-sm-12 col-xs-6 col-12">
                     <div className="x_panel">
                         <div className="x_title">
-                            <h3 style={{ display: 'inline-block' }}><strong>Trạng thái phòng</strong></h3>
+                            <h3 style={{ display: 'inline-block' }}>
+                                <strong>Trạng thái phòng</strong>
+                            </h3>
                             <div className="clearfix"></div>
                         </div>
                         <div className="x_content">
-                            <form data-parsley-validate className="form-horizontal form-label-left" method="post" id="formRoomStatus">
+                            <form
+                                data-parsley-validate
+                                className="form-horizontal form-label-left"
+                                method="post"
+                                id="formRoomStatus"
+                            >
                                 <div id="chartjs-legend" className="noselect"></div>
                                 <div className="row">
                                     <canvas
                                         id="roomStatusChart"
-                                        style={{ width: "300px", height: "300px", boxSizing: "border-box", display: "block" }}
+                                        style={{
+                                            width: '300px',
+                                            height: '300px',
+                                            boxSizing: 'border-box',
+                                            display: 'block',
+                                        }}
                                     />
                                 </div>
                             </form>
@@ -121,11 +139,18 @@ function Home() {
                 <div className="col-md-6 col-sm-12 col-xs-6 col-12">
                     <div className="x_panel">
                         <div className="x_title">
-                            <h3 style={{ display: 'inline-block' }}><strong>Doanh thu (VNĐ)</strong></h3>
+                            <h3 style={{ display: 'inline-block' }}>
+                                <strong>Doanh thu (VNĐ)</strong>
+                            </h3>
                             <div className="clearfix"></div>
                         </div>
                         <div className="x_content">
-                            <form data-parsley-validate className="form-horizontal form-label-left" method="post" id="formSale">
+                            <form
+                                data-parsley-validate
+                                className="form-horizontal form-label-left"
+                                method="post"
+                                id="formSale"
+                            >
                                 <canvas id="saleChart"></canvas>
                             </form>
                         </div>
@@ -139,12 +164,24 @@ function Home() {
                 <div className="col-md-6 col-sm-12 col-xs-6 col-12">
                     <div className="x_panel">
                         <div className="x_title">
-                            <h3 style={{ display: 'inline-block' }}><strong>Danh sách phòng trống</strong></h3>
+                            <h3 style={{ display: 'inline-block' }}>
+                                <strong>Danh sách phòng trống</strong>
+                            </h3>
                             <div className="clearfix"></div>
                         </div>
                         <div className="x_content">
-                            <form data-parsley-validate className="form-horizontal form-label-left" method="post" id="formRoomEmty">
-                                <table id="tableRoomEmty" className="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                            <form
+                                data-parsley-validate
+                                className="form-horizontal form-label-left"
+                                method="post"
+                                id="formRoomEmty"
+                            >
+                                <table
+                                    id="tableRoomEmty"
+                                    className="table table-striped table-bordered dt-responsive nowrap"
+                                    cellspacing="0"
+                                    width="100%"
+                                >
                                     <thead>
                                         <tr>
                                             <th>Nhà</th>
@@ -160,12 +197,24 @@ function Home() {
                 <div className="col-md-6 col-sm-12 col-xs-6 col-12">
                     <div className="x_panel">
                         <div className="x_title">
-                            <h3 style={{ display: 'inline-block' }}><strong>Danh sách khách nợ tiền phòng</strong></h3>
+                            <h3 style={{ display: 'inline-block' }}>
+                                <strong>Danh sách khách nợ tiền phòng</strong>
+                            </h3>
                             <div className="clearfix"></div>
                         </div>
                         <div className="x_content">
-                            <form data-parsley-validate className="form-horizontal form-label-left" method="post" id="forCustomerDebit">
-                                <table id="tableCustomerDebit" className="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                            <form
+                                data-parsley-validate
+                                className="form-horizontal form-label-left"
+                                method="post"
+                                id="forCustomerDebit"
+                            >
+                                <table
+                                    id="tableCustomerDebit"
+                                    className="table table-striped table-bordered dt-responsive nowrap"
+                                    cellspacing="0"
+                                    width="100%"
+                                >
                                     <thead>
                                         <tr>
                                             <th>Nhà</th>
@@ -189,11 +238,18 @@ function Home() {
                 <div className="col-md-6 col-sm-12 col-xs-6 col-12">
                     <div className="x_panel">
                         <div className="x_title">
-                            <h3 style={{ display: 'inline-block' }}><strong>Khách sắp hết hạn hợp đồng</strong></h3>
+                            <h3 style={{ display: 'inline-block' }}>
+                                <strong>Khách sắp hết hạn hợp đồng</strong>
+                            </h3>
                             <div className="clearfix"></div>
                         </div>
                         <div className="x_content">
-                            <form data-parsley-validate className="form-horizontal form-label-left" method="post" id="formExpireDate">
+                            <form
+                                data-parsley-validate
+                                className="form-horizontal form-label-left"
+                                method="post"
+                                id="formExpireDate"
+                            >
                                 <div className="row">
                                     <canvas id="contractExpireChart"></canvas>
                                 </div>
@@ -209,18 +265,27 @@ function Home() {
                 <div className="col-md-6 col-sm-12 col-xs-6 col-12">
                     <div className="x_panel">
                         <div className="x_title">
-                            <h3 style={{ display: 'inline-block' }}><strong>Góp ý cải thiện phần mềm</strong></h3>
-                            <img src="https://sjjs.edu.vn/wp-content/uploads/2021/09/blink-new.gif" width="50px" height="25px" style={{ marginBottom: '5px' }} />
+                            <h3 style={{ display: 'inline-block' }}>
+                                <strong>Góp ý cải thiện phần mềm</strong>
+                            </h3>
+                            <img
+                                src="https://sjjs.edu.vn/wp-content/uploads/2021/09/blink-new.gif"
+                                width="50px"
+                                height="25px"
+                                style={{ marginBottom: '5px' }}
+                            />
                             <div className="clearfix"></div>
                         </div>
                         <div className="x_content">
                             <a href="https://forms.gle/GNXCAMsV7kWpNHFp9" style={{ color: 'blue' }}>
-                                Nếu quý khách hàng có thắc mắc, vấn đề cần chia sẻ.
-                                Vui lòng góp ý thông qua link Google Form dưới đây:<br />
+                                Nếu quý khách hàng có thắc mắc, vấn đề cần chia sẻ. Vui lòng góp ý thông qua link Google
+                                Form dưới đây:
+                                <br />
                                 https://forms.gle/GNXCAMsV7kWpNHFp9
-                            </a><br />
-                            Chúng tôi rất biết ơn các ý kiến đóng góp của quý khách hàng và sẽ liên tục cải thiện để phần mềm ngày một tốt hơn,
-                            đáp ứng được nhu cầu công việc của quý khách hàng.
+                            </a>
+                            <br />
+                            Chúng tôi rất biết ơn các ý kiến đóng góp của quý khách hàng và sẽ liên tục cải thiện để
+                            phần mềm ngày một tốt hơn, đáp ứng được nhu cầu công việc của quý khách hàng.
                         </div>
                     </div>
                 </div>

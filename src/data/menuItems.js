@@ -6,16 +6,16 @@ export const MENU_ITEMS = [
         path: '/admin/home',
     },
     {
-        id: 'room',
+        id: 'house',
         icon: 'fa-bed',
-        label: 'Phòng',
-        path: '/room',
+        label: 'Tòa nhà',
+        path: '/admin/house',
     },
     {
         id: 'service',
         icon: 'fa-concierge-bell',
         label: 'Dịch vụ',
-        path: '/service',
+        path: '/admin/service',
     },
     {
         id: 'electric',
@@ -122,6 +122,6 @@ export const FOOTER_ITEMS = [
         id: 'logout',
         icon: 'fa-power-off',
         label: 'Đăng xuất',
-        path: '/Customer/ChangePassword'
+        path: '/Customer/ChangePassword',
     },
 ];
