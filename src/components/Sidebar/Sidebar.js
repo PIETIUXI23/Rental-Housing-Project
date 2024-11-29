@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
-import { MENU_ITEMS, FOOTER_ITEMS } from '../../data/menuItems';
+import { MENU_ITEMS, FOOTER_ITEMS, MENU_WEBADMIN } from '../../data/menuItems';
+import { getFullName, getUserRole } from '~/utils/auth';
+import { Link, useNavigate } from 'react-router-dom';
+
 const Sidebar = () => {
+    const navigate = useNavigate();
+    const [menu, setMenu] = useState(getUserRole() === 'ROLE_USER' ? MENU_ITEMS : MENU_WEBADMIN);
     const [openMenus, setOpenMenus] = useState({});
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/');
+    };
 
     // Hàm mở hoặc đóng menu con
     const toggleSubMenu = (id) => {
@@ -30,7 +39,7 @@ const Sidebar = () => {
                 <div className="profile_pic"></div>
                 <div className="profile_info">
                     <span>
-                        Xin Chào, <span>Phúc Văn Danh</span>
+                        Xin Chào, <span>{getFullName()}</span>
                     </span>
                 </div>
             </div>
@@ -39,7 +48,7 @@ const Sidebar = () => {
             <div id="sidebar-menu" className="main_menu_side hidden-print main_menu">
                 <div className="menu_section">
                     <ul className="nav side-menu">
-                        {MENU_ITEMS.map((item) => {
+                        {menu.map((item) => {
                             const isOpen = openMenus[item.id] || false;
 
                             if (item.label === 'Báo cáo') {
@@ -56,12 +65,15 @@ const Sidebar = () => {
                                             <span className={`fa fa-chevron-${isOpen ? 'up' : 'down'}`}></span>
                                         </a>
                                         {item.subMenu && (
-                                            <ul className="nav child_menu" style={{ display: isOpen ? 'block' : 'none' }}>
+                                            <ul
+                                                className="nav child_menu"
+                                                style={{ display: isOpen ? 'block' : 'none' }}
+                                            >
                                                 {item.subMenu.map((child) => (
                                                     <li key={child.id}>
-                                                        <a href={child.path}>
+                                                        <Link to={child.path}>
                                                             <i className={`fa ${child.icon}`}></i> {child.label}
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -72,9 +84,9 @@ const Sidebar = () => {
 
                             return (
                                 <li key={item.id}>
-                                    <a href={item.path}>
+                                    <Link to={item.path}>
                                         <i className={`fa ${item.icon}`}></i> {item.label}
-                                    </a>
+                                    </Link>
                                 </li>
                             );
                         })}
@@ -84,11 +96,24 @@ const Sidebar = () => {
 
             {/* Footer */}
             <div className="sidebar-footer hidden-small">
-                {FOOTER_ITEMS.map((item) => (
-                    <a key={item.id} href={item.path} title={item.label}>
-                        <i className={`fa ${item.icon}`}></i>
-                    </a>
-                ))}
+                {FOOTER_ITEMS.map((item) =>
+                    item.path === '/logout' ? (
+                        <Link
+                            key={item.id}
+                            title={item.label}
+                            // onClick={(event) => {
+                            //     event.preventDefault();
+                            //     handleLogout();
+                            // }}
+                        >
+                            <i className={`fa ${item.icon}`}></i>
+                        </Link>
+                    ) : (
+                        <Link key={item.id} to={item.path} title={item.label}>
+                            <i className={`fa ${item.icon}`}></i>
+                        </Link>
+                    ),
+                )}
             </div>
         </div>
     );
