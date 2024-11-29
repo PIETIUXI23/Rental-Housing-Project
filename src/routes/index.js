@@ -13,11 +13,13 @@ import Expired from '~/pages/Admin/Report/Expired';
 import Person from '~/pages/Admin/Report/Person';
 import Rent from '~/pages/Admin/Report/Rent';
 
-
-import Room from '~/pages/Admin/Room';
+import House from '~/pages/Admin/Properties';
 import Post from '~/pages/Admin/Post';
 import Service from '~/pages/Admin/Service';
 import EmailHistory from '~/pages/Admin/EmailHistory';
+
+import AddHouse from '~/pages/Admin/AddProperties';
+import Room from '~/pages/Admin/Room';
 
 //public la khong can dang nhap
 const publicRoutes = [
@@ -32,14 +34,14 @@ const publicRoutes = [
     { path: '/admin/report/ReportCustomerContractExpired', component: Expired, layout: Admin_Layout },
     { path: '/admin/report/ReportCustomerDeposit', component: Deposit, layout: Admin_Layout },
     { path: '/admin/report/ReportRoomPerson', component: Person, layout: Admin_Layout },
-    { path: '/admin/room', component: Room, layout: Admin_Layout },
+    { path: '/admin/house', component: House, layout: Admin_Layout },
     { path: '/admin/post', component: Post, layout: Admin_Layout },
     { path: '/admin/service', component: Service, layout: Admin_Layout },
     { path: '/admin/email', component: EmailHistory, layout: Admin_Layout },
+    { path: '/admin/house/add', component: AddHouse, layout: Admin_Layout },
+    { path: '/admin/house/room', component: Room, layout: Admin_Layout },
 ];
 //private phai dang nhap neu khong no dan sang ben dang nhap
-const privateRoutes = [
-
-];
+const privateRoutes = [];
 
 export { publicRoutes, privateRoutes };
