@@ -4,6 +4,14 @@ var chartRoomStatus;
 var chartSale;
 var tableExpire;
 var tableUnfinishWork;
+var languageDatatable = {
+    "processing": "Đang xử lý...",
+    "lengthMenu": "Hiển thị _MENU_ mục mỗi trang",
+    "zeroRecords": "Không tìm thấy dữ liệu",
+    "info": "Đang hiển thị trang _PAGE_ của _PAGES_",
+    "infoEmpty": "Không có dữ liệu",
+    "infoFiltered": "(lọc từ _MAX_ mục)"
+};
 $(function () {
     //#region instal chart
     $.ajax({
@@ -116,7 +124,7 @@ $(function () {
                     config.data.labels.push(this.MonthID);
                     config.data.datasets[0].backgroundColor.push(ramdomcolor());
                 })
-                chartRoomStatus = new Chart($("#saleChart"), config);
+                chartSale = new Chart($("#saleChart"), config);  // Thay đổi tên biến từ chartRoomStatus thành chartSale
             } else {
                 toastr["error"]("Lấy dữ liệu doanh thu thất bại. Vui lòng liên hệ với nhà phát triển để sớm khắc phục sự cố.", "Thông báo");
                 console.log("Lấy dữ liệu doanh thu thất bại: " + data.ErrorMessage);
@@ -258,4 +266,6 @@ $(function () {
     if ($("#HasExpire").val() == 1) {
         $('#modalNotify').modal("show");
     }
-})
+
+});
+

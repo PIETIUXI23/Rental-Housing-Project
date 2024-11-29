@@ -1,5 +1,5 @@
 //file store parameter global for web application
-
+import toastr from "toastr";
 //ajax
 var urlAjaxGetAllMenu = "/Menu/GetMenuForWeb";                             //url for get all menu 
 

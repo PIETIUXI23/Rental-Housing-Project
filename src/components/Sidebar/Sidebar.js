@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MENU_ITEMS, FOOTER_ITEMS } from '../../data/menuItems';
+
 const Sidebar = () => {
     const [openMenus, setOpenMenus] = useState({});
 
