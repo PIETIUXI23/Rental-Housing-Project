@@ -28,7 +28,7 @@ function VipCard({ data }) {
         const favoriteItem = {
             id: data.id,
             title: data.title,
-            image: data.images[1].image_path,
+            image: data.images[1] ? data.images[1].image_path : images.no_photo_available,
         };
         let favoritedItems = JSON.parse(localStorage.getItem('favoritedItems'));
 

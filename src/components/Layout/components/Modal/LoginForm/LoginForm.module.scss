@@ -1,7 +1,7 @@
 .login-form {
-    height: 880px;
+    height: 700px;
     margin-top: 20px;
-    width: 600px;
+    width: 480px;
     background-color: #fff;
     margin-left: 50%;
     transform: translateX(-50%);
@@ -13,17 +13,17 @@
             justify-content: right;
             button {
                 cursor: pointer;
-                font-size: 30px;
+                font-size: 25px;
                 background-color: transparent;
                 color: #999;
             }
         }
         > :nth-child(2) {
-            font-size: 20px;
+            font-size: 17px;
             font-weight: 500;
         }
         > :nth-child(3) {
-            font-size: 30px;
+            font-size: 25px;
             font-weight: 500;
         }
         .input-group {
@@ -33,13 +33,13 @@
                 position: absolute;
                 left: 15px;
                 top: 23px;
-                font-size: 20px;
+                font-size: 15px;
             }
             .show-password {
                 position: absolute;
                 right: 15px;
                 top: 23px;
-                font-size: 20px;
+                font-size: 15px;
                 .btn-show {
                     display: none;
                 }
@@ -49,8 +49,8 @@
             }
             input {
                 margin-top: 10px;
-                height: 60px;
-                font-size: 20px;
+                height: 50px;
+                font-size: 15px;
                 font-weight: 500;
                 width: 100%;
                 background-color: rgb(255, 255, 255);
@@ -62,10 +62,9 @@
             }
 
             button {
-                margin-top: 10px;
-                height: 60px;
+                height: 50px;
                 border-radius: 8px;
-                font-size: 20px;
+                font-size: 15px;
                 cursor: pointer;
                 width: 100%;
                 background-color: rgb(224, 60, 49);
@@ -78,14 +77,14 @@
         }
         .error-log {
             margin-top: 10px;
-            font-size: 15px;
+            font-size: 12px;
             color: red;
         }
     }
     .forgot-password {
         display: flex;
         justify-content: right;
-        font-size: 16px;
+        font-size: 14px;
         .redirect {
             color: rgb(224, 60, 49);
             display: inline-block;
@@ -93,7 +92,7 @@
         }
     }
     .redirect {
-        font-size: 16px;
+        font-size: 14px;
         margin-top: 30px;
         text-align: center;
         span {
