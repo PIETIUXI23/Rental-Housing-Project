@@ -80,20 +80,20 @@ const RoomHeader = () => {
 
             {/* Action Buttons */}
             <div className={cx('action_buttons')}>
-                <button className={cx('btn', 'btn_warning')}>
+                {/* <button className={cx('btn', 'btn_warning')}>
                     <i className="fa fa-upload"></i> Nhập phòng từ excel
-                </button>
+                </button> */}
 
                 <button className={cx('btn', 'btn_primary')}>
                     <i className="fa fa-users"></i> Khách thuê
                 </button>
 
-                <button className={cx('btn', 'btn_info')}>
+                {/* <button className={cx('btn', 'btn_info')}>
                     <i className="fa fa-list-ol"></i> Phòng
-                </button>
+                </button> */}
 
                 <button className={cx('btn', 'btn_success')}>
-                    <i className="fa fa-university"></i> Thêm nhà
+                    <i className="fa fa-university"></i> Thêm phòng
                 </button>
             </div>
         </div>

@@ -24,6 +24,7 @@ import AddProperties from '~/pages/Admin/AddProperties';
 import Properties from '~/pages/Admin/Properties';
 import WebAdminHome from '~/pages/WebAdmin/WebAdminHome';
 import AdvertisementPage from '~/pages/Admin/AdvertisementPage';
+import InputWaterElectric from '~/pages/Admin/InputWaterElectric';
 
 //public la khong can dang nhap
 const publicRoutes = [
@@ -56,6 +57,7 @@ const privateRoutes = [
     { path: '/admin/house/room', component: Room, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin', component: Admin, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/post', component: AdvertisementPage, layout: Admin_Layout, role: 'ROLE_USER' },
+    { path: '/admin/inpWE', component: InputWaterElectric, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/webadmin', component: WebAdminHome, layout: Admin_Layout, role: 'ROLE_ADMIN' },
     // { path: '/admin/admin', component: },
 ];
