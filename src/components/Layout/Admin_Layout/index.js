@@ -6,12 +6,12 @@ import NoteModal from "../../Modal/NoteModal";
 import CalculatorModal from "../../Modal/CalculatorModal";
 
 // Import các stylesheet
-import "src/Extension/bootstrap/dist/css/bootstrap.min.css";
+//import "src/Extension/bootstrap/dist/css/bootstrap.min.css";
 //import "src/Extension/font-awesome/css/font-awesome.min.css";
-import "src/Extension/nprogress/nprogress.css";
-import "src/Extension/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css";
-import "src/Extension/bootstrap-daterangepicker/daterangepicker.css";
-import "src/Extension/toastr-master/toastr.min.css";
+//import "src/Extension/nprogress/nprogress.css";
+//import "src/Extension/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css";
+//import "src/Extension/bootstrap-daterangepicker/daterangepicker.css";
+//import "src/Extension/toastr-master/toastr.min.css";
 import "src/Content/Custom.scss";
 import "jquery-ui/ui/widgets/tooltip";
 
