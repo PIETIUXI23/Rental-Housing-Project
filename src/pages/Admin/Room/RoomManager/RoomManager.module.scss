@@ -10,12 +10,13 @@
     .rooms {
         display: flex;
         flex-wrap: wrap;
+        padding: 0 20px;
         gap: 10px;
 
         .room {
             flex: 1 1 auto;
             min-width: 220px;
-            max-width: 250px;
+            max-width: 270px;
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 10px;
@@ -56,7 +57,6 @@
                     display: flex;
                     justify-content: space-between;
                     gap: 10px;
-                    padding: 10px;
 
                     .btn {
                         font-size: 10px;
@@ -82,6 +82,7 @@
                         }
                     }
                 }
+                
             }
         }
     }
