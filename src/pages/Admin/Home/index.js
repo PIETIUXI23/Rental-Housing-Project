@@ -4,7 +4,7 @@ import 'datatables.net-buttons-bs/css/buttons.bootstrap.min.css'; // DataTables 
 import 'datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css'; // DataTables FixedHeader CSS
 import 'datatables.net-responsive-bs/css/responsive.bootstrap.min.css'; // DataTables Responsive CSS
 import 'datatables.net-scroller-bs/css/scroller.bootstrap.min.css'; // DataTables Scroller CSS
-import 'datatables.net';  // DataTables JS
+import 'datatables.net'; // DataTables JS
 import { Chart } from 'chart.js';
 import '~/Content/Chart.css';
 //import '~/Scripts/home.js';
@@ -31,15 +31,15 @@ function Home() {
 
         // Fake data for charts
         const roomStatusData = [
-            { StatusName: "Đang thuê", PercentValue: 60 },
-            { StatusName: "Phòng trống", PercentValue: 40 }
+            { StatusName: 'Đang thuê', PercentValue: 60 },
+            { StatusName: 'Phòng trống', PercentValue: 40 },
         ];
         const saleData = [
-            { MonthID: "Tháng 1", TotalAmount: 5000000 },
-            { MonthID: "Tháng 2", TotalAmount: 7000000 },
-            { MonthID: "Tháng 3", TotalAmount: 6500000 },
-            { MonthID: "Tháng 4", TotalAmount: 8000000 },
-            { MonthID: "Tháng 5", TotalAmount: 9000000 }
+            { MonthID: 'Tháng 1', TotalAmount: 5000000 },
+            { MonthID: 'Tháng 2', TotalAmount: 7000000 },
+            { MonthID: 'Tháng 3', TotalAmount: 6500000 },
+            { MonthID: 'Tháng 4', TotalAmount: 8000000 },
+            { MonthID: 'Tháng 5', TotalAmount: 9000000 },
         ];
 
         // Initialize Room Status Chart
@@ -47,19 +47,21 @@ function Home() {
         new Chart(roomStatusCtx, {
             type: 'pie',
             data: {
-                labels: roomStatusData.map(data => data.StatusName),
-                datasets: [{
-                    data: roomStatusData.map(data => data.PercentValue),
-                    backgroundColor: ["rgb(54, 162, 235)", "rgb(255, 99, 132)"]
-                }]
+                labels: roomStatusData.map((data) => data.StatusName),
+                datasets: [
+                    {
+                        data: roomStatusData.map((data) => data.PercentValue),
+                        backgroundColor: ['rgb(54, 162, 235)', 'rgb(255, 99, 132)'],
+                    },
+                ],
             },
             options: {
                 maintainAspectRatio: false,
                 responsive: true,
                 legend: {
-                    position: 'top'
-                }
-            }
+                    position: 'top',
+                },
+            },
         });
 
         // Initialize Sales Chart
@@ -67,14 +69,21 @@ function Home() {
         new Chart(salesCtx, {
             type: 'bar',
             data: {
-                labels: saleData.map(data => data.MonthID),
-                datasets: [{
-                    label: 'Doanh thu (VNĐ)',
-                    data: saleData.map(data => data.TotalAmount),
-                    backgroundColor: saleData.map(() => `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`),
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                }]
+                labels: saleData.map((data) => data.MonthID),
+                datasets: [
+                    {
+                        label: 'Doanh thu (VNĐ)',
+                        data: saleData.map((data) => data.TotalAmount),
+                        backgroundColor: saleData.map(
+                            () =>
+                                `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(
+                                    Math.random() * 256,
+                                )}, ${Math.floor(Math.random() * 256)})`,
+                        ),
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                    },
+                ],
             },
             options: {
                 responsive: true,
@@ -84,11 +93,11 @@ function Home() {
                         ticks: {
                             callback: function (value) {
                                 return value.toLocaleString() + ' VNĐ';
-                            }
-                        }
-                    }
-                }
-            }
+                            },
+                        },
+                    },
+                },
+            },
         });
     }, []);
 
@@ -100,14 +109,20 @@ function Home() {
                 <div className="col-md-6">
                     <div className="x_panel">
                         <div className="x_title">
-                            <h3><strong>Trạng thái phòng</strong></h3>
+                            <h3>
+                                <strong>Trạng thái phòng</strong>
+                            </h3>
                         </div>
                         <div className="x_content">
                             <form id="formRoomStatus">
                                 <div id="chartjs-legend" className="noselect">
                                     <ul>
-                                        <li><span style={{ backgroundColor: 'rgb(54, 162, 235)' }}>Đang thuê</span></li>
-                                        <li><span style={{ backgroundColor: 'rgb(255, 99, 132)' }}>Phòng trống</span></li>
+                                        <li>
+                                            <span style={{ backgroundColor: 'rgb(54, 162, 235)' }}>Đang thuê</span>
+                                        </li>
+                                        <li>
+                                            <span style={{ backgroundColor: 'rgb(255, 99, 132)' }}>Phòng trống</span>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div className="row">
@@ -122,7 +137,9 @@ function Home() {
                 <div className="col-md-6">
                     <div className="x_panel">
                         <div className="x_title">
-                            <h3><strong>Doanh thu (VNĐ)</strong></h3>
+                            <h3>
+                                <strong>Doanh thu (VNĐ)</strong>
+                            </h3>
                         </div>
                         <div className="x_content">
                             <canvas id="saleChart"></canvas>
@@ -136,11 +153,18 @@ function Home() {
                 <div className="col-md-6 col-sm-12 col-xs-6 col-12">
                     <div className="x_panel">
                         <div className="x_title">
-                            <h3><strong>Danh sách phòng trống</strong></h3>
+                            <h3>
+                                <strong>Danh sách phòng trống</strong>
+                            </h3>
                         </div>
                         <div className="x_content">
                             <form id="formRoomEmty">
-                                <table id="tableRoomEmty" className="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                <table
+                                    id="tableRoomEmty"
+                                    className="table table-striped table-bordered dt-responsive nowrap"
+                                    cellspacing="0"
+                                    width="100%"
+                                >
                                     <thead>
                                         <tr>
                                             <th>Nhà</th>
@@ -165,11 +189,18 @@ function Home() {
                 <div className="col-md-6 col-sm-12 col-xs-6 col-12">
                     <div className="x_panel">
                         <div className="x_title">
-                            <h3><strong>Danh sách khách nợ tiền phòng</strong></h3>
+                            <h3>
+                                <strong>Danh sách khách nợ tiền phòng</strong>
+                            </h3>
                         </div>
                         <div className="x_content">
                             <form id="forCustomerDebit">
-                                <table id="tableCustomerDebit" className="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                <table
+                                    id="tableCustomerDebit"
+                                    className="table table-striped table-bordered dt-responsive nowrap"
+                                    cellspacing="0"
+                                    width="100%"
+                                >
                                     <thead>
                                         <tr>
                                             <th>Nhà</th>
