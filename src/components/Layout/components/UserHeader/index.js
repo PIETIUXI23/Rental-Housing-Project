@@ -10,14 +10,16 @@ import images from '~/assets/images';
 import { useEffect, useState } from 'react';
 import Wrapper from '~/components/Popper/Wrapper';
 import StoredItem from '~/components/StoredItem';
-import { Link } from 'react-router-dom';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { Link, useNavigate } from 'react-router-dom';
+import { faArrowRight, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import LoginForm from '../Modal/LoginForm';
 import RegisterForm from '../Modal/RegisterForm';
+import { getFullName } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
 function UserHeader({ onClick }) {
+    const navigate = useNavigate();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [storedList, setStoredList] = useState([]);
     const [isLoginFormVisble, setIsLoginFormVisble] = useState(false);
@@ -56,6 +58,11 @@ function UserHeader({ onClick }) {
     const redirectToLogin = () => {
         setIsRegisterFormVisble(false);
         setIsLoginFormVisble(true);
+    };
+
+    const handleLogOut = () => {
+        localStorage.removeItem('token');
+        navigate('/');
     };
 
     return (
@@ -99,9 +106,25 @@ function UserHeader({ onClick }) {
                             <FontAwesomeIcon icon={faHeart} />
                         </button>
                     </Tippy>
-                    <Button onClick={toggleLoginForm}>Đăng nhập</Button>
-                    <span className={cx('btn_line')}></span>
-                    <Button onClick={toggleRegisterForm}>Đăng ký</Button>
+                    {getFullName() ? (
+                        <>
+                            <Button>Hi, {getFullName()}</Button>
+                            <Button
+                                onClick={handleLogOut}
+                                rightIcon={<FontAwesomeIcon icon={faArrowRightFromBracket} />}
+                                outline
+                            >
+                                Đăng xuất
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <Button onClick={toggleLoginForm}>Đăng nhập</Button>
+                            <span className={cx('btn_line')}></span>
+                            <Button onClick={toggleRegisterForm}>Đăng ký</Button>
+                        </>
+                    )}
+
                     <Button to={'/admin'} className={cx('last_btn')} outline>
                         Quản lý
                     </Button>

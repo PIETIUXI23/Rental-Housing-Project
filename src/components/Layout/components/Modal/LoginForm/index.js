@@ -36,7 +36,7 @@ function LoginForm({ visible, onClick, onRedirect }) {
                     if (user.role === 'ROLE_USER') {
                         navigate('/admin');
                     } else {
-                        navigate('admin/admin');
+                        navigate('/webadmin');
                     }
                     // navigate('http://localhost:3000/admin');
                 } else {
