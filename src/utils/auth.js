@@ -20,7 +20,33 @@ export const getFullName = () => {
 
     try {
         const decodedToken = jwtDecode(token);
-        return decodedToken.fullName; // Trả về vai trò từ token
+        return decodedToken.fullName; // Trả về tên từ token
+    } catch (error) {
+        return null; // Trường hợp token không hợp lệ
+    }
+};
+
+export const getUserId = () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) return null;
+
+    try {
+        const decodedToken = jwtDecode(token);
+        return decodedToken.sub; // Trả về id từ token
+    } catch (error) {
+        return null; // Trường hợp token không hợp lệ
+    }
+};
+
+export const getUserSevicePackage = () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) return null;
+
+    try {
+        const decodedToken = jwtDecode(token);
+        return decodedToken.service; // Trả về service từ token
     } catch (error) {
         return null; // Trường hợp token không hợp lệ
     }

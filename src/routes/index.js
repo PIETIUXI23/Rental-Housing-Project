@@ -23,6 +23,7 @@ import NoPermission from '~/pages/Public/NoPermission';
 import AddProperties from '~/pages/Admin/AddProperties';
 import Properties from '~/pages/Admin/Properties';
 import WebAdminHome from '~/pages/WebAdmin/WebAdminHome';
+import AdvertisementPage from '~/pages/Admin/AdvertisementPage';
 
 //public la khong can dang nhap
 const publicRoutes = [
@@ -48,13 +49,13 @@ const privateRoutes = [
     { path: '/admin/report/ReportCustomerDeposit', component: Deposit, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/report/ReportRoomPerson', component: Person, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/room', component: Room, layout: Admin_Layout, role: 'ROLE_USER' },
-    { path: '/admin/post', component: Post, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/service', component: Service, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/email', component: EmailHistory, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/house', component: Properties, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/house/add', component: AddProperties, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/house/room', component: Room, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin', component: Admin, layout: Admin_Layout, role: 'ROLE_USER' },
+    { path: '/admin/post', component: AdvertisementPage, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/webadmin', component: WebAdminHome, layout: Admin_Layout, role: 'ROLE_ADMIN' },
 ];
 

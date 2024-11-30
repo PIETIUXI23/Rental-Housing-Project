@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MENU_ITEMS, FOOTER_ITEMS, MENU_WEBADMIN } from '../../data/menuItems';
-import { getFullName, getUserRole } from '~/utils/auth';
+import { getFullName, getUserId, getUserRole, getUserSevicePackage } from '~/utils/auth';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
@@ -101,10 +101,10 @@ const Sidebar = () => {
                         <Link
                             key={item.id}
                             title={item.label}
-                            // onClick={(event) => {
-                            //     event.preventDefault();
-                            //     handleLogout();
-                            // }}
+                            onClick={(event) => {
+                                event.preventDefault();
+                                handleLogout();
+                            }}
                         >
                             <i className={`fa ${item.icon}`}></i>
                         </Link>
