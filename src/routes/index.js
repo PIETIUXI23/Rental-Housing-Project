@@ -22,6 +22,7 @@ import RegisterFailure from '~/pages/Public/RegisterFailure';
 import NoPermission from '~/pages/Public/NoPermission';
 import AddProperties from '~/pages/Admin/AddProperties';
 import Properties from '~/pages/Admin/Properties';
+import WebAdminHome from '~/pages/WebAdmin/WebAdminHome';
 
 //public la khong can dang nhap
 const publicRoutes = [
@@ -54,6 +55,7 @@ const privateRoutes = [
     { path: '/admin/house/add', component: AddProperties, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/house/room', component: Room, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin', component: Admin, layout: Admin_Layout, role: 'ROLE_USER' },
+    { path: '/webadmin', component: WebAdminHome, layout: Admin_Layout, role: 'ROLE_ADMIN' },
     // { path: '/admin/admin', component: },
 ];
 
