@@ -56,6 +56,7 @@ const privateRoutes = [
     { path: '/admin/house/room', component: Room, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin', component: Admin, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/post', component: AdvertisementPage, layout: Admin_Layout, role: 'ROLE_USER' },
+    { path: '/admin/post/add', component: Post, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/webadmin', component: WebAdminHome, layout: Admin_Layout, role: 'ROLE_ADMIN' },
     // { path: '/admin/admin', component: },
 ];
