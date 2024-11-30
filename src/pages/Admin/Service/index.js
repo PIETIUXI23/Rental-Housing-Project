@@ -3,6 +3,7 @@ import styles from './Service.module.scss';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useParams } from 'react-router-dom'; // Hook để lấy id từ URL
 
 const cx = classNames.bind(styles);
 
@@ -14,13 +15,14 @@ const ServiceList = () => {
     //     { name: 'Rác', type: 'KHÁC', price: 50000, active: true },
     // ]);
 
+    const { id } = useParams();
     const [services, setServices] = useState([]);
     const [url] = useState(process.env.REACT_APP_API_ROOM_SERVICES);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         axios
-            .get(`${url}`)
+            .get(`${url}/room/${id}`)
             .then((response) => {
                 console.log('API Response:', response.data);
                 setServices(response.data || []); // fallback nếu response trống
@@ -29,24 +31,24 @@ const ServiceList = () => {
                 console.error('API Error:', err.response || err.message);
                 setError(err.response?.data?.message || err.message);
             });
-    }, []);
+    }, [id]);
 
-    const handleAddService = () => {
-        // const newService = { name: 'Dịch vụ mới', type: 'KHÁC', price: 10000, active: true };
-        // setServices((prevServices) => [...prevServices, newService]);
+    const handleDeleteService = (id) => {
+        // Xử lý xóa dịch vụ tại đây
+        axios
+            .delete(`${url}/${id}`)
+            .then(() => {
+                // Cập nhật lại danh sách dịch vụ sau khi xóa
+                setServices((prevServices) => prevServices.filter((service) => service.id !== id));
+                alert('Dịch vụ đã được xóa thành công!');
+            })
+            .catch((error) => {
+                console.error('Có lỗi khi xóa dịch vụ:', error);
+                alert('Đã xảy ra lỗi khi xóa dịch vụ.');
+            });
     };
 
-    const handleDeleteService = (index) => {
-        // setServices((prevServices) => prevServices.filter((_, i) => i !== index));
-    };
-
-    const handleEditService = (index) => {
-        // setServices((prevServices) =>
-        //     prevServices.map((service, i) =>
-        //         i === index ? { ...service, name: prompt('Nhập tên mới:', service.name) || service.name } : service,
-        //     ),
-        // );
-    };
+    const handleEditService = (index) => {};
 
     if (error) {
         return <div>Lỗi: {error}</div>;
@@ -61,8 +63,8 @@ const ServiceList = () => {
                     </h2>
                     <ul className={cx('panelToolbox')}>
                         <li>
-                            <Link to={`/admin/service/add`}>
-                                <button className={cx('btn', 'btn-success')} onClick={handleAddService}>
+                            <Link to={`/admin/service/add/${id}`}>
+                                <button className={cx('btn', 'btn-success')}>
                                     <i className="fa fa-plus"></i> Thêm dịch vụ
                                 </button>
                             </Link>
@@ -89,15 +91,17 @@ const ServiceList = () => {
                                             <input type="checkbox" />
                                         </td>
                                         <td>
-                                            <button
-                                                className={cx('btn', 'btn-success')}
-                                                onClick={() => handleEditService(index)}
-                                            >
-                                                <i className="fa fa-edit" style={{ margin: '5px' }}></i>
-                                            </button>
+                                            <Link to={`/admin/service/edit/${service.id}`}>
+                                                <button
+                                                    className={cx('btn', 'btn-success')}
+                                                    onClick={() => handleEditService(service.id)}
+                                                >
+                                                    <i className="fa fa-edit" style={{ margin: '5px' }}></i>
+                                                </button>
+                                            </Link>
                                             <button
                                                 className={cx('btn', 'btn-danger')}
-                                                onClick={() => handleDeleteService(index)}
+                                                onClick={() => handleDeleteService(service.id)}
                                             >
                                                 <i className="fa fa-remove" style={{ margin: '5px' }}></i>
                                             </button>

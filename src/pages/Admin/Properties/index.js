@@ -7,29 +7,6 @@ import axios from 'axios';
 const cx = classNames.bind(styles);
 
 const Properties = () => {
-    // const [keycards, setKeycards] = useState([
-    //     {
-    //         id: 1,
-    //         name: 'KC001',
-    //         address: 'Nguyễn Văn A',
-    //         total_rooms: '101',
-    //         status: 'Hoạt động',
-    //     },
-    //     {
-    //         id: 2,
-    //         name: 'KC001',
-    //         address: 'Nguyễn Văn A',
-    //         total_rooms: '101',
-    //         status: 'Hoạt động',
-    //     },
-    //     {
-    //         id: 3,
-    //         name: 'KC001',
-    //         address: 'Nguyễn Văn A',
-    //         total_rooms: '101',
-    //         status: 'Tạm khóa',
-    //     },
-    // ]);
 
     const [keycards, setKeycards] = useState([]);
     const [url] = useState(process.env.REACT_APP_API_HOUSES);
@@ -70,7 +47,7 @@ const Properties = () => {
 
             <div className={cx('card-list')}>
                 {keycards.map((card) => (
-                    <Link to={`/admin/house/room`}>
+                    <Link to={`/admin/house/room/${card.id}`}>
                         <div key={card.id} className={cx('card')}>
                             <div className={cx('card-header')}>
                                 <span className={cx('icon', 'card-icon')}></span>
