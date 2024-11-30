@@ -1,7 +1,7 @@
 //Layouts
 import { Ad_Layout } from '~/components/Layout';
 import { Admin_Layout } from '~/components/Layout';
-import Admin from '~/pages/Admin';
+import Admin from '~/pages/Admin/Home';
 import Detail from '~/pages/Advertisement/Detail';
 import Home from '~/pages/Advertisement/Home';
 import AdHome from '~/pages/Admin/Home';
