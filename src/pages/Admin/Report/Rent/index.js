@@ -1,5 +1,5 @@
 //Day la day la bao cao khach dang thue
-import React from 'react';
+import React from "react";
 
 function Rent() {
     return (
@@ -110,6 +110,7 @@ function Rent() {
                     </form>
                 </div>
             </div>
+            <scripts src='./reportCustomerRent.js'></scripts>
         </div>
     );
 }
