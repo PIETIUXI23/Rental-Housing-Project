@@ -127,12 +127,15 @@ function Home() {
     const [page, setPage] = useState(0);
     const [url, setUrl] = useState(process.env.REACT_APP_API_ADVERTISEMENT);
     const handlePageClick = (event) => {
-        console.log(event.selected);
-        if (url == process.env.REACT_APP_API_ADVERTISEMENT) {
-            setUrl(`${url}?page=${event.selected}`);
-        } else {
-            setUrl(`${url}&page=${event.selected}`);
-        }
+        // console.log(event.selected);
+        // if (url == process.env.REACT_APP_API_ADVERTISEMENT) {
+        //     setUrl(`${url}?page=${event.selected}`);
+        // } else {
+        //     setUrl(`${url}&page=${event.selected}`);
+        // }
+        setUrl(
+            `${process.env.REACT_APP_API_ADVERTISEMENT}?address=${address}&areaMin=${minArea}&areaMax=${maxArea}&priceMin=${minCost}&priceMax=${maxCost}&page=${event.selected}`,
+        );
     };
 
     const handleDataFromChild = (data) => {

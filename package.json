@@ -47,6 +47,7 @@
         "jquey": "^0.0.1-security",
         "jqvmap": "^1.5.1",
         "jszip": "^3.10.1",
+        "jwt-decode": "^4.0.0",
         "lucide-react": "^0.462.0",
         "mapbox-gl": "^3.8.0",
         "moment": "^2.30.1",

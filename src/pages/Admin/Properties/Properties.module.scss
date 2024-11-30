@@ -1,0 +1,149 @@
+.properties-container {
+    padding: 10px;
+
+    .header {
+        justify-content: space-between;
+        align-items: center;
+      
+        .title {
+          align-items: center;
+        }
+      
+        .add-button {
+          display: flex;
+          align-items: center;
+          background-color: #007bff;
+          color: white;
+          padding: 10px 15px;
+          border-radius: 5px;
+          cursor: pointer;
+      
+          .icon {
+            display: inline-block;
+      
+            &.plus-icon {
+              width: 16px;
+              height: 16px;
+              margin-bottom: 10px;
+      
+              &::before {
+                content: "+"; // Unicode cho dấu cộng
+                font-size: 16px;
+                color: white;
+              }
+            }
+          }
+        }
+      }
+      
+
+    .card-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        margin-top: 10px;
+
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+
+            .card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+
+                .card-icon {
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    background-color: #007bff;
+                    border-radius: 50%;
+                    position: relative;
+
+                    &::before {
+                        content: '💳'; // Unicode cho thẻ
+                        font-size: 14px;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        color: white;
+                    }
+                }
+
+                .card-code {
+                    font-weight: bold;
+                    margin-left: 10px;
+                }
+
+                .actions {
+                    display: flex;
+                    gap: 5px;
+
+                    .edit-button,
+                    .delete-button {
+                        width: 24px;
+                        height: 24px;
+                        border: none;
+                        cursor: pointer;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        &.edit-button {
+                            background-color: #28a745;
+
+                            &::before {
+                                content: '✎'; // Unicode cho biểu tượng chỉnh sửa
+                                font-size: 14px;
+                                color: white;
+                            }
+                        }
+
+                        &.delete-button {
+                            background-color: #dc3545;
+
+                            &::before {
+                                content: '🗑'; // Unicode cho biểu tượng xóa
+                                font-size: 14px;
+                                color: white;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .card-body {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+                .status {
+                    margin-top: auto;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    font-size: 0.875rem;
+
+                    &.active {
+                        background-color: #e6ffe6;
+                        color: #2f8f2f;
+                    }
+
+                    &.inactive {
+                        background-color: #ffe6e6;
+                        color: #bf4040;
+                    }
+                }
+            }
+        }
+    }
+}

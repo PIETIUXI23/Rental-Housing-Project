@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Service.module.scss';
 import classNames from 'classnames/bind';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -12,24 +13,44 @@ const ServiceList = () => {
         { name: 'Rác', type: 'KHÁC', price: 50000, active: true },
     ]);
 
-    // Hàm xử lý thêm dịch vụ
+
+    // const [services, setServices] = useState([]);
+    // const [url] = useState(process.env.REACT_APP_API_ROOM_SERVICES);
+    // const [error, setError] = useState(null);
+
+    // useEffect(() => {
+    //     axios
+    //         .get(`${url}`)
+    //         .then((response) => {
+    //             console.log('API Response:', response.data);
+    //             setServices(response.data || []); // fallback nếu response trống
+    //         })
+    //         .catch((err) => {
+    //             console.error('API Error:', err.response || err.message);
+    //             setError(err.response?.data?.message || err.message);
+    //         });
+    // }, []);
+
     const handleAddService = () => {
-        const newService = { name: 'Dịch vụ mới', type: 'KHÁC', price: 10000, active: true };
-        setServices((prevServices) => [...prevServices, newService]);
+        // const newService = { name: 'Dịch vụ mới', type: 'KHÁC', price: 10000, active: true };
+        // setServices((prevServices) => [...prevServices, newService]);
     };
 
-    // Hàm xử lý xóa dịch vụ
     const handleDeleteService = (index) => {
-        setServices((prevServices) => prevServices.filter((_, i) => i !== index));
+        // setServices((prevServices) => prevServices.filter((_, i) => i !== index));
     };
 
-    // Hàm chỉnh sửa dịch vụ
     const handleEditService = (index) => {
-        const updatedServices = [...services];
-        updatedServices[index].name =
-            prompt('Nhập tên mới:', updatedServices[index].name) || updatedServices[index].name;
-        setServices(updatedServices);
+        // setServices((prevServices) =>
+        //     prevServices.map((service, i) =>
+        //         i === index ? { ...service, name: prompt('Nhập tên mới:', service.name) || service.name } : service,
+        //     ),
+        // );
     };
+
+    // if (error) {
+    //     return <div>Lỗi: {error}</div>;
+    // }
 
     return (
         <div className={cx('col-md-12', 'col-sm-12', 'col-xs-12')}>
@@ -60,39 +81,39 @@ const ServiceList = () => {
                                 </th>
                                 <th>Hành động</th>
                                 <th>Tên</th>
-                                <th>Loại dịch vụ</th>
                                 <th>Đơn giá (VNĐ)</th>
-                                <th>Đang dùng</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {services.map((service, index) => (
-                                <tr key={index}>
-                                    <td>
-                                        <input type="checkbox" />
-                                    </td>
-                                    <td>
-                                        <button
-                                            className={cx('btn', 'btn-success')}
-                                            onClick={() => handleEditService(index)}
-                                        >
-                                            <i className="fa fa-edit" style={{ margin: '5px' }}></i>
-                                        </button>
-                                        <button
-                                            className={cx('btn', 'btn-danger')}
-                                            onClick={() => handleDeleteService(index)}
-                                        >
-                                            <i className="fa fa-remove" style={{ margin: '5px' }}></i>
-                                        </button>
-                                    </td>
-                                    <td>{service.name}</td>
-                                    <td>{service.type}</td>
-                                    <td>{service.price.toLocaleString()}</td>
-                                    <td>
-                                        <input type="checkbox" checked={service.active} disabled />
-                                    </td>
+                            {services.length > 0 ? (
+                                services.map((service, index) => (
+                                    <tr key={index}>
+                                        <td>
+                                            <input type="checkbox" />
+                                        </td>
+                                        <td>
+                                            <button
+                                                className={cx('btn', 'btn-success')}
+                                                onClick={() => handleEditService(index)}
+                                            >
+                                                <i className="fa fa-edit" style={{ margin: '5px' }}></i>
+                                            </button>
+                                            <button
+                                                className={cx('btn', 'btn-danger')}
+                                                onClick={() => handleDeleteService(index)}
+                                            >
+                                                <i className="fa fa-remove" style={{ margin: '5px' }}></i>
+                                            </button>
+                                        </td>
+                                        <td>{service.name}</td>
+                                        <td>{service.cost}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="4">Không có dữ liệu</td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </table>
                 </div>

@@ -5,9 +5,10 @@ import classNames from 'classnames/bind';
 import { faClose, faLock } from '@fortawesome/free-solid-svg-icons';
 import { faEye, faEyeSlash, faUser } from '@fortawesome/free-regular-svg-icons';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { text } from '@fortawesome/fontawesome-svg-core';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 const cx = classNames.bind(styles);
 
@@ -15,6 +16,7 @@ function LoginForm({ visible, onClick, onRedirect }) {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [isShowPassword, setIsShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const [validateLog, setValidateLog] = useState('');
 
@@ -27,7 +29,16 @@ function LoginForm({ visible, onClick, onRedirect }) {
             })
             .then((response) => {
                 if (response.status == 200) {
-                    window.location.href = 'http://localhost:3000/admin';
+                    // console.log(response.data.token);
+                    localStorage.setItem('token', response.data.token);
+                    let user = jwtDecode(response.data.token);
+                    // console.log(jwtDecode(response.data.token));
+                    if (user.role === 'ROLE_USER') {
+                        navigate('/admin');
+                    } else {
+                        navigate('/webadmin');
+                    }
+                    // navigate('http://localhost:3000/admin');
                 } else {
                     setValidateLog('Sai tên đăng nhập hoặc mật khẩu!');
                 }
