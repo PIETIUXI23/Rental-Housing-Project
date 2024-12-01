@@ -16,6 +16,9 @@ const EditRoom = () => {
         occupancyStatus: 0,
         maxOccupants: 0,
         createdAt: new Date().toISOString().split('T')[0],
+        house: {
+            id: '',
+        },
     });
 
     // Khi component được render, gọi API để lấy thông tin phòng
@@ -32,7 +35,11 @@ const EditRoom = () => {
                     createdAt: response.data.createdAt
                         ? new Date(response.data.createdAt).toISOString().split('T')[0]
                         : new Date().toISOString().split('T')[0],
+                    house: {
+                        id: response.data.house.id,
+                    },
                 });
+
             } catch (error) {
                 console.error('Error fetching room data:', error);
                 alert('Đã xảy ra lỗi khi tải thông tin phòng.');
@@ -57,8 +64,8 @@ const EditRoom = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
+            console.log(room);
             const response = await axios.put(`${url}/${id}`, {
                 price: room.price,
                 roomNumber: room.roomNumber,
@@ -66,6 +73,9 @@ const EditRoom = () => {
                 occupancyStatus: room.occupancyStatus,
                 maxOccupants: room.maxOccupants,
                 createdAt: new Date().toISOString().split('T')[0],
+                house: {
+                    id: room.house.id,
+                },
             });
 
             alert('Cập nhật thông tin phòng thành công!');

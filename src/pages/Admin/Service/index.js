@@ -8,12 +8,6 @@ import { useParams } from 'react-router-dom'; // Hook để lấy id từ URL
 const cx = classNames.bind(styles);
 
 const ServiceList = () => {
-    // const [services, setServices] = useState([
-    //     { name: 'Điện', type: 'ĐIỆN', price: 3000, active: true },
-    //     { name: 'Gửi xe máy', type: 'KHÁC', price: 80000, active: true },
-    //     { name: 'Nước', type: 'NƯỚC', price: 20000, active: true },
-    //     { name: 'Rác', type: 'KHÁC', price: 50000, active: true },
-    // ]);
 
     const { id } = useParams();
     const [services, setServices] = useState([]);

@@ -29,6 +29,7 @@ import EditRoom from '~/pages/Admin/EditRoom';
 import AddService from '~/pages/Admin/AddService';
 import AddRoom from '~/pages/Admin/AddRoom';
 import EditService from '~/pages/Admin/EditService';
+import EditProperties from '~/pages/Admin/EditProperties';
 
 //public la khong can dang nhap
 const publicRoutes = [
@@ -57,6 +58,7 @@ const privateRoutes = [
     { path: '/admin/email', component: EmailHistory, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/house', component: Properties, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/house/add', component: AddProperties, layout: Admin_Layout, role: 'ROLE_USER' },
+    { path: '/admin/house/edit/:id', component: EditProperties, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/house/room/:id', component: Room, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin', component: Admin, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/post', component: AdvertisementPage, layout: Admin_Layout, role: 'ROLE_USER' },

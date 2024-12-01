@@ -85,7 +85,7 @@ const RoomManager = () => {
                                                 room.occupancyStatus === 1 ? 'status-empty' : 'status-occupied',
                                             )}
                                         >
-                                            {room.status === 'empty' ? 'Chưa có khách' : 'Có khách'}
+                                            {room.occupancyStatus === 0 ? 'Chưa có khách' : 'Có khách'}
                                         </span>
                                     </p>
                                     <p>
