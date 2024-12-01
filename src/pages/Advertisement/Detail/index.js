@@ -32,7 +32,7 @@ const dataFake = {
     title: 'Cho thuê kho chứa hàng 50m, 100m, 200m, 500m, tại Tp. Hồ Chí Minh, miễn phí quản lý, Bảo vệ 24h',
     max_occupants: 3,
     latitude: 20,
-    longtitude: 20,
+    longitude: 20,
     create_at: '11-09-2024',
     type: 1,
     images: [
@@ -124,13 +124,24 @@ function Detail() {
     const mapContainerRef = useRef();
 
     useEffect(() => {
+        console.log(data.latitude, data.longitude);
+
         mapboxgl.accessToken =
             'pk.eyJ1Ijoia2RxdWFuZzEyMyIsImEiOiJjbHY2MnViMHEwOWl6MnFvMmhvOHMwbWhhIn0.HHdqtWL7HHJOds1Bb9HUpQ';
         mapRef.current = new mapboxgl.Map({
             container: mapContainerRef.current,
-            center: [-74.0242, 40.6941],
-            zoom: 10.12,
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [data.longitude, data.latitude],
+            zoom: 12,
         });
+        mapRef.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+        mapRef.current.on('load', () => {
+            //Thêm Marker tại trung tâm
+            const marker = new mapboxgl.Marker({ color: 'red' })
+                .setLngLat([data.longitude, data.latitude]) // Sử dụng tọa độ trung tâm
+                .addTo(mapRef.current); // Thêm Marker vào bản đồ
+        });
+        mapRef.current.addControl(new mapboxgl.FullscreenControl(), 'top-right');
 
         return () => {
             mapRef.current.remove();
@@ -192,7 +203,7 @@ function Detail() {
                     </div>
                     <div className={cx('description')}>
                         <div>Thông tin mô tả</div>
-                        <div>{data.description}</div>
+                        <div dangerouslySetInnerHTML={{ __html: data.description }} />
                     </div>
                     <div className={cx('map-box')}>
                         <div>Xem trên bản đồ</div>

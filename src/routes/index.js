@@ -23,6 +23,10 @@ import NoPermission from '~/pages/Public/NoPermission';
 import AddProperties from '~/pages/Admin/AddProperties';
 import Properties from '~/pages/Admin/Properties';
 import WebAdminHome from '~/pages/WebAdmin/WebAdminHome';
+import AdvertisementManagement from '~/pages/WebAdmin/AdvertisementManagement';
+import ServicePakages from '~/pages/WebAdmin/ServicePackages';
+import Support from '~/pages/WebAdmin/Support';
+import UserManagement from '~/pages/WebAdmin/UsersManagament';
 import AdvertisementPage from '~/pages/Admin/AdvertisementPage';
 import InputWaterElectric from '~/pages/Admin/InputWaterElectric';
 import EditRoom from '~/pages/Admin/EditRoom';
@@ -64,6 +68,7 @@ const privateRoutes = [
     { path: '/admin/house/room/:id', component: Room, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin', component: Admin, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/post', component: AdvertisementPage, layout: Admin_Layout, role: 'ROLE_USER' },
+    { path: '/admin/post/add', component: Post, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/inpWE', component: InputWaterElectric, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/room/add/:id', component: AddRoom, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/room/edit/:id', component: EditRoom, layout: Admin_Layout, role: 'ROLE_USER' },
