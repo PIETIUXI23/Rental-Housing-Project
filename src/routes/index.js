@@ -23,6 +23,10 @@ import NoPermission from '~/pages/Public/NoPermission';
 import AddProperties from '~/pages/Admin/AddProperties';
 import Properties from '~/pages/Admin/Properties';
 import WebAdminHome from '~/pages/WebAdmin/WebAdminHome';
+import AdvertisementManagement from '~/pages/WebAdmin/AdvertisementManagement';
+import ServicePakages from '~/pages/WebAdmin/ServicePackages';
+import Support from '~/pages/WebAdmin/Support';
+import UserManagement from '~/pages/WebAdmin/UsersManagament';
 import AdvertisementPage from '~/pages/Admin/AdvertisementPage';
 
 //public la khong can dang nhap
@@ -57,6 +61,10 @@ const privateRoutes = [
     { path: '/admin', component: Admin, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/post', component: AdvertisementPage, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/webadmin', component: WebAdminHome, layout: Admin_Layout, role: 'ROLE_ADMIN' },
+    { path: '/webadmin/advertisement-management', component: AdvertisementManagement,layout:Admin_Layout,role:'ROLE_ADMIN'},
+    { path: '/webadmin/service-packages',component: ServicePakages,layout: Admin_Layout, role: 'ROLE_ADMIN'},
+    { path: '/webadmin/support',component: Support, layout: Admin_Layout, role: 'ROLE_ADMIN'},
+    { path: '/webadmin/user-management',component: UserManagement, layout: Admin_Layout, role:'ROLE_ADMIN'}
     // { path: '/admin/admin', component: },
 ];
 
