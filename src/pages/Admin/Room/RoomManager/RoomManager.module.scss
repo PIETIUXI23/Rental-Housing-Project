@@ -2,9 +2,12 @@
     font-size: 16px;
 
     .stats-bar {
-        margin: 20px;
-        display: flex;
+        margin: 30px;
+        // display: flex;
         gap: 20px;
+        .btn_success {
+            margin-right: 30px;
+        }
     }
 
     .rooms {
@@ -31,6 +34,12 @@
                     font-size: 15px;
                     font-weight: bold;
                     padding: 10px;
+                }
+
+                .btn-add {
+                    width: 100%;
+                    background-color: #c0e275;
+                    border-radius: 5px;
                 }
 
                 .room-details {
