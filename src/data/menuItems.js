@@ -11,12 +11,12 @@ export const MENU_ITEMS = [
         label: 'Tòa nhà',
         path: '/admin/house',
     },
-    {
-        id: 'service',
-        icon: 'fa-concierge-bell',
-        label: 'Dịch vụ',
-        path: '/admin/service',
-    },
+    // {
+    //     id: 'service',
+    //     icon: 'fa-concierge-bell',
+    //     label: 'Dịch vụ',
+    //     path: '/admin/service',
+    // },
     {
         id: 'electric',
         icon: 'fa-bolt',
