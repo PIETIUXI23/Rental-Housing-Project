@@ -33,7 +33,7 @@ export const MENU_ITEMS = [
         id: 'incurred',
         icon: 'fa-plus-circle',
         label: 'Phát sinh',
-        path: '/incurred',
+        path: '/admin/user_request',
     },
     {
         id: 'calculate',
