@@ -10,6 +10,14 @@ import auth from '~/utils/auth';
 const cx = classNames.bind(styles);
 
 const RoomManager = () => {
+    // const [rooms, setRooms] = useState([
+    //     { id: 45040, name: '1', price: 3000000, status: 'empty' },
+    //     { id: 45041, name: '2', price: 3000000, status: 'empty' },
+    //     { id: 45042, name: '3', price: 3000000, status: 'empty' },
+    //     { id: 45043, name: '4', price: 3000000, status: 'empty' },
+    //     { id: 45044, name: '5', price: 3000000, status: 'empty' },
+    // ]);
+
     const { id } = useParams(); // Lấy id housse từ URL
     const [rooms, setRooms] = useState([]);
     const [url] = useState(process.env.REACT_APP_API_HOUSES_ROOMS);
@@ -29,13 +37,17 @@ const RoomManager = () => {
             });
     }, []);
 
+    const handleAddCustomer = (roomId) => {
+        alert(`Thêm khách vào phòng ${roomId}`);
+    };
+
     const handleDeleteRoom = (roomId) => {
         axios
             .delete(`${url}/${roomId}`)
             .then((response) => {
                 alert('Phòng đã được xóa thành công!');
                 // Cập nhật lại danh sách phòng sau khi xóa
-                setRooms(rooms.filter((room) => room.id !== roomId)); // Loại bỏ phòng khỏi danh sách
+                setRooms(rooms.filter(room => room.id !== roomId));  // Loại bỏ phòng khỏi danh sách
             })
             .catch((error) => {
                 console.error('Có lỗi khi xóa phòng:', error);
@@ -46,14 +58,9 @@ const RoomManager = () => {
     return (
         <div className={cx('container')}>
             <div className={cx('stats-bar')}>
-                <Link to={`/admin/room/add/${id}`}>
-                    <button className={cx('btn', 'btn_success')}>
-                        <i className="fa fa-university"></i> Thêm phòng
-                    </button>
-                </Link>
-                <span>Còn trống {rooms.filter((room) => room.occupancyStatus === 0).length}</span>
-                <span style={{ margin: '0 10px' }}> | </span>
-                <span>Đã cho thuê {rooms.filter((room) => room.occupancyStatus === 1).length} </span>
+                <span>Còn trống {rooms.filter((room) => room.status === 'empty').length}</span>
+                <span>Đã cho thuê 0</span>
+                <span>Chưa thu phí 0</span>
             </div>
 
             <div className={cx('rooms')}>
@@ -66,9 +73,9 @@ const RoomManager = () => {
                                         <i className="fa fa-home" aria-hidden="true"></i> {room.roomNumber}
                                     </strong>
                                 </div>
-                                <Link to={`/admin/tenants/add/${room.id}`}>
-                                    <button className={cx('btn', 'btn-add')}>Thêm khách</button>
-                                </Link>
+                                <button className={cx('btn', 'btn-info')} onClick={() => handleAddCustomer(room.id)}>
+                                    Thêm khách
+                                </button>
 
                                 <div className={cx('room-details')}>
                                     <p>

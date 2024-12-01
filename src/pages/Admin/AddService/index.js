@@ -13,20 +13,45 @@ const AddRoom = () => {
         name: '',
         cost: '',
         createdAt: new Date().toISOString().split('T')[0],
-        unit: '', // Chuyển thành giá trị số nguyên
+        unit: '', // Sửa thành kiểu số nguyên
         room: {
             id: `${id}`,
         },
     });
+    // const [services, setServices] = useState([]); // Lưu trữ các dịch vụ trong trạng thái
+
+    // Lấy danh sách dịch vụ khi component được mount
+    // const fetchServices = () => {
+    //     axios
+    //         .get(`${url}/${id}`) // Lấy dịch vụ từ API
+    //         .then((response) => {
+    //             setServices(response.data); // Cập nhật lại danh sách dịch vụ
+    //         })
+    //         .catch((error) => {
+    //             console.error('Có lỗi khi lấy dịch vụ:', error);
+    //         });
+    // };
+
+    // // Gọi fetchServices khi component mount
+    // React.useEffect(() => {
+    //     fetchServices();
+    // }, [id]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        
-        // Cập nhật giá trị cho unit và các trường khác
-        setNewService((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+
+        // Nếu là unit, chuyển giá trị thành kiểu số
+        if (name === 'unit') {
+            setNewService((prev) => ({
+                ...prev,
+                [name]: value ? parseInt(value, 10) : '', // Nếu không có giá trị, để trống
+            }));
+        } else {
+            setNewService((prev) => ({
+                ...prev,
+                [name]: value,
+            }));
+        }
     };
 
     const addService = () => {
@@ -66,6 +91,7 @@ const AddRoom = () => {
             });
     };
 
+
     return (
         <div className={cx('container')}>
             <h2 className={cx('title')}>Quản Lý Dịch Vụ Phòng Trọ</h2>
@@ -96,17 +122,14 @@ const AddRoom = () => {
 
                 <div className={cx('form-group')}>
                     <label className={cx('label')}>Đơn Vị</label>
-                    <select
+                    <input
                         name="unit"
+                        type="number" // Đảm bảo kiểu số
                         value={newService.unit}
                         onChange={handleInputChange}
+                        placeholder="Nhập đơn vị (VD: kWh, m3)"
                         className={cx('input')}
-                    >
-                        <option value="">Chọn đơn vị</option>
-                        <option value="1">Theo người</option>
-                        <option value="2">Theo chỉ số</option>
-                        <option value="3">Theo phòng</option>
-                    </select>
+                    />
                 </div>
 
                 <button onClick={addService} className={cx('button', 'button-add')}>

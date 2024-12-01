@@ -47,19 +47,12 @@ const Properties = () => {
                     <span className={cx('icon', 'building-icon')}></span>
                     Quản Lý Toà Nhà
                 </h1>
-                <div>
-                    <Link to={`/admin/house/add`}>
-                        <button className={cx('add-button')}>
-                            <span className={cx('icon', 'plus-icon')}></span>
-                            Thêm nhà mới
-                        </button>
-                    </Link>
-                    <Link to={`/admin/tentnant`}>
-                        <button className={cx('btn_primary')}>
-                            <i className="fa fa-users"></i> Khách thuê
-                        </button>
-                    </Link>
-                </div>
+                <Link to={`/admin/house/add`}>
+                    <button className={cx('add-button')}>
+                        <span className={cx('icon', 'plus-icon')}></span>
+                        Thêm nhà mới
+                    </button>
+                </Link>
             </div>
 
             <div className={cx('card-list')}>
