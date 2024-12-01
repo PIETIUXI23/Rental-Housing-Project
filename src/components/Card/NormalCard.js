@@ -72,7 +72,10 @@ function NormalCard({ data }) {
                             <span className={cx('card-dot')}>·</span>
                             <span className={cx('local')}>{data.address}</span>
                         </div>
-                        <div className={cx('card-description')}>{data.description}</div>
+                        <div
+                            className={cx('card-description')}
+                            dangerouslySetInnerHTML={{ __html: data.description }}
+                        />
                     </div>
                     <div className={cx('card-contact')}>
                         <div className={cx('user')}>

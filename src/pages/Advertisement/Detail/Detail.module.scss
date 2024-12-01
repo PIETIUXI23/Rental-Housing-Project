@@ -119,6 +119,9 @@
         }
         .map-container {
             height: 270px;
+            #map {
+                width: 100%;
+            }
         }
     }
 }

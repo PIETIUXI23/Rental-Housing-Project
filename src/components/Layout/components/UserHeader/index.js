@@ -14,7 +14,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { faArrowRight, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import LoginForm from '../Modal/LoginForm';
 import RegisterForm from '../Modal/RegisterForm';
-import { getFullName } from '~/utils/auth';
+import { getFullName, getUserRole } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
@@ -125,7 +125,11 @@ function UserHeader({ onClick }) {
                         </>
                     )}
 
-                    <Button to={'/admin'} className={cx('last_btn')} outline>
+                    <Button
+                        to={getUserRole() === 'ROLE_USER' ? '/admin' : '/webadmin'}
+                        className={cx('last_btn')}
+                        outline
+                    >
                         Quản lý
                     </Button>
                 </div>
