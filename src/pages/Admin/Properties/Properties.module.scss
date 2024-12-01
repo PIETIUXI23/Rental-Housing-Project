@@ -2,40 +2,102 @@
     padding: 10px;
 
     .header {
+        display: flex; // Added to ensure flex layout
         justify-content: space-between;
         align-items: center;
-      
+        padding: 15px 20px; // Added some padding for spacing
+        background-color: #f8f9fa; // Light background for header
+        border-bottom: 1px solid #e9ecef; // Subtle border
+
         .title {
-          align-items: center;
-        }
-      
-        .add-button {
-          display: flex;
-          align-items: center;
-          background-color: #007bff;
-          color: white;
-          padding: 10px 15px;
-          border-radius: 5px;
-          cursor: pointer;
-      
-          .icon {
-            display: inline-block;
-      
-            &.plus-icon {
-              width: 16px;
-              height: 16px;
-              margin-bottom: 10px;
-      
-              &::before {
-                content: "+"; // Unicode cho dấu cộng
-                font-size: 16px;
-                color: white;
-              }
+            display: flex;
+            align-items: center;
+            font-size: 3rem;
+            font-weight: 600;
+            color: #333;
+
+            .icon {
+                margin-right: 10px;
+                &.building-icon {
+                    // You can add specific styling for building icon if needed
+                }
             }
-          }
         }
-      }
-      
+
+        div {
+            display: flex;
+            .add-button {
+                display: flex;
+                align-items: center;
+                background-color: #007bff;
+                color: white;
+                padding: 10px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                border: none;
+                transition: all 0.3s ease;
+    
+                &:hover {
+                    background-color: darken(#007bff, 10%);
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                }
+    
+                &:active {
+                    transform: translateY(1px);
+                    background-color: darken(#007bff, 15%);
+                }
+    
+                .icon {
+                    display: inline-block;
+                    margin-right: 8px; // Space between icon and text
+    
+                    &.plus-icon {
+                        width: 16px;
+                        height: 16px;
+                        position: relative;
+    
+                        &::before {
+                            content: '+';
+                            font-size: 16px;
+                            color: white;
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Styles for the tenant button
+        .btn_primary {
+            display: flex;
+            align-items: center;
+            background-color: #28a745; // Green color
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            margin-left: 10px; // Space between buttons
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: darken(#28a745, 10%);
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            }
+
+            &:active {
+                transform: translateY(1px);
+                background-color: darken(#28a745, 15%);
+            }
+
+            .fa-users {
+                margin-right: 8px;
+            }
+        }
+    }
 
     .card-list {
         display: grid;
