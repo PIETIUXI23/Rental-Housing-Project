@@ -34,14 +34,11 @@ import AddService from '~/pages/Admin/AddService';
 import AddRoom from '~/pages/Admin/AddRoom';
 import EditService from '~/pages/Admin/EditService';
 import EditProperties from '~/pages/Admin/EditProperties';
-<<<<<<< HEAD
 import TenantManagement from '~/pages/Admin/TenantManagement';
 import AddTenant from '~/pages/Admin/AddTenant';
 import EditTenant from '~/pages/Admin/EditTenant';
-=======
 import UserRequest from '~/pages/Admin/UserRequest/UserRequest';
 import AdminSupport from '~/pages/Admin/UserRequest/AdminSupport';
->>>>>>> 715727d2855854884ca8363bc02b44a86137b28b
 
 //public la khong can dang nhap
 const publicRoutes = [
