@@ -1,145 +1,197 @@
-import React from 'react';
-
-import './index.module.scss';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { getUserId } from 'src/utils/auth'; // Import hàm getUserId()
 
 function Electric() {
+    const [userId, setUserId] = useState(null); // Lưu userId của người dùng hiện tại
+    const [houses, setHouses] = useState([]); // Danh sách houses
+    const [selectedHouse, setSelectedHouse] = useState(null); // House được chọn
+    const [rooms, setRooms] = useState([]); // Danh sách rooms của house được chọn
+    const [electricData, setElectricData] = useState([]); // Dữ liệu chỉ số điện của rooms
+
+    const baseUrl = process.env.REACT_APP_BASE_URL; // Base URL từ .env
+
+    // Lấy userId từ JWT token khi component được mount
+    useEffect(() => {
+        const id = getUserId(); // Lấy userId từ token
+        if (id) {
+            setUserId(id); // Gán userId vào state
+        } else {
+            console.error('Không tìm thấy userId trong token!');
+        }
+    }, []);
+
+    // Lấy danh sách houses của user khi userId thay đổi
+    useEffect(() => {
+        if (userId) {
+            axios.get(`${baseUrl}/houses/user/${userId}`)
+                .then(response => setHouses(response.data))
+                .catch(error => console.error('Lỗi khi lấy danh sách houses:', error));
+        }
+    }, [userId, baseUrl]);
+
+    // Xử lý khi chọn một house
+    const handleHouseSelect = (houseId) => {
+        setSelectedHouse(houseId);
+
+        // Gọi API lấy danh sách rooms của house được chọn
+        axios.get(`${baseUrl}/rooms/house/${houseId}`)
+            .then(response => {
+                const rooms = response.data;
+                setRooms(rooms);
+
+                // Lấy dữ liệu chỉ số điện cho từng room
+                Promise.all(
+                    rooms.map(room =>
+                        axios.get(`${baseUrl}/api/electric/room/${room.id}`)
+                            .then(res => ({
+                                roomId: room.id,
+                                roomNumber: room.roomNumber,
+                                oldReading: res.data?.oldReading || '', // Lấy chỉ số cũ, mặc định là rỗng nếu không có
+                                newReading: res.data?.newReading || '', // Lấy chỉ số mới, mặc định là rỗng nếu không có
+                                usage: res.data?.usage || 0 // Tính toán số điện tiêu thụ
+                            }))
+                            .catch(() => ({
+                                roomId: room.id,
+                                roomNumber: room.roomNumber,
+                                oldReading: '',
+                                newReading: '',
+                                usage: 0
+                            }))
+                    )
+                ).then(data => setElectricData(data));
+            })
+            .catch(error => console.error('Lỗi khi lấy danh sách rooms:', error));
+    };
+
+    // Xử lý khi người dùng thay đổi input (chỉ số cũ hoặc mới)
+    const handleInputChange = (roomId, field, value) => {
+        setElectricData(prevData => {
+            const updatedData = [...prevData];
+            const roomIndex = updatedData.findIndex(data => data.roomId === roomId);
+
+            if (roomIndex !== -1) {
+                updatedData[roomIndex][field] = value; // Cập nhật giá trị chỉ số
+
+                // Tự động tính toán số điện tiêu thụ
+                const oldReading = parseInt(updatedData[roomIndex].oldReading || '0', 10);
+                const newReading = parseInt(updatedData[roomIndex].newReading || '0', 10);
+
+                if (field === 'oldReading' || field === 'newReading') {
+                    updatedData[roomIndex].usage = Math.max(newReading - oldReading, 0); // Đảm bảo không âm
+                }
+            }
+
+            return updatedData;
+        });
+    };
+
+    // Lưu dữ liệu chỉ số điện cho một room
+    const handleSave = (roomId) => {
+        const roomData = electricData.find(data => data.roomId === roomId);
+
+        if (!roomData) {
+            alert('Không tìm thấy thông tin của phòng!');
+            return;
+        }
+
+        const oldReading = parseInt(roomData.oldReading || 0, 10);
+        const newReading = parseInt(roomData.newReading || 0, 10);
+
+        if (isNaN(oldReading) || isNaN(newReading)) {
+            alert('Vui lòng nhập số hợp lệ cho chỉ số cũ và chỉ số mới!');
+            return;
+        }
+
+        if (newReading < oldReading) {
+            alert('Chỉ số mới không được nhỏ hơn chỉ số cũ!');
+            return;
+        }
+
+        const dataToSend = {
+            roomId: roomId,
+            oldReading: oldReading,
+            newReading: newReading,
+            usage: newReading - oldReading,
+            monthYear: new Date().toISOString().slice(0, 7)
+        };
+
+        // Log dữ liệu gửi đi
+        console.log('Dữ liệu gửi:', dataToSend);
+
+        axios.post(`${baseUrl}/api/electric/${roomId}`, dataToSend, {
+            headers: { 'Content-Type': 'application/json' }
+        })
+            .then(() => {
+                alert(`Phòng ${roomData.roomNumber}: Lưu thành công!`);
+            })
+            .catch((error) => {
+                console.error('Lỗi khi lưu dữ liệu:', error.response?.data || error.message);
+                alert(`Phòng ${roomData.roomNumber}: Lỗi khi lưu dữ liệu!`);
+            });
+    };
     return (
-        <div className="col-md-12 col-sm-12 col-xs-12">
-            <div className="x_panel">
-                <div className="x_title">
-                    <h2 style={{ display: 'inline-block' }}><strong>Chỉ số điện</strong></h2>
-                    <ul className="nav navbar-right panel_toolbox">
-                        <li>
-                            <button className="btn btn-warning" type="button" id="watchButton">
-                                <i className="fa fa-search"></i> Xem
-                            </button>
-                        </li>
-                        <li>
-                            <button className="btn btn-success" type="button" id="saveButton" style={{ display: 'inline-block;' }}>
-                                <i className="fa fa-check"></i> Lưu
-                            </button>
-                        </li>
-                        <li>
-                            <div id="exportExcel" style={{ display: 'inline-block' }}>
-                                <div className="dt-buttons btn-group">
-                                    <a className="btn btn-default buttons-excel buttons-html5 btn-primary" tabindex="0" aria-controls="table" href="#">
-                                        <span><i className="fa fa-file-excel-o"></i> Xuất file excel</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div className="clearfix"></div>
-                </div>
-                <div className="x_content">
-                    <form data-parsley-validate="" className="form-horizontal form-label-left" method="post" id="formRoomRent">
-                        <div className="form-group">
-                            <label className="col-md-1 col-sm-12 col-xs-2" htmlFor="serviceName">Tháng/năm</label>
-                            <div className="col-md-2 col-sm-12 col-xs-2">
-                                <input type="text" id="monthYear" name="monthYear" className="form-control" />
-                            </div>
-                            <div className="col-md-2 col-sm-12 col-xs-2">
-                                <label style={{ width: '15%', float: 'left' }}>Kỳ</label>
-                                <div className="select2-container" id="s2id_payType" style={{ width: '85%' }}>
-                                    <a href="javascript:void(0)" onClick="return false;" className="select2-choice" tabIndex="-1">
-                                        <span className="select2-chosen">Tất cả</span><abbr className="select2-search-choice-close"></abbr>
-                                        <span className="select2-arrow"><b></b></span>
-                                    </a>
-                                    <select style={{ width: '85%', float: 'left' }} id="payType" tabIndex="-1" className="select2-offscreen">
-                                        <option value="-1" selected="">Tất cả</option>
-                                        <option value="1">Kỳ 15</option>
-                                        <option value="2">Kỳ 30</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <label className="col-md-1 col-sm-12 col-xs-2">Nhà</label>
-                            <div className="col-md-2 col-sm-12 col-xs-2">
-                                <input type="text" style={{ width: '100%' }} name="areaID" id="areaID" className="form-control" />
-                            </div>
-                            <label className="col-md-2 col-sm-12 col-xs-2">Trạng thái phòng</label>
-                            <div className="col-md-2 col-sm-12 col-xs-2">
-                                <select style={{ width: '100%' }} id="statusRoom" className="form-control">
-                                    <option value="-1" selected="">Tất cả</option>
-                                    <option value="1">Còn trống</option>
-                                    <option value="2">Đã cho thuê</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <p><strong>Lưu ý:</strong><br />
-                                - Bạn phải gán dịch vụ thuộc loại điện cho khách thuê trước thì phần chỉ số này mới được tính cho phòng đó khi tính tiền.<br />
-                                - Đối với lần đầu tiên sử dụng phần mềm bạn sẽ phải nhập chỉ số cũ và mới cho tháng sử dụng đầu tiên, các tháng tiếp theo phần mềm sẽ tự động lấy chỉ số mới tháng trước làm chỉ số cũ tháng sau.
-                            </p>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-7"></div>
-                            <div className="col-md-5">
-                                <input className="form-check-input" type="checkbox" value="" id="CheckError" checked="" />
-                                <label>Cảnh báo chỉ số điện cũ lớn hơn chỉ số điện mới</label>
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <div id="table_wrapper" className="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                                <div className="row">
-                                    <div className="col-sm-12">
-                                        <table id="table" className="table table-striped table-bordered no-footer dataTable dtr-inline" cellspacing="0" width="100%" role="grid">
-                                            <thead>
-                                                <tr role="row">
-                                                    <th>Nhà</th>
-                                                    <th>Phòng</th>
-                                                    <th>Khách thuê</th>
-                                                    <th>CS Điện Cũ</th>
-                                                    <th>CS Điện Mới</th>
-                                                    <th>Sử dụng</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Tầng 1</td>
-                                                    <td>1</td>
-                                                    <td>Văn Danh Phúc</td>
-                                                    <td><input type="text" className="form-control" style={{ textAlign: 'right;' }} value="5" /></td>
-                                                    <td><input type="text" className="form-control" style={{ textAlign: 'right;' }} value="10" /></td>
-                                                    <td>5.0</td>
-                                                    <td><button type="button" className="btn btn-info btn-xs"><i className="fa fa-save"></i> Lưu</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Tầng 1</td>
-                                                    <td>2</td>
-                                                    <td></td>
-                                                    <td><input type="text" className="form-control" style={{ textAlign: 'right;' }} value="0" /></td>
-                                                    <td><input type="text" className="form-control" style={{ textAlign: 'right;' }} value="0" /></td>
-                                                    <td>0.0</td>
-                                                    <td><button type="button" className="btn btn-info btn-xs"><i className="fa fa-save"></i> Lưu</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Tầng 1</td>
-                                                    <td>3</td>
-                                                    <td></td>
-                                                    <td><input type="text" className="form-control" style={{ textAlign: 'right;' }} value="0" /></td>
-                                                    <td><input type="text" className="form-control" style={{ textAlign: 'right;' }} value="0" /></td>
-                                                    <td>0.0</td>
-                                                    <td><button type="button" className="btn btn-info btn-xs"><i className="fa fa-save"></i> Lưu</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Tầng 1</td>
-                                                    <td>4</td>
-                                                    <td></td>
-                                                    <td><input type="text" className="form-control" style={{ textAlign: 'right;' }} value="0" /></td>
-                                                    <td><input type="text" className="form-control" style={{ textAlign: 'right;' }} value="0" /></td>
-                                                    <td>0.0</td>
-                                                    <td><button type="button" className="btn btn-info btn-xs"><i className="fa fa-save"></i> Lưu</button></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+        <div>
+            <h2>Quản lý chỉ số điện</h2>
+
+            {/* Dropdown chọn House */}
+            <select onChange={(e) => handleHouseSelect(e.target.value)} defaultValue="">
+                <option value="" disabled>Chọn nhà</option>
+                {houses.map(house => (
+                    <option key={house.id} value={house.id}>{house.name}</option>
+                ))}
+            </select>
+
+            {/* Hiển thị danh sách Rooms khi đã chọn House */}
+            {selectedHouse && (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Phòng</th>
+                            <th>Chỉ số cũ</th>
+                            <th>Chỉ số mới</th>
+                            <th>Số điện tiêu thụ</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {electricData.map(room => (
+                            <tr key={room.roomId}>
+                                <td>{room.roomNumber}</td>
+                                <td>
+                                    <input
+                                        type="number"
+                                        value={room.oldReading}
+                                        onChange={(e) =>
+                                            handleInputChange(room.roomId, 'oldReading', e.target.value)
+                                        }
+                                        className="form-control"
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        type="number"
+                                        value={room.newReading}
+                                        onChange={(e) =>
+                                            handleInputChange(room.roomId, 'newReading', e.target.value)
+                                        }
+                                        className="form-control"
+                                    />
+                                </td>
+                                <td>{room.usage}</td>
+                                <td>
+                                    <button
+                                        className="btn btn-primary"
+                                        onClick={() => handleSave(room.roomId)}
+                                    >
+                                        Lưu
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 }
