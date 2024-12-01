@@ -10,7 +10,7 @@ import ReactPaginate from 'react-paginate';
 
 const cx = classNames.bind(styles);
 
-const AdvertisementPage = () => {
+function AdvertisementPage() {
     const navigate = useNavigate();
     const [advertisements, setAdvertisements] = useState({ pageTotal: 0, pageNum: 0, adData: [] });
     const [newAd, setNewAd] = useState({ title: '', description: '', cost: '', status: 0 });
@@ -170,6 +170,6 @@ const AdvertisementPage = () => {
             )}
         </div>
     );
-};
+}
 
 export default AdvertisementPage;

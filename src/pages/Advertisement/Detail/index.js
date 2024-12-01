@@ -128,9 +128,21 @@ function Detail() {
             'pk.eyJ1Ijoia2RxdWFuZzEyMyIsImEiOiJjbHY2MnViMHEwOWl6MnFvMmhvOHMwbWhhIn0.HHdqtWL7HHJOds1Bb9HUpQ';
         mapRef.current = new mapboxgl.Map({
             container: mapContainerRef.current,
-            center: [-74.0242, 40.6941],
-            zoom: 10.12,
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [105.8342, 21.0278],
+            zoom: 12,
         });
+        mapRef.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+        mapRef.current.on('load', () => {
+            // Lấy tọa độ trung tâm
+            const center = mapRef.current.getCenter(); // Trả về {lng, lat}
+
+            // Thêm Marker tại trung tâm
+            const marker = new mapboxgl.Marker({ color: 'red' })
+                .setLngLat([center.lng, center.lat]) // Sử dụng tọa độ trung tâm
+                .addTo(mapRef.current); // Thêm Marker vào bản đồ
+        });
+        mapRef.current.addControl(new mapboxgl.FullscreenControl(), 'top-right');
 
         return () => {
             mapRef.current.remove();

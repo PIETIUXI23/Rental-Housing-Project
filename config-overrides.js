@@ -1,4 +1,4 @@
-const { override, useBabelRc } = require("customize-cra");
+const { override, useBabelRc } = require('customize-cra');
 const webpack = require('webpack');
 
 module.exports = override(
@@ -23,5 +23,5 @@ module.exports = override(
         ];
 
         return config;
-    }
+    },
 );

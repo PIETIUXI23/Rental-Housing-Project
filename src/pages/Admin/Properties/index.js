@@ -37,13 +37,13 @@ const Properties = () => {
 
     useEffect(() => {
         axios
-            .get(`${url}`)
+            .get(`${url}/all`)
             .then((response) => {
                 console.log('API Response:', response.data);
                 setKeycards(response.data || []); // fallback nếu response trống
             })
             .catch((err) => {
-                console.log(`${url}`);
+                console.log(`${url}/all`);
                 console.error('API Error:', err.response || err.message);
                 setError(err.response?.data?.message || err.message);
             });
