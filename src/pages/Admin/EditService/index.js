@@ -1,50 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
-import styles from './AddService.module.scss';
-import { useParams } from 'react-router-dom'; // Hook để lấy id từ URL
+import styles from './EditService.module.scss';
+import { useParams, useNavigate } from 'react-router-dom'; // Hook để lấy id từ URL và điều hướng
 import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
-const AddRoom = () => {
-    const { id } = useParams();
+const EditService = () => {
+    const { id } = useParams(); // id của dịch vụ
     const [url] = useState(process.env.REACT_APP_API_ROOM_SERVICES);
     const [newService, setNewService] = useState({
         name: '',
         cost: '',
-        createdAt: new Date().toISOString().split('T')[0],
-        unit: '', // Sửa thành kiểu số nguyên
+        createdAt: '',
+        unit: '',
         room: {
-            id: `${id}`,
+            id: '',
         },
     });
-    // const [services, setServices] = useState([]); // Lưu trữ các dịch vụ trong trạng thái
+    const [error, setError] = useState(null);
 
-    // Lấy danh sách dịch vụ khi component được mount
-    // const fetchServices = () => {
-    //     axios
-    //         .get(`${url}/${id}`) // Lấy dịch vụ từ API
-    //         .then((response) => {
-    //             setServices(response.data); // Cập nhật lại danh sách dịch vụ
-    //         })
-    //         .catch((error) => {
-    //             console.error('Có lỗi khi lấy dịch vụ:', error);
-    //         });
-    // };
-
-    // // Gọi fetchServices khi component mount
-    // React.useEffect(() => {
-    //     fetchServices();
-    // }, [id]);
+    // Lấy thông tin dịch vụ khi component được render
+    useEffect(() => {
+        axios
+            .get(`${url}/${id}`)
+            .then((response) => {
+                const service = response.data;
+                setNewService({
+                    name: service.name || '',
+                    cost: service.cost || '',
+                    createdAt: service.createdAt || '',
+                    unit: service.unit || '',
+                    room: {
+                        id: service.room.id || '',
+                    },
+                });
+            })
+            .catch((err) => {
+                console.error('Lỗi khi lấy thông tin dịch vụ:', err);
+                setError(err.response?.data?.message || err.message);
+            });
+    }, [id, url]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        // Nếu là unit, chuyển giá trị thành kiểu số
         if (name === 'unit') {
             setNewService((prev) => ({
                 ...prev,
-                [name]: value ? parseInt(value, 10) : '', // Nếu không có giá trị, để trống
+                [name]: value ? parseInt(value, 10) : '',
             }));
         } else {
             setNewService((prev) => ({
@@ -54,47 +58,50 @@ const AddRoom = () => {
         }
     };
 
-    const addService = () => {
+    const editService = () => {
         if (!newService.name || !newService.cost || !newService.unit) {
             alert('Vui lòng điền đầy đủ thông tin');
             return;
         }
 
-        // Gửi yêu cầu POST để thêm dịch vụ mới
+        console.log(newService);
+
+        console.log('Payload gửi lên:', {
+            name: newService.name,
+            cost: newService.cost,
+            createdAt: newService.createdAt,
+            unit: newService.unit,
+            room: { id: newService.room.id },
+        });
+
         axios
-            .post(`${url}`, {
+            .put(`${url}/${id}`, {
                 name: newService.name,
-                cost: parseFloat(newService.cost),
-                createdAt: new Date().toISOString().split('T')[0],
+                cost: newService.cost,
+                createdAt: newService.createdAt,
                 unit: newService.unit,
                 room: {
-                    id: `${id}`,
+                    id: newService.room.id,
                 },
             })
-            .then((response) => {
-                // Reset form
-                setNewService({
-                    name: '',
-                    cost: '',
-                    createdAt: new Date().toISOString().split('T')[0],
-                    unit: '', // Sửa thành kiểu số nguyên
-                    room: {
-                        id: `${id}`,
-                    },
-                });
-                alert('Dịch vụ đã được thêm thành công!');
+            .then(() => {
+                alert('Dịch vụ đã được cập nhật thành công!');
                 window.history.back();
             })
-            .catch((error) => {
-                console.error('Có lỗi khi thêm dịch vụ:', error);
-                alert('Đã xảy ra lỗi khi thêm dịch vụ.');
+            .catch((err) => {
+                console.error('Lỗi khi cập nhật dịch vụ:', err);
+                console.log(err.message);
+                alert(err.response?.data?.message || 'Đã xảy ra lỗi khi cập nhật dịch vụ.');
             });
     };
 
+    if (error) {
+        return <div>Lỗi: {error}</div>;
+    }
 
     return (
         <div className={cx('container')}>
-            <h2 className={cx('title')}>Quản Lý Dịch Vụ Phòng Trọ</h2>
+            <h2 className={cx('title')}>Cập Nhật Dịch Vụ Phòng Trọ</h2>
 
             <div className={cx('form')}>
                 <div className={cx('form-group')}>
@@ -124,7 +131,7 @@ const AddRoom = () => {
                     <label className={cx('label')}>Đơn Vị</label>
                     <input
                         name="unit"
-                        type="number" // Đảm bảo kiểu số
+                        type="number"
                         value={newService.unit}
                         onChange={handleInputChange}
                         placeholder="Nhập đơn vị (VD: kWh, m3)"
@@ -132,12 +139,12 @@ const AddRoom = () => {
                     />
                 </div>
 
-                <button onClick={addService} className={cx('button', 'button-add')}>
-                    Thêm Dịch Vụ
+                <button onClick={editService} className={cx('button', 'button-add')}>
+                    Sửa dịch vụ
                 </button>
             </div>
         </div>
     );
 };
 
-export default AddRoom;
+export default EditService;

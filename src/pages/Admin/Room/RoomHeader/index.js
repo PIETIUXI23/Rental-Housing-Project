@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './RoomHeader.module.scss';
+import { useParams } from 'react-router-dom'; // Hook để lấy id từ URL
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 const RoomHeader = () => {
+    const { id } = useParams(); // Lấy id housse từ URL
     const [roomStatus, setRoomStatus] = useState('-1');
     const [paymentStatus, setPaymentStatus] = useState('-1');
     const [roomName, setRoomName] = useState('');
@@ -92,9 +95,11 @@ const RoomHeader = () => {
                     <i className="fa fa-list-ol"></i> Phòng
                 </button> */}
 
-                <button className={cx('btn', 'btn_success')}>
-                    <i className="fa fa-university"></i> Thêm phòng
-                </button>
+                <Link to={`/admin/room/add/${id}`}>
+                    <button className={cx('btn', 'btn_success')}>
+                        <i className="fa fa-university"></i> Thêm phòng
+                    </button>
+                </Link>
             </div>
         </div>
     );
