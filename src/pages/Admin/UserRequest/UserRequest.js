@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { getUserId } from "~/utils/auth"; // Import hàm lấy userId
-import styles from "./UserRequest.module.scss"; // Import file SCSS
+import styles from "./UR.module.scss"; // Import file SCSS
 
 const UserRequest = () => {
     const [requests, setRequests] = useState([]); // Danh sách yêu cầu
