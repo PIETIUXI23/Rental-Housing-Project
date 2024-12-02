@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios
 import { useParams } from 'react-router-dom'; // Lấy useParams để lấy id từ URL
-import './EditTenant.module.scss';
+import classNames from 'classnames/bind'; // Import classNames
+import styles from './EditTenant.module.scss'; // Import styles
+
+const cx = classNames.bind(styles);
 
 export default function EditTenant() {
     const { id } = useParams(); // Lấy id người thuê từ URL
@@ -58,12 +61,14 @@ export default function EditTenant() {
     };
 
     return (
-        <div>
+        <div className={cx('container')}>
             <form onSubmit={handleSubmit}>
-                <h2>Sửa Thông Tin Người Thuê</h2>
+                <h2 className={cx('title')}>Sửa Thông Tin Người Thuê</h2>
 
-                <div>
-                    <label htmlFor="fullName">Tên</label>
+                <div className={cx('inputGroup')}>
+                    <label htmlFor="fullName" className={cx('label')}>
+                        Tên
+                    </label>
                     <input
                         type="text"
                         id="fullName"
@@ -71,12 +76,15 @@ export default function EditTenant() {
                         value={tenant.fullName}
                         onChange={handleInputChange}
                         placeholder="Nhập tên người thuê"
+                        className={cx('input')}
                         required
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="phoneNumber">Số Điện Thoại</label>
+                <div className={cx('inputGroup')}>
+                    <label htmlFor="phoneNumber" className={cx('label')}>
+                        Số Điện Thoại
+                    </label>
                     <input
                         type="tel"
                         id="phoneNumber"
@@ -84,12 +92,15 @@ export default function EditTenant() {
                         value={tenant.phoneNumber}
                         onChange={handleInputChange}
                         placeholder="Nhập số điện thoại"
+                        className={cx('input')}
                         required
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="email">Email</label>
+                <div className={cx('inputGroup')}>
+                    <label htmlFor="email" className={cx('label')}>
+                        Email
+                    </label>
                     <input
                         type="email"
                         id="email"
@@ -97,24 +108,30 @@ export default function EditTenant() {
                         value={tenant.email}
                         onChange={handleInputChange}
                         placeholder="Nhập địa chỉ email"
+                        className={cx('input')}
                         required
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="isRepresentative">Đại Diện Phòng</label>
+                <div className={cx('inputGroup')}>
+                    <label htmlFor="isRepresentative" className={cx('label')}>
+                        Đại Diện Phòng
+                    </label>
                     <select
                         id="isRepresentative"
                         name="isRepresentative"
                         value={tenant.isRepresentative}
                         onChange={handleInputChange}
+                        className={cx('select')}
                     >
                         <option value={0}>Không</option>
                         <option value={1}>Có</option>
                     </select>
                 </div>
 
-                <button type="submit">Cập Nhật Người Thuê</button>
+                <button type="submit" className={cx('button')}>
+                    Cập Nhật Người Thuê
+                </button>
             </form>
         </div>
     );
