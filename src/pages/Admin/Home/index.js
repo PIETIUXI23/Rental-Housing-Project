@@ -117,12 +117,6 @@ function Home() {
                             <form id="formRoomStatus">
                                 <div id="chartjs-legend" className="noselect">
                                     <ul>
-                                        <li>
-                                            <span style={{ backgroundColor: 'rgb(54, 162, 235)' }}>Đang thuê</span>
-                                        </li>
-                                        <li>
-                                            <span style={{ backgroundColor: 'rgb(255, 99, 132)' }}>Phòng trống</span>
-                                        </li>
                                     </ul>
                                 </div>
                                 <div className="row">

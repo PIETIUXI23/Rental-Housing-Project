@@ -6,7 +6,6 @@ import Detail from '~/pages/Advertisement/Detail';
 import Home from '~/pages/Advertisement/Home';
 import AdHome from '~/pages/Admin/Home';
 import Electric from '~/pages/Admin/Electric';
-import Water from '~/pages/Admin/Water';
 import Debt from '~/pages/Admin/Report/Debt';
 import Deposit from '~/pages/Admin/Report/Deposit';
 import Expired from '~/pages/Admin/Report/Expired';
@@ -52,7 +51,6 @@ const publicRoutes = [
 const privateRoutes = [
     { path: '/admin/home', component: AdHome, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/electric', component: Electric, layout: Admin_Layout, role: 'ROLE_USER' },
-    { path: '/admin/water', component: Water, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/report/ReportRoomRent', component: Rent, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/report/ReportCustomerDebt', component: Debt, layout: Admin_Layout, role: 'ROLE_USER' },
     {
@@ -72,7 +70,7 @@ const privateRoutes = [
     { path: '/admin', component: Admin, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/post', component: AdvertisementPage, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/post/add', component: Post, layout: Admin_Layout, role: 'ROLE_USER' },
-    { path: '/admin/inpWE', component: InputWaterElectric, layout: Admin_Layout, role: 'ROLE_USER' },
+    { path: '/admin/inpWE/:id', component: InputWaterElectric, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/room/add/:id', component: AddRoom, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/room/edit/:id', component: EditRoom, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/service/:id', component: Service, layout: Admin_Layout, role: 'ROLE_USER' },

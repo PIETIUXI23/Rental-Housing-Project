@@ -117,7 +117,7 @@ const RoomManager = () => {
                                         <i className="fa fa-trash"></i> Xóa
                                     </button>
 
-                                    <Link to={`/admin/inpWE`}>
+                                    <Link to={`/admin/inpWE/${room.id}`}>
                                         <button
                                             className={cx('btn', 'btn-info')}
                                             onClick={(e) => {
