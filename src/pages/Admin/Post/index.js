@@ -7,6 +7,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { getUserId, getUserSevicePackage } from '~/utils/auth';
 import axios from 'axios'; // Dùng axios để gọi API địa chỉ nếu cần
+import { Helmet } from 'react-helmet';
 
 const cx = classNames.bind(styles);
 
@@ -177,11 +178,11 @@ function Post() {
         fetchCities(); // Load cities when component mounts
 
         mapboxgl.accessToken =
-            'pk.eyJ1Ijoia2RxdWFuZzEyMyIsImEiOiJjbHY2MnViMHEwOWl6MnFvMmhvOHMwbWhhIn0.HHdqtWL7HHJOds1Bb9HUpQ';
+            'pk.eyJ1Ijoia2RxdWFuZzEyMyIsImEiOiJjbTQ3MTM0MmwwMG4yMmtxdDRobmVyOHVmIn0.hrH5j4eH6vKC0J_godgWWQ';
         mapRef.current = new mapboxgl.Map({
-            container: mapContainerRef.current,
-            center: [108.2772, 14.0583],
-            zoom: 4,
+            container: mapContainerRef.current, // container ID
+            center: [105.8542, 21.0285], // starting position [lng, lat]. Note that lat must be set between -90 and 90
+            zoom: 9, // starting zoom
         });
         mapRef.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
@@ -193,6 +194,9 @@ function Post() {
             } else {
                 clickMarker = new mapboxgl.Marker({ color: 'red' }).setLngLat([lng, lat]).addTo(mapRef.current);
             }
+            console.log(lng);
+            console.log(lat);
+
             setFormData((prevData) => ({
                 ...prevData,
                 latitude: lat,
@@ -274,9 +278,6 @@ function Post() {
 
                 <label className={cx('label')}>Chọn vị trí trên bản đồ:</label>
                 <div ref={mapContainerRef} className={cx('map-container')}></div>
-                <p className={cx('coordinates')}>
-                    Latitude: {formData.latitude}, Longitude: {formData.longitude}
-                </p>
 
                 <label className={cx('label')}>Ảnh:</label>
                 <input

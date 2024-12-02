@@ -127,14 +127,14 @@ function Detail() {
         console.log(data.latitude, data.longitude);
 
         mapboxgl.accessToken =
-            'pk.eyJ1Ijoia2RxdWFuZzEyMyIsImEiOiJjbHY2MnViMHEwOWl6MnFvMmhvOHMwbWhhIn0.HHdqtWL7HHJOds1Bb9HUpQ';
+            'pk.eyJ1Ijoia2RxdWFuZzEyMyIsImEiOiJjbTQ3MTM0MmwwMG4yMmtxdDRobmVyOHVmIn0.hrH5j4eH6vKC0J_godgWWQ';
         mapRef.current = new mapboxgl.Map({
-            container: mapContainerRef.current,
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [data.longitude, data.latitude],
-            zoom: 12,
+            container: mapContainerRef.current, // container ID
+            center: [data.longitude, data.latitude], // starting position [lng, lat]. Note that lat must be set between -90 and 90
+            zoom: 9, // starting zoom
         });
         mapRef.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
         mapRef.current.on('load', () => {
             //Thêm Marker tại trung tâm
             const marker = new mapboxgl.Marker({ color: 'red' })
@@ -146,7 +146,7 @@ function Detail() {
         return () => {
             mapRef.current.remove();
         };
-    }, []);
+    }, [data]);
     return (
         <>
             <Helmet>

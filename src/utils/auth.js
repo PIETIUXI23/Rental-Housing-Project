@@ -51,3 +51,11 @@ export const getUserSevicePackage = () => {
         return null; // Trường hợp token không hợp lệ
     }
 };
+
+export const getToken = () => {
+    const token = localStorage.getItem('token');
+
+    if (!token) return null;
+
+    return token;
+};

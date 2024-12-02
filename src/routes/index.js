@@ -84,6 +84,15 @@ const privateRoutes = [
     { path: '/admin/user_request', component: UserRequest, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/webadmin', component: WebAdminHome, layout: Admin_Layout, role: 'ROLE_ADMIN' },
     { path: '/webadmin/support', component: AdminSupport, layout: Admin_Layout, role: 'ROLE_ADMIN' },
+    {
+        path: '/webadmin/advertisement-management',
+        component: AdvertisementManagement,
+        layout: Admin_Layout,
+        role: 'ROLE_ADMIN',
+    },
+    { path: '/webadmin/service-packages', component: ServicePakages, layout: Admin_Layout, role: 'ROLE_ADMIN' },
+    { path: '/webadmin/support', component: Support, layout: Admin_Layout, role: 'ROLE_ADMIN' },
+    { path: '/webadmin/user-management', component: UserManagement, layout: Admin_Layout, role: 'ROLE_ADMIN' },
 
     // { path: '/admin/admin', component: },
 ];
