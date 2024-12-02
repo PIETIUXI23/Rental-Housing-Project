@@ -11,35 +11,17 @@ export const MENU_ITEMS = [
         label: 'Tòa nhà',
         path: '/admin/house',
     },
-    {
-        id: 'service',
-        icon: 'fa-concierge-bell',
-        label: 'Dịch vụ',
-        path: '/admin/service',
-    },
-    {
-        id: 'electric',
-        icon: 'fa-bolt',
-        label: 'Chỉ số điện',
-        path: '/admin/electric',
-    },
-    {
-        id: 'water',
-        icon: 'fa-tint',
-        label: 'Chỉ số nước',
-        path: '/admin/water',
-    },
+    // {
+    //     id: 'service',
+    //     icon: 'fa-concierge-bell',
+    //     label: 'Dịch vụ',
+    //     path: '/admin/service',
+    // },
     {
         id: 'incurred',
         icon: 'fa-plus-circle',
-        label: 'Phát sinh',
-        path: '/incurred',
-    },
-    {
-        id: 'calculate',
-        icon: 'fa-calculator',
-        label: 'Tính tiền',
-        path: '/calculate',
+        label: 'Yêu cầu hỗ trợ',
+        path: '/admin/user_request',
     },
     {
         id: 'report',
@@ -78,12 +60,6 @@ export const MENU_ITEMS = [
                 path: '/admin/report/ReportRoomPerson',
             },
         ],
-    },
-    {
-        id: 'email',
-        icon: 'fa-history',
-        label: ' Lịch sử gửi email',
-        path: '/admin/email',
     },
     {
         id: 'post',

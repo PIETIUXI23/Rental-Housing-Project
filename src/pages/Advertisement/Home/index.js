@@ -144,31 +144,6 @@ function Home() {
         setAddress(data);
     };
 
-    // const filterByAddress = () => {
-    //     if (address != '') {
-    //         if (url == process.env.REACT_APP_API_ADVERTISEMENT) {
-    //             setUrl(`${url}?address=${address}`);
-    //         } else {
-    //             setUrl(`${url}&address=${address}`);
-    //         }
-    //     }
-    // };
-
-    // const filterByArea = () => {
-    //     if (url == process.env.REACT_APP_API_ADVERTISEMENT) {
-    //         setUrl(`${url}?areaMin=${minArea}&areaMax=${maxArea}`);
-    //     } else {
-    //         setUrl(`${url}&areaMin=${minArea}&areaMax=${maxArea}`);
-    //     }
-    // };
-    // const filterByCost = () => {
-    //     if (url == process.env.REACT_APP_API_ADVERTISEMENT) {
-    //         setUrl(`${url}?priceMin=${minCost}&priceMax=${maxCost}`);
-    //     } else {
-    //         setUrl(`${url}&priceMin=${minCost}&priceMax=${maxCost}`);
-    //     }
-    // };
-
     const filter = () => {
         setUrl(
             `${process.env.REACT_APP_API_ADVERTISEMENT}?address=${address}&areaMin=${minArea}&areaMax=${maxArea}&priceMin=${minCost}&priceMax=${maxCost}&page=${page}`,

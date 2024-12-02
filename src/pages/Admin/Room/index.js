@@ -5,9 +5,9 @@ import RoomManger from './RoomManager';
 export default function Room() {
     return (
         <>
-            <div>
+            {/* <div>
                 <RoomHeader></RoomHeader>
-            </div>
+            </div> */}
             <div>
                 <RoomManger></RoomManger>
             </div>

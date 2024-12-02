@@ -1,19 +1,19 @@
-import React from "react";
-import Sidebar from "../../Sidebar/Sidebar";
-import TopNav from "../../TopNav/TopNav";
-import WaitingModal from "../../Modal/WaitingModal";
-import NoteModal from "../../Modal/NoteModal";
-import CalculatorModal from "../../Modal/CalculatorModal";
+import React from 'react';
+import Sidebar from '../../Sidebar/Sidebar';
+import TopNav from '../../TopNav/TopNav';
+import WaitingModal from '../../Modal/WaitingModal';
+import NoteModal from '../../Modal/NoteModal';
+import CalculatorModal from '../../Modal/CalculatorModal';
 
 // Import các stylesheet
-import "src/Extension/bootstrap/dist/css/bootstrap.min.css";
+import 'src/Extension/bootstrap/dist/css/bootstrap.min.css';
 //import "src/Extension/font-awesome/css/font-awesome.min.css";
 //import "src/Extension/nprogress/nprogress.css";
 //import "src/Extension/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css";
 //import "src/Extension/bootstrap-daterangepicker/daterangepicker.css";
 //import "src/Extension/toastr-master/toastr.min.css";
-import "src/Content/Custom.scss";
-import "jquery-ui/ui/widgets/tooltip";
+import 'src/Content/Custom.scss';
+import 'jquery-ui/ui/widgets/tooltip';
 
 const AdminLayout = ({ children }) => {
     return (
@@ -53,7 +53,7 @@ const AdminLayout = ({ children }) => {
                     </div>
 
                     {/* Main Content */}
-                    <div className="right_col" role="main" style={{ minHeight: "361px" }}>
+                    <div className="right_col" role="main" style={{ minHeight: '361px' }}>
                         {children}
                     </div>
                 </div>

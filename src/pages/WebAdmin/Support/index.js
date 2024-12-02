@@ -28,11 +28,10 @@ const Support = () => {
                 console.log(response.data);
                 setDataPage(response.data);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('There was an error fetching the supports!', error);
             });
     };
-
     const handleComplete = (id, status) => {
         axios.put(`http://localhost:8080/support-requests/change-status/${id}`, { status: 1 })
             .then(response => {
@@ -96,7 +95,8 @@ const Support = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {dataPage.adData.map(support => (
+
+                    {filteredSupports.map((support) => (
                         <tr key={support.id}>
                             <td>{support.id}</td>
                             <td>{support.username}</td>

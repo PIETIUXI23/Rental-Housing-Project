@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import styles from './ServicePackages.module.scss';
+import { getToken } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
@@ -14,22 +15,34 @@ const ServicePackages = () => {
     }, []);
 
     const fetchPackages = () => {
-        axios.get('http://localhost:8080/service-packages/all')
-            .then(response => {
+        axios
+            .get('http://localhost:8080/service-packages/all', {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response) => {
                 setPackages(response.data);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('There was an error fetching the packages!', error);
             });
     };
 
     const handleSave = (pkg) => {
-        axios.put(`http://localhost:8080/service-packages/${pkg.id}`, pkg)
-            .then(response => {
-                setPackages(packages.map(p => p.id === pkg.id ? pkg : p));
+        axios
+            .put(`http://localhost:8080/service-packages/${pkg.id}`, pkg, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response) => {
+                setPackages(packages.map((p) => (p.id === pkg.id ? pkg : p)));
                 setEditPackage(null);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('There was an error updating the package!', error);
             });
     };
@@ -48,7 +61,7 @@ const ServicePackages = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {packages.map(pkg => (
+                    {packages.map((pkg) => (
                         <tr key={pkg.id}>
                             <td>{pkg.id}</td>
                             <td>
@@ -56,7 +69,7 @@ const ServicePackages = () => {
                                     <input
                                         type="text"
                                         value={editPackage.name}
-                                        onChange={e => setEditPackage({ ...editPackage, name: e.target.value })}
+                                        onChange={(e) => setEditPackage({ ...editPackage, name: e.target.value })}
                                     />
                                 ) : (
                                     pkg.name
@@ -67,7 +80,9 @@ const ServicePackages = () => {
                                     <input
                                         type="text"
                                         value={editPackage.description}
-                                        onChange={e => setEditPackage({ ...editPackage, description: e.target.value })}
+                                        onChange={(e) =>
+                                            setEditPackage({ ...editPackage, description: e.target.value })
+                                        }
                                     />
                                 ) : (
                                     pkg.description
@@ -78,7 +93,7 @@ const ServicePackages = () => {
                                     <input
                                         type="number"
                                         value={editPackage.price}
-                                        onChange={e => setEditPackage({ ...editPackage, price: e.target.value })}
+                                        onChange={(e) => setEditPackage({ ...editPackage, price: e.target.value })}
                                     />
                                 ) : (
                                     pkg.price
@@ -87,17 +102,29 @@ const ServicePackages = () => {
                             <td>
                                 {editPackage?.id === pkg.id ? (
                                     <>
-                                        <button type="button" className="btn btn-info btn-xs" onClick={() => handleSave(editPackage)}>
+                                        <button
+                                            type="button"
+                                            className="btn btn-info btn-xs"
+                                            onClick={() => handleSave(editPackage)}
+                                        >
                                             <i className="fa fa-save"></i>
-                                             Lưu
+                                            Lưu
                                         </button>
-                                        <button type="button" className="btn btn-info btn-xs" onClick={() => setEditPackage(null)}>
-                                            <i className="fa-solid fa-xmark" ></i>
+                                        <button
+                                            type="button"
+                                            className="btn btn-info btn-xs"
+                                            onClick={() => setEditPackage(null)}
+                                        >
+                                            <i className="fa-solid fa-xmark"></i>
                                             Hủy
                                         </button>
                                     </>
                                 ) : (
-                                    <button type="button" className="btn btn-info btn-xs" onClick={() => setEditPackage(pkg)}>
+                                    <button
+                                        type="button"
+                                        className="btn btn-info btn-xs"
+                                        onClick={() => setEditPackage(pkg)}
+                                    >
                                         <i className="fa-solid fa-pen-to-square"></i>
                                         Chỉnh sửa
                                     </button>

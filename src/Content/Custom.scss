@@ -5234,3 +5234,21 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
     margin-top: 10px;
     flex-basis: 15%;
 }
+/* Thêm vào file Custom.scss hoặc tạo một file CSS riêng */
+
+/* Container chính */
+.main_container {
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Main content area */
+.right_col {
+    margin-left: 250px; /* Phải bằng chiều rộng của sidebar */
+    margin-top: 60px; /* Chiều cao của top navigation */
+    padding: 10px;
+    min-height: calc(100vh - 60px);
+    overflow-y: auto;
+}
+
+/* Đảm bảo scroll chỉ xuất hiện ở right_col */

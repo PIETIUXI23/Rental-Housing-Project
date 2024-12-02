@@ -2,27 +2,27 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import styles from './RoomManager.module.scss';
+import { useParams } from 'react-router-dom'; // Hook để lấy id từ URL
 import axios from 'axios';
+import auth, { getToken } from '~/utils/auth';
 
 // Khai báo cx sử dụng classNames và bind với styles
 const cx = classNames.bind(styles);
 
 const RoomManager = () => {
-    // const [rooms, setRooms] = useState([
-    //     { id: 45040, name: '1', price: 3000000, status: 'empty' },
-    //     { id: 45041, name: '2', price: 3000000, status: 'empty' },
-    //     { id: 45042, name: '3', price: 3000000, status: 'empty' },
-    //     { id: 45043, name: '4', price: 3000000, status: 'empty' },
-    //     { id: 45044, name: '5', price: 3000000, status: 'empty' },
-    // ]);
-
+    const { id } = useParams(); // Lấy id housse từ URL
     const [rooms, setRooms] = useState([]);
     const [url] = useState(process.env.REACT_APP_API_HOUSES_ROOMS);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         axios
-            .get(`${url}`)
+            .get(`${url}/house/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
             .then((response) => {
                 console.log('API Response:', response.data);
                 setRooms(response.data || []); // fallback nếu response trống
@@ -34,29 +34,41 @@ const RoomManager = () => {
             });
     }, []);
 
-    const handleAddCustomer = (roomId) => {
-        alert(`Thêm khách vào phòng ${roomId}`);
-    };
-
-    const handleEditRoom = (roomId) => {
-        alert(`Chỉnh sửa phòng ${roomId}`);
-    };
-
     const handleDeleteRoom = (roomId) => {
-        setRooms((prevRooms) => prevRooms.filter((room) => room.id !== roomId));
+        axios
+            .delete(`${url}/${roomId}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response) => {
+                alert('Phòng đã được xóa thành công!');
+                // Cập nhật lại danh sách phòng sau khi xóa
+                setRooms(rooms.filter((room) => room.id !== roomId)); // Loại bỏ phòng khỏi danh sách
+            })
+            .catch((error) => {
+                console.error('Có lỗi khi xóa phòng:', error);
+                alert('Đã xảy ra lỗi khi xóa phòng.');
+            });
     };
 
     return (
         <div className={cx('container')}>
             <div className={cx('stats-bar')}>
-                <span>Còn trống {rooms.filter((room) => room.status === 'empty').length}</span>
-                <span>Đã cho thuê 0</span>
-                <span>Chưa thu phí 0</span>
+                <Link to={`/admin/room/add/${id}`}>
+                    <button className={cx('btn', 'btn_success')}>
+                        <i className="fa fa-university"></i> Thêm phòng
+                    </button>
+                </Link>
+                <span>Còn trống {rooms.filter((room) => room.occupancyStatus === 0).length}</span>
+                <span style={{ margin: '0 10px' }}> | </span>
+                <span>Đã cho thuê {rooms.filter((room) => room.occupancyStatus === 1).length} </span>
             </div>
 
             <div className={cx('rooms')}>
                 {rooms.map((room) => (
-                    <Link to={`/admin/service`} key={room.id}>
+                    <Link to={`/admin/service/${room.id}`} key={room.id}>
                         <div className={cx('room')}>
                             <div className={cx('thumbnail')}>
                                 <div className={cx('room-header')}>
@@ -64,9 +76,9 @@ const RoomManager = () => {
                                         <i className="fa fa-home" aria-hidden="true"></i> {room.roomNumber}
                                     </strong>
                                 </div>
-                                <button className={cx('btn', 'btn-info')} onClick={() => handleAddCustomer(room.id)}>
-                                    Thêm khách
-                                </button>
+                                <Link to={`/admin/tenants/add/${room.id}`}>
+                                    <button className={cx('btn', 'btn-add')}>Thêm khách</button>
+                                </Link>
 
                                 <div className={cx('room-details')}>
                                     <p>
@@ -76,7 +88,7 @@ const RoomManager = () => {
                                                 room.occupancyStatus === 1 ? 'status-empty' : 'status-occupied',
                                             )}
                                         >
-                                            {room.status === 'empty' ? 'Chưa có khách' : 'Có khách'}
+                                            {room.occupancyStatus === 0 ? 'Chưa có khách' : 'Có khách'}
                                         </span>
                                     </p>
                                     <p>
@@ -85,15 +97,16 @@ const RoomManager = () => {
                                     </p>
                                 </div>
                                 <div className={cx('room-actions')}>
-                                    <button
-                                        className={cx('btn', 'btn-primary')}
-                                        onClick={(e) => {
-                                            e.preventDefault(); // Ngăn sự kiện lan lên thẻ `div`
-                                            handleEditRoom(room.id);
-                                        }}
-                                    >
-                                        <i className="fa fa-edit"></i> Chỉnh sửa
-                                    </button>
+                                    <Link to={`/admin/room/edit/${room.id}`}>
+                                        <button
+                                            className={cx('btn', 'btn-primary')}
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // Ngăn sự kiện lan lên thẻ `div`
+                                            }}
+                                        >
+                                            <i className="fa fa-edit"></i> Chỉnh sửa
+                                        </button>
+                                    </Link>
                                     <button
                                         className={cx('btn', 'btn-danger')}
                                         onClick={(e) => {

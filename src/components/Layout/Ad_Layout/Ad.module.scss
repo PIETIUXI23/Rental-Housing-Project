@@ -1,16 +1,6 @@
 .container {
     width: 100%;
     margin: 0 auto;
-    border: 1px solid black;
-}
-
-.header {
-    width: 100%;
-    height: 96px;
-    border: 1px solid black;
-    text-align: center;
-    padding: 20px;
-    box-sizing: border-box;
 }
 
 .remain {
@@ -18,6 +8,8 @@
     position: relative;
     margin-top: var(--user-header-height);
     padding-top: 8px;
+    background-color: #fff;
+    overflow-y: auto;
 }
 
 /* Thẻ div bao trọn cả form, main-content và sidebar */

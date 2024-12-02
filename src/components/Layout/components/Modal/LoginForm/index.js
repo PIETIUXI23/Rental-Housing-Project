@@ -39,9 +39,10 @@ function LoginForm({ visible, onClick, onRedirect }) {
                         navigate('/webadmin');
                     }
                     // navigate('http://localhost:3000/admin');
-                } else {
-                    setValidateLog('Sai tên đăng nhập hoặc mật khẩu!');
                 }
+            })
+            .catch((response) => {
+                setValidateLog('Sai tên đăng nhập hoặc mật khẩu!');
             });
     };
 
