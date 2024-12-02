@@ -9,8 +9,9 @@ const cx = classNames.bind(styles);
 const TenantManagement = () => {
     const [tenants, setTenants] = useState([]);
     const [url] = useState(process.env.REACT_APP_API_TENANRS);
+    const [urlRoom] = useState(process.env.REACT_APP_API_HOUSES_ROOMS);
 
-    // Lấy dữ liệu từ API
+    // Lấy dữ liệu từ API của tất cả khách thuê
     useEffect(() => {
         axios
             .get(`${url}/all`)
@@ -33,16 +34,34 @@ const TenantManagement = () => {
             console.log('tenantId không hợp lệ:', tenantId);
             return;
         }
-        if (window.confirm('Bạn có chắc chắn muốn xóa khách thuê này không?')) {
-            try {
-                await axios.delete(`${url}/${tenantId}`); // Gửi yêu cầu xóa qua API
-                // Cập nhật danh sách khách thuê sau khi xóa thành công
+
+        try {
+            const response = await axios.get(`${url}/${tenantId}`);
+
+            if (window.confirm('Bạn có chắc chắn muốn xóa khách thuê này không?')) {
+                await axios.delete(`${url}/${tenantId}`);
                 setTenants((prevTenants) => prevTenants.filter((tenant) => tenant.id !== tenantId));
                 alert('Xóa khách thuê thành công!');
-            } catch (error) {
-                console.error('Lỗi khi xóa khách thuê:', error);
-                alert('Không thể xóa khách thuê. Vui lòng thử lại sau.');
+
+                // console.log('Tenants: ', tenants);
+                // console.log('response.data.room.id', response.data.room.id);
+                const totalTenantByIdRoom = tenants.filter((item) => item.room.id === response.data.room.id).length - 1;
+                // console.log(totalTenantByIdRoom);
+                if (totalTenantByIdRoom === 0) {
+                    const roomResponse = await axios.get(`${urlRoom}/${response.data.room.id}`);
+                    // console.log('roomResponse', roomResponse);
+                    const updatedRoom = { ...roomResponse.data, occupancyStatus: 0 };
+                    // console.log('Cập nhật ', updatedRoom);
+                    try {
+                        await axios.put(`${urlRoom}/${response.data.room.id}`, updatedRoom);
+                    } catch (error) {
+                        console.error('Lỗi khi cập nhật phòng:', error.response || error.message);
+                    }
+                }
             }
+        } catch (error) {
+            console.error('Lỗi khi xóa khách thuê:', error);
+            alert('Không thể xóa khách thuê. Vui lòng thử lại sau.');
         }
     };
 
