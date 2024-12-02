@@ -36,6 +36,9 @@ import EditService from '~/pages/Admin/EditService';
 import EditProperties from '~/pages/Admin/EditProperties';
 import UserRequest from '~/pages/Admin/UserRequest/UserRequest';
 import AdminSupport from '~/pages/Admin/UserRequest/AdminSupport';
+import TenantManagement from '~/pages/Admin/TenantManagement';
+import AddTenant from '~/pages/Admin/AddTenant';
+import EditTenant from '~/pages/Admin/EditTenant';
 
 //public la khong can dang nhap
 const publicRoutes = [
@@ -75,6 +78,9 @@ const privateRoutes = [
     { path: '/admin/service/:id', component: Service, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/service/add/:id', component: AddService, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/service/edit/:id', component: EditService, layout: Admin_Layout, role: 'ROLE_USER' },
+    { path: '/admin/tentnant', component: TenantManagement, layout: Admin_Layout, role: 'ROLE_USER' },
+    { path: '/admin/tenants/add/:id', component: AddTenant, layout: Admin_Layout, role: 'ROLE_USER' },
+    { path: '/admin/tenants/edit/:id', component: EditTenant, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/admin/user_request', component: UserRequest, layout: Admin_Layout, role: 'ROLE_USER' },
     { path: '/webadmin', component: WebAdminHome, layout: Admin_Layout, role: 'ROLE_ADMIN' },
     { path: '/webadmin/support', component: AdminSupport, layout: Admin_Layout, role: 'ROLE_ADMIN' },
