@@ -42,6 +42,11 @@
     gap: 5px;
     font-size: 14px;
 
+    &.btn_primary {
+        background-color: #337ab7;
+        color: white;
+    }
+
     &.btn_warning {
         background-color: #f0ad4e;
         color: white;
@@ -77,7 +82,7 @@
 .action_buttons {
     display: flex;
     gap: 10px;
-    justify-content: flex-start;
+    justify-content: flex-end;
     flex-wrap: wrap;
 }
 
