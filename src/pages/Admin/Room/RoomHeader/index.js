@@ -12,13 +12,6 @@ const RoomHeader = () => {
     const [paymentStatus, setPaymentStatus] = useState('-1');
     const [roomName, setRoomName] = useState('');
 
-    // Sample data
-    const stats = {
-        emptyRooms: 5,
-        rentedRooms: 0,
-        unpaidRooms: 0,
-    };
-
     const handleSearch = () => {
         console.log('Searching with:', { roomStatus, paymentStatus, roomName });
     };
@@ -26,14 +19,14 @@ const RoomHeader = () => {
     return (
         <div className={cx('container')}>
             {/* Title */}
-            <div className={cx('title')}>
+            {/* <div className={cx('title')}>
                 <h2>Danh sách phòng</h2>
-            </div>
+            </div> */}
 
             {/* Search Controls */}
-            <div className={cx('search_controls')}>
-                {/* Room Status Select */}
-                <div className={cx('select_container')}>
+            {/* <div className={cx('search_controls')}> */}
+            {/* Room Status Select */}
+            {/* <div className={cx('select_container')}>
                     <select
                         value={roomStatus}
                         onChange={(e) => setRoomStatus(e.target.value)}
@@ -43,10 +36,10 @@ const RoomHeader = () => {
                         <option value="1">Còn trống</option>
                         <option value="2">Đã cho thuê</option>
                     </select>
-                </div>
+                </div> */}
 
-                {/* Payment Status Select */}
-                <div className={cx('select_container')}>
+            {/* Payment Status Select */}
+            {/* <div className={cx('select_container')}>
                     <select
                         value={paymentStatus}
                         onChange={(e) => setPaymentStatus(e.target.value)}
@@ -55,10 +48,10 @@ const RoomHeader = () => {
                         <option value="-1">- Trạng thái phí -</option>
                         <option value="2">Chưa thu phí</option>
                     </select>
-                </div>
+                </div> */}
 
-                {/* Room Name Input */}
-                <div className={cx('input_container')}>
+            {/* Room Name Input */}
+            {/* <div className={cx('input_container')}>
                     <input
                         type="text"
                         placeholder="Phòng"
@@ -66,35 +59,22 @@ const RoomHeader = () => {
                         onChange={(e) => setRoomName(e.target.value)}
                         className={cx('form_input')}
                     />
-                </div>
+                </div> */}
 
-                {/* Search Button */}
-                <button onClick={handleSearch} className={cx('btn', 'btn_primary')}>
+            {/* Search Button */}
+            {/* <button onClick={handleSearch} className={cx('btn', 'btn_primary')}>
                     <i className="fa fa-search"></i> Tìm kiếm
-                </button>
-            </div>
+                </button> */}
+            {/* </div> */}
 
             {/* Stats Bar */}
-            <div className={cx('stats_bar')}>
-                <span className={cx('stat_item')}>Còn trống {stats.emptyRooms}</span>
-                <span className={cx('stat_item')}>Đã cho thuê {stats.rentedRooms}</span>
-                <span className={cx('stat_item')}>Chưa thu phí {stats.unpaidRooms}</span>
-            </div>
+            {/* <div className={cx('stats_bar')}>
+                <span className={cx('stat_item')}>Còn trống {} </span>
+                <span className={cx('stat_item')}>Đã cho thuê </span>
+            </div> */}
 
             {/* Action Buttons */}
             <div className={cx('action_buttons')}>
-                {/* <button className={cx('btn', 'btn_warning')}>
-                    <i className="fa fa-upload"></i> Nhập phòng từ excel
-                </button> */}
-
-                <button className={cx('btn', 'btn_primary')}>
-                    <i className="fa fa-users"></i> Khách thuê
-                </button>
-
-                {/* <button className={cx('btn', 'btn_info')}>
-                    <i className="fa fa-list-ol"></i> Phòng
-                </button> */}
-
                 <Link to={`/admin/room/add/${id}`}>
                     <button className={cx('btn', 'btn_success')}>
                         <i className="fa fa-university"></i> Thêm phòng
