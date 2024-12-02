@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import classnames from 'classnames';
 import axios from 'axios';
 import styles from './AddProperties.module.scss';
-import auth, { getUserId } from '~/utils/auth';
+import auth, { getToken, getUserId } from '~/utils/auth';
 
 const AddProperties: React.FC = () => {
     const [url] = useState(process.env.REACT_APP_API_HOUSES);
@@ -34,15 +34,24 @@ const AddProperties: React.FC = () => {
 
         try {
             // Gửi request POST tới API backend
-            const response = await axios.post(`${url}`, {
-                name: house.name,
-                address: house.address,
-                totalRooms: house.totalRooms,
-                description: house.description,
-                status: house.status,
-                createdAt: house.createdAt,
-                user: { id: getUserId() },
-            });
+            const response = await axios.post(
+                `${url}`,
+                {
+                    name: house.name,
+                    address: house.address,
+                    totalRooms: house.totalRooms,
+                    description: house.description,
+                    status: house.status,
+                    createdAt: house.createdAt,
+                    user: { id: getUserId() },
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                },
+            );
             console.log('Tòa nhà đã được thêm:', response.data);
 
             // Reset form nếu cần

@@ -17,43 +17,44 @@ const Support = () => {
     }, []);
 
     const fetchSupports = () => {
-        axios.get('http://localhost:8080/support-requests/all')
-            .then(response => {
+        axios
+            .get('http://localhost:8080/support-requests/all')
+            .then((response) => {
                 setSupports(response.data);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('There was an error fetching the supports!', error);
             });
     };
 
     const fetchUsers = () => {
-        axios.get('http://localhost:8080/users/all')
-            .then(response => {
+        axios
+            .get('http://localhost:8080/users/all')
+            .then((response) => {
                 setUsers(response.data);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('There was an error fetching the users!', error);
             });
     };
 
     const handleComplete = (id) => {
-        axios.delete(`http://localhost:8080/support-requests/${id}`)
-            .then(response => {
-                setSupports(supports.filter(support => support.id !== id));
+        axios
+            .delete(`http://localhost:8080/support-requests/${id}`)
+            .then((response) => {
+                setSupports(supports.filter((support) => support.id !== id));
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('There was an error completing the support!', error);
             });
     };
 
-    const filteredSupports = supports.filter(support => {
-        return (
-            support.user.username.toLowerCase().includes(filter.toLowerCase())
-        );
+    const filteredSupports = supports.filter((support) => {
+        return support.user.username.toLowerCase().includes(filter.toLowerCase());
     });
 
     const getUserInfo = (username) => {
-        const user = users.find(user => user.username === username);
+        const user = users.find((user) => user.username === username);
         return user ? `${user.email}, ${user.phoneNumber}` : 'No information available';
     };
 
@@ -64,10 +65,12 @@ const Support = () => {
                 type="text"
                 placeholder="Tìm kiếm theo tên đăng nhập"
                 value={search}
-                onChange={e => setSearch(e.target.value)}
+                onChange={(e) => setSearch(e.target.value)}
                 className={cx('searchInput')}
             />
-            <button onClick={() => setFilter(search)} className={cx('filterButton')}>Tìm kiếm</button>
+            <button onClick={() => setFilter(search)} className={cx('filterButton')}>
+                Tìm kiếm
+            </button>
             <table className={cx('supportTable')}>
                 <thead>
                     <tr>
@@ -79,14 +82,20 @@ const Support = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredSupports.map(support => (
+                    {filteredSupports.map((support) => (
                         <tr key={support.id}>
                             <td>{support.id}</td>
                             <td>{support.user.username}</td>
                             <td>{support.content}</td>
                             <td>{support.status === 1 ? 'Đang xử lý' : 'Chưa xử lý'}</td>
                             <td>
-                                <button type="button" className="btn btn-info btn-xs" onClick={() => handleComplete(support.id)}>Hoàn thành</button>
+                                <button
+                                    type="button"
+                                    className="btn btn-info btn-xs"
+                                    onClick={() => handleComplete(support.id)}
+                                >
+                                    Hoàn thành
+                                </button>
                             </td>
                         </tr>
                     ))}

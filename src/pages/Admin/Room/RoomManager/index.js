@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import styles from './RoomManager.module.scss';
 import { useParams } from 'react-router-dom'; // Hook để lấy id từ URL
 import axios from 'axios';
-import auth from '~/utils/auth';
+import auth, { getToken } from '~/utils/auth';
 
 // Khai báo cx sử dụng classNames và bind với styles
 const cx = classNames.bind(styles);
@@ -17,7 +17,12 @@ const RoomManager = () => {
 
     useEffect(() => {
         axios
-            .get(`${url}/house/${id}`)
+            .get(`${url}/house/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
             .then((response) => {
                 console.log('API Response:', response.data);
                 setRooms(response.data || []); // fallback nếu response trống
@@ -31,7 +36,12 @@ const RoomManager = () => {
 
     const handleDeleteRoom = (roomId) => {
         axios
-            .delete(`${url}/${roomId}`)
+            .delete(`${url}/${roomId}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
             .then((response) => {
                 alert('Phòng đã được xóa thành công!');
                 // Cập nhật lại danh sách phòng sau khi xóa

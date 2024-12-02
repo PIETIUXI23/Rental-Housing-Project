@@ -3,6 +3,7 @@ import axios from 'axios';
 import classNames from 'classnames/bind';
 import ReactPaginate from 'react-paginate';
 import styles from './AdvertisementManagement.module.scss';
+import { getToken } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
@@ -18,10 +19,7 @@ const AdvertisementManagement = () => {
         // } else {
         //     setUrl(`${url}&page=${event.selected}`);
         // }
-        setUrl(
-            
-            `${process.env.REACT_APP_API_ADMIN_ADVERTISEMENT}?page=${event.selected}`,
-        );
+        setUrl(`${process.env.REACT_APP_API_ADMIN_ADVERTISEMENT}?page=${event.selected}`);
     };
 
     useEffect(() => {
@@ -29,33 +27,48 @@ const AdvertisementManagement = () => {
     }, [url]);
 
     const fetchAds = () => {
-        axios.get(`${url}`)
-            .then(response => {
+        axios
+            .get(`${url}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response) => {
                 console.log(response.data); // Kiểm tra dữ liệu trả về từ API
                 setDataPage(response.data);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('There was an error fetching the ads!', error);
             });
     };
 
     const handleApprove = (id) => {
-        axios.put(`http://localhost:8080/advertisements/approve/${id}`, {
-            // Chỉ cập nhật trường status
-            status: 1
-        })
-        .then(response => {
-            setDataPage(prevState => ({
-                ...prevState,
-                adData: prevState.adData.map(ad => ad.id === id ? { ...ad, status: 1 } : ad)
-            }));
-            setSelectedAd(null);
-            fetchAds();
-        })
-        .catch(error => {
-            console.error('Có lỗi xảy ra khi duyệt quảng cáo!', error);
-        });
-
+        axios
+            .put(
+                `http://localhost:8080/advertisements/approve/${id}`,
+                {
+                    // Chỉ cập nhật trường status
+                    status: 1,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                },
+            )
+            .then((response) => {
+                setDataPage((prevState) => ({
+                    ...prevState,
+                    adData: prevState.adData.map((ad) => (ad.id === id ? { ...ad, status: 1 } : ad)),
+                }));
+                setSelectedAd(null);
+                fetchAds();
+            })
+            .catch((error) => {
+                console.error('Có lỗi xảy ra khi duyệt quảng cáo!', error);
+            });
     };
 
     return (
@@ -82,7 +95,7 @@ const AdvertisementManagement = () => {
                             <td>{ad.type}</td>
                             <td>
                                 <button type="button" className="btn btn-info btn-xs" onClick={() => setSelectedAd(ad)}>
-                                    <i className="fa-solid fa-circle-info" ></i>
+                                    <i className="fa-solid fa-circle-info"></i>
                                     Xem chi tiết
                                 </button>
                             </td>
@@ -91,30 +104,44 @@ const AdvertisementManagement = () => {
                 </tbody>
             </table>
             <ReactPaginate
-                    breakLabel="..."
-                    nextLabel="next >"
-                    onPageChange={handlePageClick}
-                    pageRangeDisplayed={2}
-                    pageCount={dataPage.pageTotal}
-                    previousLabel="< previous"
-                    renderOnZeroPageCount={null}
-                    containerClassName="pagination"
-                    pageLinkClassName="page-num"
-                    previousLinkClassName="page-num"
-                    nextLinkClassName="page-num"
-                    activeClassName="active"
+                breakLabel="..."
+                nextLabel="next >"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={2}
+                pageCount={dataPage.pageTotal}
+                previousLabel="< previous"
+                renderOnZeroPageCount={null}
+                containerClassName="pagination"
+                pageLinkClassName="page-num"
+                previousLinkClassName="page-num"
+                nextLinkClassName="page-num"
+                activeClassName="active"
             />
 
             {selectedAd && (
                 <div className={cx('adDetail')}>
                     <h2>Chi tiết quảng cáo</h2>
-                    <p><strong>ID:</strong> {selectedAd.id}</p>
-                    <p><strong>Tiêu đề:</strong> {selectedAd.title}</p>
-                    <p><strong>Mô tả:</strong> {selectedAd.description}</p>
-                    <p><strong>Địa chỉ:</strong> {selectedAd.address}</p>
-                    <p><strong>Giá:</strong> {selectedAd.cost}</p>
-                    <p><strong>Người đăng:</strong> {selectedAd.fullName}</p>
-                    <p><strong>Số điện thoại:</strong> {selectedAd.phoneNumber}</p>
+                    <p>
+                        <strong>ID:</strong> {selectedAd.id}
+                    </p>
+                    <p>
+                        <strong>Tiêu đề:</strong> {selectedAd.title}
+                    </p>
+                    <p>
+                        <strong>Mô tả:</strong> <div dangerouslySetInnerHTML={{ __html: selectedAd.description }} />
+                    </p>
+                    <p>
+                        <strong>Địa chỉ:</strong> {selectedAd.address}
+                    </p>
+                    <p>
+                        <strong>Giá:</strong> {selectedAd.cost}
+                    </p>
+                    <p>
+                        <strong>Người đăng:</strong> {selectedAd.fullName}
+                    </p>
+                    <p>
+                        <strong>Số điện thoại:</strong> {selectedAd.phoneNumber}
+                    </p>
                     <button type="button" className="btn btn-info btn-xs" onClick={() => handleApprove(selectedAd.id)}>
                         Duyệt
                     </button>

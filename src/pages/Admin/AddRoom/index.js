@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom'; // Hook để lấy id từ URL
 import classNames from 'classnames/bind';
 import styles from './AddRoom.module.scss';
+import { getToken } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
@@ -36,18 +37,26 @@ const AddRoom = () => {
         e.preventDefault();
 
         try {
-            // Thay đổi từ PUT thành POST để thêm phòng mới
-            const response = await axios.post(`${url}`, {
-                price: room.price,
-                roomNumber: room.roomNumber,
-                description: room.description,
-                occupancyStatus: room.occupancyStatus,
-                maxOccupants: room.maxOccupants,
-                createdAt: new Date().toISOString().split('T')[0],
-                house: {
-                    id: `${id}`,
+            const response = await axios.post(
+                `${url}`,
+                {
+                    price: room.price,
+                    roomNumber: room.roomNumber,
+                    description: room.description,
+                    occupancyStatus: room.occupancyStatus,
+                    maxOccupants: room.maxOccupants,
+                    createdAt: new Date().toISOString().split('T')[0],
+                    house: {
+                        id: `${id}`,
+                    },
                 },
-            });
+                {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                },
+            );
 
             alert('Thêm phòng thành công!');
             window.history.back(); // Quay lại trang trước

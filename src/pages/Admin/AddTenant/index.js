@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios
 import { useParams } from 'react-router-dom';
 import './AddTenant.module.scss';
+import { getToken } from '~/utils/auth';
 
 export default function AddTenant() {
     const { id } = useParams(); // Lấy id phòng từ URL
@@ -26,7 +27,12 @@ export default function AddTenant() {
     useEffect(() => {
         const fetchRoomData = async () => {
             try {
-                const response = await axios.get(`${urlRoom}/${id}`); // API để lấy dữ liệu phòng theo id
+                const response = await axios.get(`${urlRoom}/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                }); // API để lấy dữ liệu phòng theo id
                 setRoom(response.data); // Lưu dữ liệu phòng vào state
             } catch (error) {
                 console.error('Lỗi khi lấy dữ liệu phòng:', error);
@@ -40,7 +46,12 @@ export default function AddTenant() {
     useEffect(() => {
         const fetchRoomData = async () => {
             try {
-                const response = await axios.get(`${url}/all`); // API để lấy dữ liệu của khách thuê
+                const response = await axios.get(`${url}/all`, {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                }); // API để lấy dữ liệu của khách thuê
                 setallTenant(response.data); // Lưu dữ liệu khách thuê vào state
             } catch (error) {
                 console.error('Lỗi khi lấy dữ liệu khách thuê:', error);
@@ -95,14 +106,24 @@ export default function AddTenant() {
         };
 
         // Cập nhật dữ liệu phòng trên server
-        await axios.put(`${urlRoom}/${id}`, updatedRoom); // API PUT cập nhật phòng
+        await axios.put(`${urlRoom}/${id}`, updatedRoom, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`,
+                'Content-Type': 'application/json',
+            },
+        }); // API PUT cập nhật phòng
 
         // Cập nhật lại state của phòng
         setRoom(updatedRoom);
 
         // Gửi dữ liệu qua API
         try {
-            const response = await axios.post(`${url}`, tenant); // Thay đổi URL theo đúng API
+            const response = await axios.post(`${url}`, tenant, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            }); // Thay đổi URL theo đúng API
 
             // Reset form sau khi gửi thành công
             setTenant({

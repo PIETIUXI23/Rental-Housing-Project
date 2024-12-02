@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './AS.module.scss';
 
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = 'http://localhost:8080';
 
 const AdminSupport = () => {
     const [requests, setRequests] = useState([]);
@@ -24,7 +24,7 @@ const AdminSupport = () => {
             await axios.post(`${API_BASE_URL}/support-requests/${id}/reply`, { reply });
             alert('Đã trả lời yêu cầu!');
             // Lọc request đã trả lời ra khỏi danh sách
-            setRequests(prevRequests => prevRequests.filter((req) => req.id !== id));
+            setRequests((prevRequests) => prevRequests.filter((req) => req.id !== id));
             setReply('');
             setSelectedRequest(null);
         } catch (error) {
@@ -46,7 +46,6 @@ const AdminSupport = () => {
         pageNumbers.push(i);
     }
 
-
     return (
         <div className={styles.adminSupportContainer}>
             <h1 className={styles.title}>Hỗ trợ yêu cầu</h1>
@@ -62,10 +61,7 @@ const AdminSupport = () => {
                         <tr key={req.id}>
                             <td>{req.content}</td>
                             <td>
-                                <button
-                                    className={styles.replyButton}
-                                    onClick={() => setSelectedRequest(req)}
-                                >
+                                <button className={styles.replyButton} onClick={() => setSelectedRequest(req)}>
                                     Trả lời
                                 </button>
                             </td>
@@ -74,7 +70,7 @@ const AdminSupport = () => {
                 </tbody>
             </table>
             <div className={styles.pagination}>
-                {pageNumbers.map(number => (
+                {pageNumbers.map((number) => (
                     <button
                         key={number}
                         onClick={() => paginate(number)}

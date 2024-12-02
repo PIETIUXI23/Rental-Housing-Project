@@ -5,7 +5,7 @@ import styles from './Post.module.scss';
 import classNames from 'classnames/bind';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { getUserId, getUserSevicePackage } from '~/utils/auth';
+import { getToken, getUserId, getUserSevicePackage } from '~/utils/auth';
 import axios from 'axios'; // Dùng axios để gọi API địa chỉ nếu cần
 import { Helmet } from 'react-helmet';
 
@@ -139,7 +139,8 @@ function Post() {
         try {
             const response = await axios.post('http://localhost:8080/advertisements/create', requestData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
                 },
             });
 

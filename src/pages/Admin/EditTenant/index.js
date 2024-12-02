@@ -3,6 +3,7 @@ import axios from 'axios'; // Import axios
 import { useParams } from 'react-router-dom'; // Lấy useParams để lấy id từ URL
 import classNames from 'classnames/bind'; // Import classNames
 import styles from './EditTenant.module.scss'; // Import styles
+import { getToken } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
@@ -21,7 +22,12 @@ export default function EditTenant() {
     useEffect(() => {
         const fetchTenant = async () => {
             try {
-                const response = await axios.get(`${url}/${id}`);
+                const response = await axios.get(`${url}/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
                 setTenant(response.data); // Cập nhật tenant với dữ liệu từ API
             } catch (error) {
                 console.error('Lỗi khi lấy thông tin người thuê:', error);
@@ -50,7 +56,12 @@ export default function EditTenant() {
 
         // Gửi dữ liệu qua API
         try {
-            const response = await axios.put(`${url}/${id}`, tenant); // Sử dụng PUT để chỉnh sửa
+            const response = await axios.put(`${url}/${id}`, tenant, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            }); // Sử dụng PUT để chỉnh sửa
 
             alert('Cập nhật thông tin khách thuê thành công');
             window.history.back();

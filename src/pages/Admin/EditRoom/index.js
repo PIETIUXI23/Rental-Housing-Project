@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'; // Hook để lấy id từ URL
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import styles from './EditRoom.module.scss';
+import { getToken } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
@@ -21,11 +22,15 @@ const EditRoom = () => {
         },
     });
 
-    // Khi component được render, gọi API để lấy thông tin phòng
     useEffect(() => {
         const fetchRoom = async () => {
             try {
-                const response = await axios.get(`${url}/${id}`); // Gọi API với id
+                const response = await axios.get(`${url}/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                }); // Gọi API với id
                 setRoom({
                     price: response.data.price || 0,
                     roomNumber: response.data.roomNumber || '',
@@ -39,7 +44,6 @@ const EditRoom = () => {
                         id: response.data.house.id,
                     },
                 });
-
             } catch (error) {
                 console.error('Error fetching room data:', error);
                 alert('Đã xảy ra lỗi khi tải thông tin phòng.');
@@ -66,17 +70,26 @@ const EditRoom = () => {
         e.preventDefault();
         try {
             console.log(room);
-            const response = await axios.put(`${url}/${id}`, {
-                price: room.price,
-                roomNumber: room.roomNumber,
-                description: room.description,
-                occupancyStatus: room.occupancyStatus,
-                maxOccupants: room.maxOccupants,
-                createdAt: new Date().toISOString().split('T')[0],
-                house: {
-                    id: room.house.id,
+            const response = await axios.put(
+                `${url}/${id}`,
+                {
+                    price: room.price,
+                    roomNumber: room.roomNumber,
+                    description: room.description,
+                    occupancyStatus: room.occupancyStatus,
+                    maxOccupants: room.maxOccupants,
+                    createdAt: new Date().toISOString().split('T')[0],
+                    house: {
+                        id: room.house.id,
+                    },
                 },
-            });
+                {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                },
+            );
 
             alert('Cập nhật thông tin phòng thành công!');
             window.history.back(); // Quay lại trang trước

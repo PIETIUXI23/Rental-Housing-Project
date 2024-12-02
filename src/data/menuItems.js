@@ -18,28 +18,10 @@ export const MENU_ITEMS = [
     //     path: '/admin/service',
     // },
     {
-        id: 'electric',
-        icon: 'fa-bolt',
-        label: 'Chỉ số điện',
-        path: '/admin/electric',
-    },
-    {
-        id: 'water',
-        icon: 'fa-tint',
-        label: 'Chỉ số nước',
-        path: '/admin/water',
-    },
-    {
         id: 'incurred',
         icon: 'fa-plus-circle',
-        label: 'Phát sinh',
+        label: 'Yêu cầu hỗ trợ',
         path: '/admin/user_request',
-    },
-    {
-        id: 'calculate',
-        icon: 'fa-calculator',
-        label: 'Tính tiền',
-        path: '/calculate',
     },
     {
         id: 'report',
@@ -78,12 +60,6 @@ export const MENU_ITEMS = [
                 path: '/admin/report/ReportRoomPerson',
             },
         ],
-    },
-    {
-        id: 'email',
-        icon: 'fa-history',
-        label: ' Lịch sử gửi email',
-        path: '/admin/email',
     },
     {
         id: 'post',

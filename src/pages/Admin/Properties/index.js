@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import styles from './Properties.module.scss';
 import axios from 'axios';
 import { event } from 'jquery';
+import { getToken } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
@@ -14,7 +15,12 @@ const Properties = () => {
 
     useEffect(() => {
         axios
-            .get(`${url}/all`)
+            .get(`${url}/all`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
             .then((response) => {
                 setKeycards(response.data || []);
             })

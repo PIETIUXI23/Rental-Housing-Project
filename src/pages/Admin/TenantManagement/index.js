@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import styles from './TenantManagement.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { getToken } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
@@ -14,7 +15,12 @@ const TenantManagement = () => {
     // Lấy dữ liệu từ API của tất cả khách thuê
     useEffect(() => {
         axios
-            .get(`${url}/all`)
+            .get(`${url}/all`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
             .then((response) => {
                 setTenants(response.data);
             })
@@ -36,10 +42,20 @@ const TenantManagement = () => {
         }
 
         try {
-            const response = await axios.get(`${url}/${tenantId}`);
+            const response = await axios.get(`${url}/${tenantId}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            });
 
             if (window.confirm('Bạn có chắc chắn muốn xóa khách thuê này không?')) {
-                await axios.delete(`${url}/${tenantId}`);
+                await axios.delete(`${url}/${tenantId}`, {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
                 setTenants((prevTenants) => prevTenants.filter((tenant) => tenant.id !== tenantId));
                 alert('Xóa khách thuê thành công!');
 
@@ -48,7 +64,12 @@ const TenantManagement = () => {
                 const totalTenantByIdRoom = tenants.filter((item) => item.room.id === response.data.room.id).length - 1;
                 // console.log(totalTenantByIdRoom);
                 if (totalTenantByIdRoom === 0) {
-                    const roomResponse = await axios.get(`${urlRoom}/${response.data.room.id}`);
+                    const roomResponse = await axios.get(`${urlRoom}/${response.data.room.id}`, {
+                        headers: {
+                            Authorization: `Bearer ${getToken()}`,
+                            'Content-Type': 'application/json',
+                        },
+                    });
                     // console.log('roomResponse', roomResponse);
                     const updatedRoom = { ...roomResponse.data, occupancyStatus: 0 };
                     // console.log('Cập nhật ', updatedRoom);
