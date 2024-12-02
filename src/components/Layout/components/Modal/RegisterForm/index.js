@@ -3,7 +3,7 @@ import Modal from '..';
 import styles from './RegisterForm.module.scss';
 import classNames from 'classnames/bind';
 import { faEnvelope, faEye, faEyeSlash, faUser } from '@fortawesome/free-regular-svg-icons';
-import { faClose, faLock, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faClose, faLock, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -24,10 +24,10 @@ function RegisterForm({ visible, onClick, onRedirect }) {
 
     const [servicePackages, setServicePackages] = useState([]);
 
-    const handleRegister = (e) => {
-        e.preventDefault();
-        console.log(userName + ' ' + password);
-    };
+    // const handleRegister = (e) => {
+    //     e.preventDefault();
+    //     console.log(userName + ' ' + password);
+    // };
 
     const handleContinue = (e) => {
         e.preventDefault();
@@ -36,7 +36,17 @@ function RegisterForm({ visible, onClick, onRedirect }) {
                 setValidateLog('Mật khẩu và xác nhận mật khẩu không khớp');
                 return;
             }
-            setIsContinueRegister(true);
+            axios
+                .get(`${process.env.REACT_APP_API_BASE_URL}/users/get-by-name?username=${userName}`)
+                .then((response) => {
+                    if (response.status === 200) {
+                        setValidateLog('Người dùng đã tồn tại!');
+                    }
+                })
+                .catch((response) => {
+                    setIsContinueRegister(true);
+                    setValidateLog('');
+                });
         } else {
             setValidateLog('Vui lòng điền đầy đủ thông tin');
         }
@@ -45,6 +55,11 @@ function RegisterForm({ visible, onClick, onRedirect }) {
     const handleSelect = (service) => {
         console.log(service);
         setServiceSelected(service);
+    };
+
+    const handleBack = (e) => {
+        e.preventDefault();
+        setIsContinueRegister(false);
     };
 
     const handlePay = (e) => {
@@ -84,6 +99,9 @@ function RegisterForm({ visible, onClick, onRedirect }) {
             >
                 <form>
                     <div>
+                        <button onClick={handleBack}>
+                            <FontAwesomeIcon icon={faArrowLeft} />
+                        </button>
                         <button onClick={onClick}>
                             <FontAwesomeIcon icon={faClose} />
                         </button>
@@ -127,7 +145,7 @@ function RegisterForm({ visible, onClick, onRedirect }) {
                 }}
             >
                 <form>
-                    <div>
+                    <div style={{ justifyContent: 'right' }}>
                         <button onClick={onClick}>
                             <FontAwesomeIcon icon={faClose} />
                         </button>

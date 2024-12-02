@@ -83,11 +83,13 @@ const Sidebar = () => {
                             }
 
                             return (
-                                <li key={item.id}>
-                                    <Link to={item.path}>
-                                        <i className={`fa ${item.icon}`}></i> {item.label}
-                                    </Link>
-                                </li>
+                                (getUserSevicePackage() === 1 && item.path === '/admin/post') || (
+                                    <li key={item.id}>
+                                        <Link to={item.path}>
+                                            <i className={`fa ${item.icon}`}></i> {item.label}
+                                        </Link>
+                                    </li>
+                                )
                             );
                         })}
                     </ul>
