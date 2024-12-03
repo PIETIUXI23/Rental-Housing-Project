@@ -4,6 +4,7 @@ import axios from 'axios';
 import styles from './EditProperties.module.scss';
 import auth, { getUserId } from '~/utils/auth';
 import { useParams } from 'react-router-dom';
+import { data } from 'jquery';
 
 const EditProperties: React.FC = () => {
     const { id } = useParams();
@@ -32,6 +33,7 @@ const EditProperties: React.FC = () => {
             try {
                 const response = await axios.get(`${url}/${id}`); // Gọi API với id
                 const data = response.data;
+                console.log(data);
                 setHouse({
                     name: data.name || '',
                     address: data.address || '',
