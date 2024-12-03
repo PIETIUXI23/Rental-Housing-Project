@@ -4,18 +4,18 @@ import { Link } from 'react-router-dom';
 import styles from './Properties.module.scss';
 import axios from 'axios';
 import { event } from 'jquery';
-import { getToken } from '~/utils/auth';
+import { getToken, getUserId } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
 const Properties = () => {
     const [keycards, setKeycards] = useState([]);
-    const [url] = useState(process.env.REACT_APP_API_HOUSES);
+    const [url, setUrl] = useState(`${process.env.REACT_APP_API_HOUSES_BY_USER}/${getUserId()}`);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         axios
-            .get(`${url}/all`, {
+            .get(`${url}`, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`,
                     'Content-Type': 'application/json',
