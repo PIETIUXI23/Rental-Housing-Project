@@ -140,15 +140,12 @@ function Post() {
             const response = await axios.post('http://localhost:8080/advertisements/create', requestData, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`,
-                    'Content-Type': 'application/json',
                 },
             });
 
             if (response.status !== 200) {
                 throw new Error('Failed to add advertisement');
             }
-
-            alert('Advertisement added successfully');
             setFormData({
                 description: '',
                 address: '',
@@ -167,6 +164,8 @@ function Post() {
                 type: getUserSevicePackage() === 3 ? 1 : 2,
                 images: [],
             });
+
+            alert('Advertisement added successfully');
         } catch (error) {
             console.error(error);
             alert('Error adding advertisement');
