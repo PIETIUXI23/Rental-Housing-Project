@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import axios from 'axios';
 import styles from './EditProperties.module.scss';
-import auth, { getUserId } from '~/utils/auth';
+import { getToken, getUserId } from '~/utils/auth';
 import { useParams } from 'react-router-dom';
 import { data } from 'jquery';
 
@@ -31,7 +31,12 @@ const EditProperties: React.FC = () => {
     useEffect(() => {
         const fetchHouse = async () => {
             try {
-                const response = await axios.get(`${url}/${id}`); // Gọi API với id
+                const response = await axios.get(`${url}/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                }); // Gọi API với id
                 const data = response.data;
                 console.log(data);
                 setHouse({
@@ -65,15 +70,24 @@ const EditProperties: React.FC = () => {
 
         try {
             // Gửi request put tới API backend
-            const response = await axios.put(`${url}/${id}`, {
-                name: house.name,
-                address: house.address,
-                totalRooms: house.totalRooms,
-                description: house.description,
-                status: house.status,
-                createdAt: house.createdAt,
-                user: { id: getUserId() },
-            });
+            const response = await axios.put(
+                `${url}/${id}`,
+                {
+                    name: house.name,
+                    address: house.address,
+                    totalRooms: house.totalRooms,
+                    description: house.description,
+                    status: house.status,
+                    createdAt: house.createdAt,
+                    user: { id: getUserId() },
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                },
+            );
             console.log('Tòa nhà đã được thêm:', response.data);
 
             alert('Tòa nhà đã được sửa thành công!');
