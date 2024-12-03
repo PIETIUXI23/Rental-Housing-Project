@@ -1,114 +1,166 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import classNames from 'classnames/bind';
+import ReactPaginate from 'react-paginate';
 import styles from './Support.module.scss';
 
 const cx = classNames.bind(styles);
 
 const Support = () => {
-    const [supports, setSupports] = useState([]);
-    const [users, setUsers] = useState([]);
+    const [editSupports, setEditSupports] = useState(null);
+    const [dataPage, setDataPage] = useState({ pageTotal: 0, pageNum: 0, adData: [] });
+    const [url, setUrl] = useState(process.env.REACT_APP_API_ADMIN_SUPPORT);
     const [search, setSearch] = useState('');
-    const [filter, setFilter] = useState('');
+    const [reply, setReply] = useState('');
+    const [selectedSupportId, setSelectedSupportId] = useState(null);
+
+    const handlePageClick = (event) => {
+        setUrl(`${process.env.REACT_APP_API_ADMIN_SUPPORT}?page=${event.selected}`);
+    };
 
     useEffect(() => {
         fetchSupports();
-        fetchUsers();
-    }, []);
+    }, [url]);
 
     const fetchSupports = () => {
         axios
-            .get('http://localhost:8080/support-requests/all')
-            .then((response) => {
-                setSupports(response.data);
+        .get(`${url}`, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => {
+                console.log(response.data);
+                setDataPage(response.data);
             })
             .catch((error) => {
                 console.error('There was an error fetching the supports!', error);
             });
     };
-
-    const fetchUsers = () => {
-        axios
-            .get('http://localhost:8080/users/all')
-            .then((response) => {
-                setUsers(response.data);
+    const handleComplete = (id, status) => {
+        axios.put(`http://localhost:8080/support-requests/change-status/${id}`, 
+            { status: 1 },
+            {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            },
+        
+        )
+            .then(response => {
+                setDataPage(prevState => ({
+                    ...prevState,
+                    adData: prevState.adData.map(ad => ad.id === id ? { ...ad, status: 1 } : ad)
+                }));
+                fetchSupports();
             })
-            .catch((error) => {
-                console.error('There was an error fetching the users!', error);
+            .catch(error => {
+                console.error('There was an error updating the support status!', error);
             });
     };
 
-    const handleComplete = (id) => {
-        axios
-            .delete(`http://localhost:8080/support-requests/${id}`)
-            .then((response) => {
-                setSupports(supports.filter((support) => support.id !== id));
-            })
-            .catch((error) => {
-                console.error('There was an error completing the support!', error);
-            });
+    const handleReplyChange = (event) => {
+        setReply(event.target.value);
     };
 
-    const filteredSupports = supports.filter((support) => {
-        return support.user.username.toLowerCase().includes(filter.toLowerCase());
-    });
+    const handleSendReply = (id) => {
+        const support = dataPage.adData.find(ad => ad.id === id);
 
-    const getUserInfo = (username) => {
-        const user = users.find((user) => user.username === username);
-        return user ? `${user.email}, ${user.phoneNumber}` : 'No information available';
+        if (support) {
+            axios.put(`http://localhost:8080/support-requests/change-reply/${id}`, 
+                { adminReply: reply },
+                {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                },
+            )
+                .then(response => {
+                    setDataPage(prevState => ({
+                        ...prevState,
+                        adData: prevState.adData.map(ad => ad.id === id ? { ...ad, adminReply: reply } : ad)
+                    }));
+                    setReply('');
+                    setSelectedSupportId(null);
+                    fetchSupports();
+                })
+                .catch(error => {
+                    console.error('There was an error sending the reply!', error);
+                });
+        }
     };
+
+    const filteredSupports = dataPage.adData.filter(support => 
+        support.username.toLowerCase().includes(search.toLowerCase())
+    );
 
     return (
         <div className={cx('container')}>
             <h1>Quản lý hỗ trợ</h1>
-            <input
-                type="text"
-                placeholder="Tìm kiếm theo tên đăng nhập"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+            <input 
+                type="text" 
+                placeholder="Tìm kiếm theo username" 
+                value={search} 
+                onChange={(e) => setSearch(e.target.value)} 
                 className={cx('searchInput')}
             />
-            <button onClick={() => setFilter(search)} className={cx('filterButton')}>
-                Tìm kiếm
-            </button>
             <table className={cx('supportTable')}>
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Username</th>
                         <th>Nội dung yêu cầu</th>
-                        <th>Trạng thái</th>
+                        <th>Trả lời</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
+
                     {filteredSupports.map((support) => (
                         <tr key={support.id}>
                             <td>{support.id}</td>
-                            <td>{support.user.username}</td>
+                            <td>{support.username}</td>
                             <td>{support.content}</td>
-                            <td>{support.status === 1 ? 'Đang xử lý' : 'Chưa xử lý'}</td>
                             <td>
-                                <button
-                                    type="button"
-                                    className="btn btn-info btn-xs"
-                                    onClick={() => handleComplete(support.id)}
-                                >
-                                    Hoàn thành
-                                </button>
+                                {support.admin_rely}
+                                {selectedSupportId === support.id && (
+                                    <div>
+                                        <input 
+                                            type="text"
+                                            value={reply}
+                                            onChange={handleReplyChange}
+                                            placeholder="Nhập hồi đáp"
+                                            className={cx('replyInput')}
+                                        />
+                                        <button type="button" className="btn btn-info btn-xs" onClick={() => handleSendReply(support.id)}>Gửi</button>
+                                    </div>
+                                )}
+                            </td>
+                            <td>
+                                <button type="button" className="btn btn-info btn-xs" onClick={() => setSelectedSupportId(support.id)}>Gửi hồi đáp</button>
+                                <button type="button" className="btn btn-info btn-xs" onClick={() => handleComplete(support.id, support.status)}>Hoàn thành</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <div className={cx('userInfo')}>
-                {filter && (
-                    <>
-                        <h2>Thông tin người dùng</h2>
-                        <p>{getUserInfo(filter)}</p>
-                    </>
-                )}
-            </div>
+            <ReactPaginate
+                breakLabel="..."
+                nextLabel="next >"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={2}
+                pageCount={dataPage.pageTotal}
+                previousLabel="< previous"
+                renderOnZeroPageCount={null}
+                containerClassName="pagination"
+                pageLinkClassName="page-num"
+                previousLinkClassName="page-num"
+                nextLinkClassName="page-num"
+                activeClassName="active"
+            />
         </div>
     );
 };
