@@ -8,14 +8,14 @@ import { getToken } from '~/utils/auth';
 const cx = classNames.bind(styles);
 
 const TenantManagement = () => {
+    const { id } = useParams();
     const [tenants, setTenants] = useState([]);
-    const [url] = useState(process.env.REACT_APP_API_TENANRS);
-    const [urlRoom] = useState(process.env.REACT_APP_API_HOUSES_ROOMS);
+    const [url, setUrl] = useState(process.env.REACT_APP_API_TENANRS_BY_HOUSE);
+    const [urlRoom, setUrlRoom] = useState(process.env.REACT_APP_API_HOUSES_ROOMS);
 
-    // Lấy dữ liệu từ API của tất cả khách thuê
     useEffect(() => {
         axios
-            .get(`${url}/all`, {
+            .get(`${url}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${getToken()}`,
                     'Content-Type': 'application/json',
@@ -74,7 +74,12 @@ const TenantManagement = () => {
                     const updatedRoom = { ...roomResponse.data, occupancyStatus: 0 };
                     // console.log('Cập nhật ', updatedRoom);
                     try {
-                        await axios.put(`${urlRoom}/${response.data.room.id}`, updatedRoom);
+                        await axios.put(`${urlRoom}/${response.data.room.id}`, updatedRoom, {
+                            headers: {
+                                Authorization: `Bearer ${getToken()}`,
+                                'Content-Type': 'application/json',
+                            },
+                        });
                     } catch (error) {
                         console.error('Lỗi khi cập nhật phòng:', error.response || error.message);
                     }
@@ -107,7 +112,7 @@ const TenantManagement = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {tenants.map((tenant) => (
+                    {tenants.map((tenant, index) => (
                         <tr key={tenant.id}>
                             {' '}
                             {/* Sử dụng tenant.id làm key */}
@@ -130,7 +135,7 @@ const TenantManagement = () => {
                                 <input
                                     type="checkbox"
                                     checked={tenant.isRepresentative === 1}
-                                    onChange={() => handleCheckboxChange(tenant.id)}
+                                    onChange={() => handleCheckboxChange(index)}
                                 />
                             </td>
                             <td>

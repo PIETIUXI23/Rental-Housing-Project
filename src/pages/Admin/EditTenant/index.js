@@ -73,7 +73,7 @@ export default function EditTenant() {
 
     return (
         <div className={cx('container')}>
-            <form onSubmit={handleSubmit}>
+            <form style={{ height: '500px' }} onSubmit={handleSubmit}>
                 <h2 className={cx('title')}>Sửa Thông Tin Người Thuê</h2>
 
                 <div className={cx('inputGroup')}>

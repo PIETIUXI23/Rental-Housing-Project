@@ -65,11 +65,6 @@ const Properties = () => {
                             Thêm nhà mới
                         </button>
                     </Link>
-                    <Link to={`/admin/tentnant`}>
-                        <button className={cx('btn_primary')}>
-                            <i className="fa fa-users"></i> Khách thuê
-                        </button>
-                    </Link>
                 </div>
             </div>
 
@@ -98,6 +93,19 @@ const Properties = () => {
                                         >
                                             <span className={cx('icon', 'trash-icon')}></span>
                                         </button>
+                                        <Link to={`/admin/tenants/house/${card.id}`}>
+                                            <button
+                                                style={{
+                                                    padding: '5px',
+                                                    borderRadius: '5px',
+                                                    backgroundColor: '#007bff',
+                                                    color: '#fff',
+                                                }}
+                                                className={cx('btn_primary')}
+                                            >
+                                                <i className="fa fa-users"></i> Khách thuê
+                                            </button>
+                                        </Link>
                                     </div>
                                 </div>
                                 <div className={cx('card-body')}>
