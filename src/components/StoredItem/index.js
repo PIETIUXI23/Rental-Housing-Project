@@ -3,6 +3,7 @@ import styles from './StoredItem.module.scss';
 import classNames from 'classnames/bind';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 function StoredItem({ data, onClick }) {
@@ -18,15 +19,17 @@ function StoredItem({ data, onClick }) {
     };
     return (
         isVisible && (
-            <div className={cx('wrapper')}>
-                <div className={cx('image')}>
-                    <img src={data.image} />
+            <Link to={`/advertisement/${data.id}`}>
+                <div className={cx('wrapper')}>
+                    <div className={cx('image')}>
+                        <img src={data.image} />
+                    </div>
+                    <div className={cx('title')}>{data.title}</div>
+                    <button className={cx('delete-btn')} onClick={handleDelete}>
+                        <FontAwesomeIcon icon={faXmark} />
+                    </button>
                 </div>
-                <div className={cx('title')}>{data.title}</div>
-                <button className={cx('delete-btn')} onClick={handleDelete}>
-                    <FontAwesomeIcon icon={faXmark} />
-                </button>
-            </div>
+            </Link>
         )
     );
 }
