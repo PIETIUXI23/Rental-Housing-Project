@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './InputWaterElectric.module.scss';
+import axios from 'axios';
+import { getToken } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
@@ -21,13 +23,18 @@ function InputWaterElectric() {
     // Fetch room services
     const fetchRoomServices = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/room-services/room/${id}`);
-            const data = await response.json();
+            const response = await axios.get(`http://localhost:8080/room-services/room/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = response.data;
             setRoomServices(data);
 
             // Khởi tạo state cho các input
             const inputs = {};
-            data.forEach(service => {
+            data.forEach((service) => {
                 if (service.unit === 2) {
                     inputs[service.id] = 0;
                 }
@@ -41,8 +48,13 @@ function InputWaterElectric() {
     // Fetch số người trong phòng
     const fetchTenantCount = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/tenants/count/${id}`);
-            const count = await response.json();
+            const response = await axios.get(`http://localhost:8080/tenants/count/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            const count = response.data;
             setTenantCount(count);
         } catch (error) {
             console.error('Error fetching tenant count:', error);
@@ -66,9 +78,9 @@ function InputWaterElectric() {
     // Cập nhật input chỉ số
     const handleInputChange = (serviceId, value) => {
         const numValue = Math.max(0, Number(value)); // Đảm bảo giá trị không âm
-        setServiceInputs(prev => ({
+        setServiceInputs((prev) => ({
             ...prev,
-            [serviceId]: numValue
+            [serviceId]: numValue,
         }));
     };
 
@@ -76,11 +88,16 @@ function InputWaterElectric() {
     const handleCreateInvoice = async () => {
         try {
             // Get tenant email from room id
-            const tenantResponse = await fetch(`http://localhost:8080/tenants/room/${id}`);
-            const tenants = await tenantResponse.json();
+            const tenantResponse = await axios.get(`http://localhost:8080/tenants/room/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            const tenants = tenantResponse.data;
 
             // Find representative tenant (isRepresentative = 1)
-            const representativeTenant = tenants.find(tenant => tenant.isRepresentative === 1);
+            const representativeTenant = tenants.find((tenant) => tenant.isRepresentative === 1);
 
             if (!representativeTenant) {
                 alert('Không tìm thấy người đại diện phòng!');
@@ -92,25 +109,23 @@ function InputWaterElectric() {
                 roomId: parseInt(id),
                 total: totalAmount,
                 email: representativeTenant.email,
-                message: `Hoa don phong ${id} tháng ${new Date().getMonth() + 1}/${new Date().getFullYear()}`
+                message: `Hoa don phong ${id} tháng ${new Date().getMonth() + 1}/${new Date().getFullYear()}`,
             };
 
             // Call API to create invoice and get payment link
-            const response = await fetch('http://localhost:8080/invoices/create', {
-                method: 'POST',
+            const response = await axios.post('http://localhost:8080/invoices/create', invoiceRequest, {
                 headers: {
+                    Authorization: `Bearer ${getToken()}`,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(invoiceRequest)
             });
 
-            if (!response.ok) {
+            if (response.status !== 200) {
                 throw new Error('Failed to create invoice');
             }
 
-            const result = await response.text();
+            const result = response.data;
             alert(result);
-
         } catch (error) {
             console.error('Error creating invoice:', error);
             alert('Có lỗi xảy ra khi tạo hóa đơn!');
@@ -127,7 +142,7 @@ function InputWaterElectric() {
 
     // Kiểm tra tính hợp lệ của form
     useEffect(() => {
-        const areAllInputsFilled = roomServices.every(service => {
+        const areAllInputsFilled = roomServices.every((service) => {
             if (service.unit === 2) {
                 return serviceInputs[service.id] > 0;
             }
@@ -154,35 +169,37 @@ function InputWaterElectric() {
                             </tr>
                         </thead>
                         <tbody>
-                            {roomServices.map(service => (
+                            {roomServices.map((service) => (
                                 <tr key={service.id}>
                                     <td>{service.name}</td>
                                     <td>{service.cost.toLocaleString()} VNĐ</td>
                                     <td>
-                                        {service.unit === 1 && "Cố định"}
-                                        {service.unit === 2 && "Theo chỉ số"}
-                                        {service.unit === 3 && "Theo người"}
+                                        {service.unit === 1 && 'Cố định'}
+                                        {service.unit === 2 && 'Theo chỉ số'}
+                                        {service.unit === 3 && 'Theo người'}
                                     </td>
                                     <td>
                                         {service.unit === 2 ? (
                                             <input
                                                 type="number"
                                                 min="0"
-                                                value={serviceInputs[service.id] || ""}
+                                                value={serviceInputs[service.id] || ''}
                                                 onChange={(e) => handleInputChange(service.id, e.target.value)}
                                                 className={cx('service-input')}
                                             />
                                         ) : service.unit === 3 ? (
                                             tenantCount
                                         ) : (
-                                            "1"
+                                            '1'
                                         )}
                                     </td>
                                     <td>{calculateAmount(service).toLocaleString()} VNĐ</td>
                                 </tr>
                             ))}
                             <tr className={cx('total-row')}>
-                                <td colSpan="4" className={cx('total-label')}>Tổng cộng:</td>
+                                <td colSpan="4" className={cx('total-label')}>
+                                    Tổng cộng:
+                                </td>
                                 <td className={cx('total-amount')}>{totalAmount.toLocaleString()} VNĐ</td>
                             </tr>
                         </tbody>

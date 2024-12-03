@@ -24,6 +24,10 @@ const Support = () => {
     }, [url]);
 
     const fetchSupports = () => {
+        console.log({
+            Authorization: `Bearer ${getToken()}`,
+            'Content-Type': 'application/json',
+        });
         axios
             .get(`${url}`, {
                 headers: {

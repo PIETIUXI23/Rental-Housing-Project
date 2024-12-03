@@ -32,7 +32,12 @@ const Properties = () => {
     const handleDelete = async (id) => {
         if (window.confirm('Bạn có chắc chắn muốn xóa tòa nhà này?')) {
             try {
-                await axios.delete(`${url}/${id}`);
+                await axios.delete(`${url}/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
                 alert('Tòa nhà đã được xóa thành công!');
                 setKeycards((prevKeycards) => prevKeycards.filter((card) => card.id !== id));
             } catch (error) {
