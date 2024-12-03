@@ -23,7 +23,13 @@ const Support = () => {
     }, [url]);
 
     const fetchSupports = () => {
-        axios.get(`${url}`)
+        axios
+        .get(`${url}`, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`,
+                'Content-Type': 'application/json',
+            }
+        })
             .then(response => {
                 console.log(response.data);
                 setDataPage(response.data);
@@ -33,7 +39,16 @@ const Support = () => {
             });
     };
     const handleComplete = (id, status) => {
-        axios.put(`http://localhost:8080/support-requests/change-status/${id}`, { status: 1 })
+        axios.put(`http://localhost:8080/support-requests/change-status/${id}`, 
+            { status: 1 },
+            {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            },
+        
+        )
             .then(response => {
                 setDataPage(prevState => ({
                     ...prevState,
@@ -54,7 +69,15 @@ const Support = () => {
         const support = dataPage.adData.find(ad => ad.id === id);
 
         if (support) {
-            axios.put(`http://localhost:8080/support-requests/change-reply/${id}`, { adminReply: reply })
+            axios.put(`http://localhost:8080/support-requests/change-reply/${id}`, 
+                { adminReply: reply },
+                {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                },
+            )
                 .then(response => {
                     setDataPage(prevState => ({
                         ...prevState,

@@ -32,8 +32,8 @@ const AdvertisementManagement = () => {
                 headers: {
                     Authorization: `Bearer ${getToken()}`,
                     'Content-Type': 'application/json',
-                },
-            })
+                }
+            },)
             .then((response) => {
                 console.log(response.data); // Kiểm tra dữ liệu trả về từ API
                 setDataPage(response.data);
