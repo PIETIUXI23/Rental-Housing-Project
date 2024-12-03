@@ -44,7 +44,7 @@ export const MENU_ITEMS = [
             {
                 id: 'report-customer-contract-expired',
                 icon: 'fa-file',
-                label: 'Danh sách khách sắp hết hợp đồng',
+                label: 'Danh sách hoá đơn thanh toán',
                 path: '/admin/report/ReportCustomerContractExpired',
             },
             {
