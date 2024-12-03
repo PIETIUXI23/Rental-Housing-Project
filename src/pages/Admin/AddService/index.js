@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './AddService.module.scss';
 import { useParams } from 'react-router-dom'; // Hook để lấy id từ URL
 import axios from 'axios';
+import { getToken } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
@@ -21,7 +22,7 @@ const AddRoom = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        
+
         // Cập nhật giá trị cho unit và các trường khác
         setNewService((prev) => ({
             ...prev,
@@ -37,15 +38,24 @@ const AddRoom = () => {
 
         // Gửi yêu cầu POST để thêm dịch vụ mới
         axios
-            .post(`${url}`, {
-                name: newService.name,
-                cost: parseFloat(newService.cost),
-                createdAt: new Date().toISOString().split('T')[0],
-                unit: newService.unit,
-                room: {
-                    id: `${id}`,
+            .post(
+                `${url}`,
+                {
+                    name: newService.name,
+                    cost: parseFloat(newService.cost),
+                    createdAt: new Date().toISOString().split('T')[0],
+                    unit: newService.unit,
+                    room: {
+                        id: `${id}`,
+                    },
                 },
-            })
+                {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                },
+            )
             .then((response) => {
                 // Reset form
                 setNewService({
@@ -65,7 +75,6 @@ const AddRoom = () => {
                 alert('Đã xảy ra lỗi khi thêm dịch vụ.');
             });
     };
-
 
     return (
         <div className={cx('container')}>
@@ -97,12 +106,7 @@ const AddRoom = () => {
 
                 <div className={cx('form-group')}>
                     <label className={cx('label')}>Đơn Vị</label>
-                    <select
-                        name="unit"
-                        value={newService.unit}
-                        onChange={handleInputChange}
-                        className={cx('input')}
-                    >
+                    <select name="unit" value={newService.unit} onChange={handleInputChange} className={cx('input')}>
                         <option value="">Chọn đơn vị</option>
                         <option value="1">Theo người</option>
                         <option value="2">Theo chỉ số</option>

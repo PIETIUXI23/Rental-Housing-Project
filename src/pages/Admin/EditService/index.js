@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './EditService.module.scss';
 import { useParams, useNavigate } from 'react-router-dom'; // Hook để lấy id từ URL và điều hướng
 import axios from 'axios';
+import { getToken } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
@@ -23,7 +24,12 @@ const EditService = () => {
     // Lấy thông tin dịch vụ khi component được render
     useEffect(() => {
         axios
-            .get(`${url}/${id}`)
+            .get(`${url}/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
             .then((response) => {
                 const service = response.data;
                 setNewService({
@@ -75,15 +81,24 @@ const EditService = () => {
         });
 
         axios
-            .put(`${url}/${id}`, {
-                name: newService.name,
-                cost: newService.cost,
-                createdAt: newService.createdAt,
-                unit: newService.unit,
-                room: {
-                    id: newService.room.id,
+            .put(
+                `${url}/${id}`,
+                {
+                    name: newService.name,
+                    cost: newService.cost,
+                    createdAt: newService.createdAt,
+                    unit: newService.unit,
+                    room: {
+                        id: newService.room.id,
+                    },
                 },
-            })
+                {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                },
+            )
             .then(() => {
                 alert('Dịch vụ đã được cập nhật thành công!');
                 window.history.back();

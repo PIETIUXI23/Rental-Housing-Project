@@ -4,11 +4,11 @@ import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useParams } from 'react-router-dom'; // Hook để lấy id từ URL
+import { getToken } from '~/utils/auth';
 
 const cx = classNames.bind(styles);
 
 const ServiceList = () => {
-
     const { id } = useParams();
     const [services, setServices] = useState([]);
     const [url] = useState(process.env.REACT_APP_API_ROOM_SERVICES);
@@ -16,7 +16,12 @@ const ServiceList = () => {
 
     useEffect(() => {
         axios
-            .get(`${url}/room/${id}`)
+            .get(`${url}/room/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
             .then((response) => {
                 console.log('API Response:', response.data);
                 setServices(response.data || []); // fallback nếu response trống
@@ -30,7 +35,12 @@ const ServiceList = () => {
     const handleDeleteService = (id) => {
         // Xử lý xóa dịch vụ tại đây
         axios
-            .delete(`${url}/${id}`)
+            .delete(`${url}/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
             .then(() => {
                 // Cập nhật lại danh sách dịch vụ sau khi xóa
                 setServices((prevServices) => prevServices.filter((service) => service.id !== id));

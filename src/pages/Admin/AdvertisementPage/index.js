@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import images from '~/assets/images';
-import { getUserId } from '~/utils/auth';
+import { getToken, getUserId } from '~/utils/auth';
 import './pagination.css';
 import ReactPaginate from 'react-paginate';
 
@@ -51,17 +51,24 @@ function AdvertisementPage() {
     };
 
     const confirmDelete = () => {
-        axios.delete(`${process.env.REACT_APP_API_ADVERTISEMENT_DELETE}/${selectedAd}`).then(() => {
-            setAdvertisements({
-                pageTotal: 0,
-                pageNum: 0,
-                adData: advertisements.adData.filter((ad) => {
-                    return ad.id !== selectedAd;
-                }),
+        axios
+            .delete(`${process.env.REACT_APP_API_ADVERTISEMENT_DELETE}/${selectedAd}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(() => {
+                setAdvertisements({
+                    pageTotal: 0,
+                    pageNum: 0,
+                    adData: advertisements.adData.filter((ad) => {
+                        return ad.id !== selectedAd;
+                    }),
+                });
+                setShowModal(false);
+                setSelectedAd(null);
             });
-            setShowModal(false);
-            setSelectedAd(null);
-        });
     };
 
     const cancelDelete = () => {
@@ -78,12 +85,19 @@ function AdvertisementPage() {
     }, [status]);
 
     useEffect(() => {
-        axios.get(`${url}`).then((response) => {
-            console.log(response);
-            console.log(response.data);
+        axios
+            .get(`${url}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response) => {
+                console.log(response);
+                console.log(response.data);
 
-            setAdvertisements(response.data);
-        });
+                setAdvertisements(response.data);
+            });
     }, [url]);
 
     return (
