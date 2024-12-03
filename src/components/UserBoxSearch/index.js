@@ -24,24 +24,44 @@ function UserBoxSearch({ sendDataToParent, onFilter }) {
 
     const handleCityChange = (e) => {
         let selectedId = e.target.value;
-        let selectedName = cityData.find((city) => (city.id === selectedId ? city.name : ''));
-        sendDataToParent(`${selectedName.name}`);
-        setAddress(`${selectedName.name}`);
-        setSelectedCity({ id: selectedId, name: selectedName });
+
+        if (selectedId === '-1') {
+            setSelectedCity({ id: '', name: '' });
+            sendDataToParent('');
+            // setAddress('');
+            return;
+        } else {
+            let selectedName = cityData.find((city) => (city.id === selectedId ? city.name : ''));
+            sendDataToParent(selectedName.name);
+            // setAddress(selectedName.name);
+            setSelectedCity({ id: selectedId, name: selectedName.name });
+        }
     };
     const handleDistrictChange = (e) => {
         let selectedId = e.target.value;
+        if (selectedId === '-1') {
+            setSelectedDistrict({ id: '', name: '' });
+            sendDataToParent(selectedCity.name);
+            // setAddress(selectedCity.name);
+            return;
+        }
         let selectedName = districtData.find((district) => (district.id === selectedId ? district.name : ''));
-        sendDataToParent(`${selectedName.name}, ${address}`);
-        setAddress(`${selectedName.name}, ${address}`);
-        setSelectedDistrict({ id: selectedId, name: selectedName });
+        sendDataToParent(selectedName.name + ', ' + selectedCity.name);
+        // setAddress(selectedName.name + ', ' + selectedCity.name);
+        setSelectedDistrict({ id: selectedId, name: selectedName.name });
     };
     const handleCommuneChange = (e) => {
         let selectedId = e.target.value;
+        if (selectedId === '-1') {
+            setSelectedCommune({ id: '', name: '' });
+            sendDataToParent(`${selectedDistrict.name}, ${selectedCity.name}`);
+            // setAddress(`${selectedDistrict.name}, ${selectedCity.name}`);
+            return;
+        }
         let selectedName = communeData.find((commune) => (commune.id === selectedId ? commune.name : ''));
-        sendDataToParent(`${selectedName.name}, ${address}`);
-        setAddress(`${selectedName.name}, ${address}`);
-        setSelectedCommune({ id: selectedId, name: selectedName });
+        sendDataToParent(`${selectedName.name}, ${selectedDistrict.name}, ${selectedCity.name}`);
+        // setAddress(`${selectedDistrict.name}, ${selectedCity.name}`);
+        setSelectedCommune({ id: selectedId, name: selectedName.name });
     };
 
     useEffect(() => {
@@ -67,7 +87,7 @@ function UserBoxSearch({ sendDataToParent, onFilter }) {
                 <div className={cx('city-box')}>
                     <Button className={cx('select-box')} leftIcon={<FontAwesomeIcon icon={faLocationDot} />}>
                         <select className={cx('dropdown')} onChange={handleCityChange}>
-                            <option value="">Chọn thành phố</option>
+                            <option value="-1">Chọn thành phố</option>
                             {cityData.map((city) => {
                                 return (
                                     <option key={city.id} value={city.id}>
@@ -81,7 +101,7 @@ function UserBoxSearch({ sendDataToParent, onFilter }) {
                 <div className={cx('district-box')}>
                     <Button className={cx('select-box')} leftIcon={<FontAwesomeIcon icon={faLocationDot} />}>
                         <select className={cx('dropdown')} onChange={handleDistrictChange} disabled={!selectedCity.id}>
-                            <option value="">Chọn huyện</option>
+                            <option value="-1">Chọn huyện</option>
                             {districtData.map((district) => (
                                 <option key={district.id} value={district.id}>
                                     {district.name}
@@ -97,7 +117,7 @@ function UserBoxSearch({ sendDataToParent, onFilter }) {
                             onChange={handleCommuneChange}
                             disabled={!selectedDistrict.id}
                         >
-                            <option value="">Chọn xã</option>
+                            <option value="-1">Chọn xã</option>
                             {communeData.map((commune) => (
                                 <option key={commune.id} value={commune.id}>
                                     {commune.name}
